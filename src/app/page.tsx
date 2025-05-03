@@ -1,7 +1,11 @@
 import React from 'react'
 
-export const page = () => {
+  const Page = () => {
   return (
-    <div>page</div>
+    <div className='flex justify-center items-center w-[90vw] h-[80vh]  '>
+      <p className='text-3xl text-zinc-500'>Landing Page</p>
+    </div>
   )
 }
+
+export default Page;

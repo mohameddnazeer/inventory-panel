@@ -2,7 +2,7 @@
 import dynamic from "next/dynamic";
 import Card from "@/components/Card";
 
-const ChartsSection = dynamic(() => import("../../../components/ChartsSection"), {
+const ChartsSection = dynamic(() => import("../../components/ChartsSection"), {
   ssr: false,
 });
 

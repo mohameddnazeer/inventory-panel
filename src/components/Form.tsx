@@ -37,13 +37,13 @@ const Form = () => {
 
   const onSubmit = (data: IFormInput) => {
     console.log(data);
-    router.push('/dashboard/home')
+    router.push('/dashboard')
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto px-3 py-8 rounded-lg">
+    <form onSubmit={handleSubmit(onSubmit)} className=" max-w-sm mx-auto rounded-4xl px-3 py-8 ">
       <div className="mb-5">
-        <label htmlFor="name" className="block mb-2 font-medium text-gray-600 text-xl">
+        <label htmlFor="name" className="block mb-2 font-medium text-gray-600 text-md">
           ادخل اسم المستخدم
         </label>
         <input
@@ -52,14 +52,14 @@ const Form = () => {
           placeholder="ادخل اسم المستخدم"
           {...register('name')}
           className="bg-zinc-200 border border-gray-300 text-gray-700 text-sm rounded-lg
-            focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+            focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5
            "
         />
         {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>}
       </div>
 
       <div className="mb-5">
-        <label htmlFor="password" className="block mb-2 font-medium text-gray-600 text-xl">
+        <label htmlFor="password" className="block mb-2 font-medium text-gray-600 text-md">
           ادخل كلمه المرور
         </label>
         <input
@@ -68,7 +68,7 @@ const Form = () => {
           placeholder="ادخل كلمه المرور"
           {...register('password')}
           className="bg-zinc-200 border border-gray-300 text-gray-700 text-sm rounded-lg
-            focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+            focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5
             "
         />
         {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>}
@@ -76,11 +76,11 @@ const Form = () => {
 
       
 
-      <div className="w-full">
+      <div className="w-full flex justify-center mt-10 items-center ">
         <button
           type="submit"
-          className="text-white w-full bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none
-            focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer"
+          className="text-white w-[60%] bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none
+            focus:ring-slate-300 font-medium rounded-lg text-sm px-2 py-1 text-center cursor-pointer"
         >
           إرسال
         </button>

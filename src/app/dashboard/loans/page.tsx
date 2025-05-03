@@ -66,7 +66,7 @@ export default function Page() {
           📦 صفحة السلف
         </span>
         <Link
-          href="/home"
+          href="/dashboard"
           className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-600 transition"
         >
           <FaArrowRight className="w-4 h-4" />
