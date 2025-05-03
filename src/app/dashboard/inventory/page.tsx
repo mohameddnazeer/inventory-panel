@@ -57,14 +57,14 @@ export default function InventoryPage() {
     // sendDataToBackend(excelData);
   };
   return (
-    <div className="p-0">
+    <div className="p-0 w-full">
       <h1 className="text-2xl font-bold mb-2 flex items-center justify-between  p-1 ">
         <span className="text-blue-700 flex items-center gap-2">
           📦 صفحة العهدة
         </span>
 
         <Link
-          href="/"
+          href="/home"
           className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-600 transition"
         >
           <FaArrowRight className="w-4 h-4" />
