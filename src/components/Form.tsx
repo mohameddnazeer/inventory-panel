@@ -3,43 +3,24 @@
 
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-
-const schema = z.object({
-  name: z
-    .string()
-    .nonempty({ message: 'الاسم مطلوب' })
-    .min(6, { message: 'الاسم يجب ألا يقل عن 6 حرف' })
-    .max(20, { message: 'الاسم يجب ألا يزيد عن 20 حرفًا' }),
-
-  password: z
-    .string()
-    .nonempty({ message: 'الباسورد مطلوب' })
-    .min(8, { message: 'الباسورد يجب ألا يقل عن 8 احرف' })
-    .max(20, { message: 'الباسورد يجب ألا يزيد عن 20 حرفًا' }),
-
-});
-
-// ✅ 2. Infer TypeScript type from schema
-type IFormInput = z.infer<typeof schema>;
+import {useLoginUser} from '@/hooks/useLoginUser';
+import { LoginFormData, schema } from '@/schemas/loginFormSchema';
 
 const Form = () => {
-  const router = useRouter()
+
+  const mutation = useLoginUser()
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormInput>({
+  } = useForm<LoginFormData>({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data: IFormInput) => {
-    console.log(data);
-    router.push('/dashboard')
-  };
-
+  const onSubmit = (data: LoginFormData) => mutation.mutate(data);
+    
   return (
     <form onSubmit={handleSubmit(onSubmit)} className=" max-w-sm mx-auto rounded-4xl px-3 py-8 ">
       <div className="mb-5">
@@ -50,12 +31,12 @@ const Form = () => {
           id="name"
           type="text"
           placeholder="ادخل اسم المستخدم"
-          {...register('name')}
+          {...register('UserName')}
           className="bg-zinc-200 border border-gray-300 text-gray-700 text-sm rounded-lg
             focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5
            "
         />
-        {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>}
+        {errors.UserName && <p className="mt-1 text-sm text-red-500">{errors.UserName.message}</p>}
       </div>
 
       <div className="mb-5">
@@ -73,9 +54,6 @@ const Form = () => {
         />
         {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>}
       </div>
-
-      
-
       <div className="w-full flex justify-center mt-10 items-center ">
         <button
           type="submit"
