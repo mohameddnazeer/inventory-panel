@@ -2,6 +2,9 @@
 
 import ExpensesTable from "@/components/ExpensesTable";
 import Input from "@/components/Input";
+import { useGetDispensedItems } from "@/hooks/useGetDispensedItems";
+
+
 import Link from "next/link";
 import React, { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
@@ -9,6 +12,10 @@ import * as XLSX from "xlsx";
 export default function page() {
   const [excelData, setExcelData] = useState<any[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
+
+  const {data} = useGetDispensedItems();
+
+ console.log(data)
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -59,11 +66,12 @@ export default function page() {
   };
   return (
     <div className="p-0 w-full bg-transparent">
+     
       <h1 className="text-2xl font-bold mb-2 flex items-center justify-between  p-1 ">
         <span className="text-blue-700 flex items-center gap-2">
           📦 صفحة المصروفات
         </span>
-
+        
         <Link
            href="/dashboard"
           className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-600 transition"
@@ -185,7 +193,7 @@ export default function page() {
         </div>
       )}
       {/* جدول عرض  */}
-      <ExpensesTable open={isFormOpen} />
+      <ExpensesTable data={data ?? []} open={isFormOpen} />
     </div>
   );
 }

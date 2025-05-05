@@ -2,6 +2,7 @@
 
 import Input from "@/components/Input";
 import LoansTable from "@/components/LoansTable";
+import { useGetBorrowedItems } from "@/hooks/useGetBorrowedItems";
 import Link from "next/link";
 import React, { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
@@ -10,7 +11,7 @@ import * as XLSX from "xlsx";
 export default function Page() {
   const [excelData, setExcelData] = useState<any[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
-
+  const {data} = useGetBorrowedItems()
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -203,7 +204,7 @@ export default function Page() {
       )}
 
       {/* جدول عرض السلف السابقة */}
-      <LoansTable open={isFormOpen}/>
+      <LoansTable data={data ?? []} open={isFormOpen}/>
     </div>
   );
 }

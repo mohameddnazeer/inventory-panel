@@ -3,5 +3,9 @@ import { LoginFormData } from "@/schemas/loginFormSchema";
 
 import APIClient from "../apiClient";
 
-export default new APIClient<LoginFormData>("api/Users/login");
+type Token = {
+    accessToken: string;
+    refreshToken: string;
+  };
+export default new APIClient<LoginFormData , Token >("api/Users/login");
 

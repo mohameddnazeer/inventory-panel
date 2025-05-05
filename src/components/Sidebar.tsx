@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import { FaCashRegister, FaClipboardList } from 'react-icons/fa';
-import { MdInventory2 } from "react-icons/md";
+import { MdInventory2 , MdCategory } from "react-icons/md";
 import { IoHome  } from "react-icons/io5";
 import { IoLogOutSharp } from "react-icons/io5";
 const navLinks = [
@@ -13,11 +13,17 @@ const navLinks = [
   { href: '/dashboard/inventory', label: 'العهدة', icon: <MdInventory2  className="w-5 h-5" /> },
   { href: '/dashboard/expenses', label: 'المصروف', icon: <FaCashRegister className="w-5 h-5" /> },
   { href: '/dashboard/loans', label: 'السلفة', icon: <FaClipboardList className="w-5 h-5" /> },
+  { href: '/dashboard/categories', label: 'الاصناف', icon: <MdCategory  className="w-5 h-5" /> },
 ]
 
 export default function Sidebar() {
   const pathname = usePathname();
 
+
+  function logOut(){
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('user')
+  }
   return (
     <aside className="relative w-64 h-[89vh] bg-white border-l  border-gray-300 shadow-md p-4">
       <Image src="/images/foeLogo.png" width={250} height={250} alt='logo'/>
@@ -36,10 +42,12 @@ export default function Sidebar() {
           </Link>
         ))}
       </nav>
+      <button onClick={logOut}>
       <Link href={'/login'} className='absolute py-[3px] bottom-0 bg-yellow-500  hover:bg-yellow-600 transiation duration-150 inset-x-0 flex justify-center items-center'>
         <p className='text-zinc-100 mx-2'>تسجيل خروح</p>
         <div ><IoLogOutSharp size={30} color='white'/></div>
       </Link>
+      </button>
     </aside>
   )
 }

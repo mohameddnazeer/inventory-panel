@@ -2,11 +2,16 @@
 
 import Input from "@/components/Input";
 import InventoryTableHeader from "@/components/InventoryTableHeader";
+import { useGetExistedItmes } from "@/hooks/useGetExistedItems";
 import Link from "next/link";
 import React, { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
 export default function InventoryPage() {
+
+
+  const {data} = useGetExistedItmes()
+  console.log(data)
   const [excelData, setExcelData] = useState<any[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -151,7 +156,7 @@ export default function InventoryPage() {
       )}
 
       {/* جدول عرض العهدة */}
-      <InventoryTableHeader open={isFormOpen} />
+      <InventoryTableHeader data={data ?? []} open={isFormOpen} />
     </div>
   );
 }
