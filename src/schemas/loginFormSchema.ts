@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const schema = z.object({
+export const LoginSchema = z.object({
     UserName: z
       .string()
       .nonempty({ message: 'الاسم مطلوب' })
@@ -16,4 +16,4 @@ export const schema = z.object({
   });
   
   //  Infer TypeScript type from schema
-  export type LoginFormData = z.infer<typeof schema>;
+  export type LoginFormData = z.infer<typeof LoginSchema>;

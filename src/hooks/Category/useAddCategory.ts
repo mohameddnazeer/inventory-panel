@@ -1,13 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 
 
-import sqAddService, { CategoryItem } from "@/services/sqCategories/sqAddService";
-import { CategoryFormData } from "@/app/dashboard/categories/page";
+import sqAddService, { CategoryItemResponse } from "@/services/sqCategories/CategoryAddService";
+import { CategoryFormData } from "@/schemas/CategoryFormSchema";
+
 
 
 const useAddCategory = ()=>{
    
-    return useMutation<CategoryItem , Error , CategoryFormData>({
+    return useMutation<CategoryItemResponse , Error , CategoryFormData>({
         mutationFn: sqAddService.postData,
         onSuccess: (data) => {
          console.log('successed adding category')
@@ -18,6 +19,6 @@ const useAddCategory = ()=>{
         }
       });
 }
-
+// 
 
 export  {useAddCategory}

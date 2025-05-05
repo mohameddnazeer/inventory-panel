@@ -1,9 +1,10 @@
 
-import { CategoryFormData } from "@/app/dashboard/categories/page";
+
+import { CategoryFormData } from "@/schemas/CategoryFormSchema";
 import APIClient from "../apiClient";
 
 
-export interface CategoryItem {
+export interface CategoryItemResponse {
     name: string;
     number: string;
     createdByUserId: string;
@@ -16,5 +17,5 @@ export interface CategoryItem {
     id: number;
   }
   
-export default new APIClient<CategoryFormData,CategoryItem >("api/SQs");
+export default new APIClient<CategoryFormData,CategoryItemResponse >("api/SQs");
 

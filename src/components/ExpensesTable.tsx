@@ -71,7 +71,7 @@
 // }
 
 // import { RequestData } from "@/services/borrowedItems/borrowedItemsService";
-import { DispensedItem } from "@/services/dispensedItems/dispensedItemsService";
+import { DispensedItem } from "@/services/dispensedItems/dispensedGetService";
 import { useState } from "react";
 
 export default function ExpensesTable({

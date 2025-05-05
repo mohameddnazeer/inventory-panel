@@ -2,16 +2,35 @@
 
 import Input from "@/components/Input";
 import LoansTable from "@/components/LoansTable";
-import { useGetBorrowedItems } from "@/hooks/useGetBorrowedItems";
+import { useAddBorrowedItems } from "@/hooks/BorrowedItems/useAddBorrowedItems";
+import { useGetBorrowedItems } from "@/hooks/BorrowedItems/useGetBorrowedItems";
 import Link from "next/link";
 import React, { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
-
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { BorrowedFormData, BorrowedSchema } from "@/schemas/BorrowedFormSchema";
+import ValidationInput from "@/components/ValidationInput";
 export default function Page() {
   const [excelData, setExcelData] = useState<any[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const {data} = useGetBorrowedItems()
+  const Mutation = useAddBorrowedItems();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<BorrowedFormData>({
+    resolver: zodResolver(BorrowedSchema),
+  });
+
+  const onSubmit = (data: BorrowedFormData) => {
+    console.log("بيانات الفورم اليدوية", data);
+    Mutation.mutate(data); // assuming your mutate function accepts the form data
+  };
+
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -30,7 +49,6 @@ export default function Page() {
 
     reader.readAsBinaryString(file);
   };
-
   const generateExcelTemplate = () => {
     const headers = [
       "الاسم",
@@ -47,15 +65,8 @@ export default function Page() {
     XLSX.utils.book_append_sheet(workbook, worksheet, "نموذج البيانات");
     XLSX.writeFile(workbook, "نموذج_السلفه.xlsx");
   };
-
-  const handleManualSubmit = () => {
-    console.log("بيانات الفورم اليدوية");
-    // sendDataToBackend(data); ← ابعت للباك اند هنا
-  };
-
   const handleExcelSubmit = () => {
     if (excelData.length === 0) return;
-
     console.log("بيانات الملف:", excelData);
     // sendDataToBackend(excelData);
   };
@@ -86,31 +97,30 @@ export default function Page() {
 
       {/* Form لإضافة عنصر جديد */}
       {isFormOpen && (
-        <form className="bg-gray-50 shadow p-3 rounded-lg mb-2 border border-gray-200">
+        <form onSubmit={handleSubmit(onSubmit)} className="bg-gray-50 shadow p-3 rounded-lg mb-2 border border-gray-200">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-            <Input label="الاسم" placeholder="ادخل الاسم " type="text" />
-            <Input
-              label="تاريخ الخروج"
-              placeholder="ادخل تاريخ الخروج"
-              type="date"
-            />
-            <Input
-              label="المسلم"
-              placeholder="ادخل اسم المسلم "
-              type="text"
-            />
-            <Input
+            <ValidationInput 
+             label="اسم الصنف"
+             name="name"
+             register={register}
+             placeholder="ادخل الاسم "
+             type="text"  
+             error={errors.name?.message}
+             />
+            <ValidationInput
+              name="toWhom"
+              register={register}
               label="المسلم له"
               placeholder="ادخل اسم المسلم له "
               type="text"
+              error={errors.toWhom?.message}
             />
-            <Input label="السبب" placeholder="ادخل السبب" type="text" />
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-medium text-gray-700">
                 هل تم التسليم؟
               </label>
               <select
-                name="delivered"
+                {...register("isReturned")}
                 className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">الحاله</option>
@@ -120,10 +130,14 @@ export default function Page() {
             </div>
           </div>
 
-          <Input
+          <ValidationInput
             label="ملاحظات"
+            name="notes"
+            register={register}
             placeholder="ادخل جميع الملاحظات"
             type="textarea"
+            error={errors.notes?.message}
+            
           />
 
           {/* Excel Upload */}
@@ -141,8 +155,8 @@ export default function Page() {
 
           <div className="flex flex-col md:flex-row items-center justify-center mt-1 gap-4">
             <button
-              type="button"
-              onClick={handleManualSubmit}
+              type="submit"
+              // onClick={handleManualSubmit}
               className="cursor-pointer w-full md:w-auto bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
             >
               إضافة يدويًا

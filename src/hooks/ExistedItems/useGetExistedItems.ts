@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import existedItemsService, { ExistedItem } from "@/services/existedItems/existedItemsService";
+import existedItemsService, { ExistedItem } from "@/services/existedItems/existedGetService";
 
 
 const useGetExistedItmes = ()=>{

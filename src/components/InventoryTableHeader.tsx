@@ -1,4 +1,4 @@
-import { ExistedItem } from "@/services/existedItems/existedItemsService";
+import { ExistedItem } from "@/services/existedItems/existedGetService";
 import { useState } from "react";
 
 export default function InventoryTableHeader({open,data:products}:{open:boolean;data:ExistedItem[]}) {

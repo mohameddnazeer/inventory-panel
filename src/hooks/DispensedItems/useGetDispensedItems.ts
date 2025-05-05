@@ -1,6 +1,6 @@
 import {  useQuery } from "@tanstack/react-query";
 
-import dispensedItemsService, { DispensedItem } from "@/services/dispensedItems/dispensedItemsService";
+import dispensedItemsService, { DispensedItem } from "@/services/dispensedItems/dispensedGetService";
 
 
 const useGetDispensedItems = ()=>{

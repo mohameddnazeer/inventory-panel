@@ -1,7 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 import Card from "@/components/Card";
-import { useGetBorrowedItems } from "@/hooks/useGetBorrowedItems";
+import { useGetBorrowedItems } from "@/hooks/BorrowedItems/useGetBorrowedItems";
 
 const ChartsSection = dynamic(() => import("../../components/ChartsSection"), {
   ssr: false,

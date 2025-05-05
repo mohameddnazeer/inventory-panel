@@ -155,7 +155,7 @@
 //   );
 // }
 
-import { BorrowedItem } from "@/services/borrowedItems/borrowedItemsService";
+import { BorrowedItem } from "@/services/borrowedItems/borrowedGetService";
 import { useState } from "react";
 
 export default function LoansTable({ open, data }: { open: boolean; data: BorrowedItem[] }) {

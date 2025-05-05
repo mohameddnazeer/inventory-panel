@@ -1,4 +1,4 @@
-interface InputCategoryProps {
+interface ValidationInputProps {
     label: string;
     placeholder: string;
     type: string;
@@ -7,7 +7,7 @@ interface InputCategoryProps {
     name: string; // Add name prop
   }
   
-  const InputCategory = ({ label, placeholder, type, error, register, name }: InputCategoryProps) => {
+  const ValidationInput = ({ label, placeholder, type, error, register, name }: ValidationInputProps) => {
     return (
       <div>
         <label className="block text-sm font-medium text-gray-700">{label}</label>
@@ -32,4 +32,4 @@ interface InputCategoryProps {
   };
   
 
-  export default InputCategory
+  export default ValidationInput

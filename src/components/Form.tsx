@@ -4,8 +4,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {useLoginUser} from '@/hooks/useLoginUser';
-import { LoginFormData, schema } from '@/schemas/loginFormSchema';
+import {useLoginUser} from '@/hooks/User/useLoginUser';
+import { LoginFormData, LoginSchema } from '@/schemas/loginFormSchema';
 
 const Form = () => {
 
@@ -16,7 +16,7 @@ const Form = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(LoginSchema),
   });
 
   const onSubmit = (data: LoginFormData) => mutation.mutate(data);
