@@ -1,6 +1,7 @@
+import { ExistedItem } from "@/services/existedItems/existedGetService";
 import { useState } from "react";
 
-export default function InventoryTableHeader({open}:{open:boolean}) {
+export default function InventoryTableHeader({open,data:products}:{open:boolean;data:ExistedItem[]}) {
   const [searchTerm, setSearchTerm] = useState("");
 
 
@@ -36,272 +37,44 @@ export default function InventoryTableHeader({open}:{open:boolean}) {
           />
         </div>
       </div>
-
-      {/* Table */}
-      <table className="w-full text-sm text-right text-gray-500 ">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+      {/* new Table */}
+      <table className="w-full text-sm text-right text-gray-500">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
             <th className="px-6 py-3">اسم المنتج</th>
             <th className="px-6 py-3">النوع (البرند)</th>
             <th className="px-6 py-3">السيريال</th>
-            <th className="px-6 py-3">الكمية الاجمالية</th>
-            <th className="px-6 py-3">الكمية المتبقية</th>
+            {/* <th className="px-6 py-3">الكمية الاجمالية</th>
+            <th className="px-6 py-3">الكمية المتبقية</th> */}
             <th className="px-6 py-3">ملاحظات</th>
+            <th className="px-6 py-3">الإجراءات</th>
           </tr>
         </thead>
         <tbody>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
-          <tr className="bg-white border-b  hover:bg-gray-50 ">
-            <td className="px-6 py-4 font-medium text-gray-900 ">
-              Microsoft Surface Pro
-            </td>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4">Laptop PC</td>
-            <td className="px-6 py-4">1999</td>
-            <td className="px-6 py-4">152</td>
-            <td className="px-6 py-4"></td>
-          </tr>
+          {products.map((product) => (
+            <tr key={product.id} className="bg-white border-b hover:bg-gray-50">
+              <td className="px-6 py-4">{product.name}</td>
+              <td className="px-6 py-4">{product.brand}</td>
+              <td className="px-6 py-4">{product.serial}</td>
+              <td className="px-6 py-4">{product.notes}</td>
+              <td className="px-6 py-4 flex gap-2">
+                <button
+                  onClick={() => console.log(product.id)}
+                  className="text-blue-600 hover:underline"
+                >
+                  تحديث
+                </button>
+                <button
+                  onClick={() => console.log(product.id)}
+                  className="text-red-600 hover:underline"
+                >
+                  حذف
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
-      </table>
+</table>
     </div>
   );
 }

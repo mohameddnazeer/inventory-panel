@@ -1,15 +1,33 @@
 "use client";
 
-import Input from "@/components/Input";
 import InventoryTableHeader from "@/components/InventoryTableHeader";
+import ValidationInput from "@/components/ValidationInput";
+import { useAddExistedItem } from "@/hooks/ExistedItems/useAddExistedItem";
+import { useGetExistedItmes } from "@/hooks/ExistedItems/useGetExistedItems";
+import { ExistedFormData, ExistedSchema } from "@/schemas/ExistedFormSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
 export default function InventoryPage() {
+
+
+  const {data} = useGetExistedItmes()
+  const mutation = useAddExistedItem()
+  console.log(data)
   const [excelData, setExcelData] = useState<any[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
-
+ 
+   const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm<ExistedFormData>({
+      resolver: zodResolver(ExistedSchema),
+    });
+  
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -45,9 +63,9 @@ export default function InventoryPage() {
     XLSX.writeFile(workbook, "نموذج_العهدة.xlsx");
   };
 
-  const handleManualSubmit = () => {
+  const onSubmit = (data:ExistedFormData) => {
     console.log("بيانات الفورم اليدوية");
-    // sendDataToBackend(data); ← ابعت للباك اند هنا
+    mutation.mutate(data)
   };
 
   const handleExcelSubmit = () => {
@@ -57,14 +75,14 @@ export default function InventoryPage() {
     // sendDataToBackend(excelData);
   };
   return (
-    <div className="p-0">
+    <div className="p-0 w-full">
       <h1 className="text-2xl font-bold mb-2 flex items-center justify-between  p-1 ">
         <span className="text-blue-700 flex items-center gap-2">
           📦 صفحة العهدة
         </span>
 
         <Link
-          href="/"
+          href="/dashboard"
           className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-600 transition"
         >
           <FaArrowRight className="w-4 h-4" />
@@ -82,76 +100,112 @@ export default function InventoryPage() {
 
       {/* Form لإضافة عنصر جديد */}
       {isFormOpen && (
-        <form className="bg-gray-50 shadow p-3 rounded-lg mb-2 border border-gray-200">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Input label="السيريال" placeholder="ادخل السيريال" type="text" />
-            <Input label="الماركة" placeholder="ادخل الماركة" type="text" />
-            <Input label="الاسم" placeholder="ادخل الاسم" type="text" />
-            <Input
-              label="الكمية الإجمالية"
-              placeholder="ادخل الكمية الإجمالية"
-              type="number"
-            />
-            <Input
-              label="الكمية المتبقية"
-              placeholder="ادخل الكمية المتبقية"
-              type="number"
-            />
-          </div>
-          <Input
-            label="ملاحظات"
-            placeholder="ادخل جميع الملاحظات"
-            type="textarea"
-          />
+       
+<form onSubmit={handleSubmit(onSubmit)} className="bg-gray-50 shadow p-3 rounded-lg mb-2 border border-gray-200">
+  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
 
-          {/* Excel Upload */}
-          <div className="mt-1">
-            <label className="block mb-1 text-sm font-medium text-gray-700">
-              أو تحميل ملف Excel
-            </label>
-            <input
-              type="file"
-              accept=".xlsx, .xls"
-              onChange={handleFileUpload}
-              className="mb-4 p-2 border border-gray-300 rounded"
-            />
-          </div>
+    <ValidationInput 
+      label="الاسم"
+      name="Name"
+      register={register}
+      placeholder="ادخل الاسم"
+      type="text"
+      error={errors.Name?.message}
+    />
 
-          <div className="flex flex-col md:flex-row items-center justify-center mt-1 gap-4">
-            <button
-              type="button"
-              onClick={handleManualSubmit}
-              className="cursor-pointer w-full md:w-auto bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
-            >
-              إضافة يدويًا
-            </button>
+    <ValidationInput 
+      label="الماركة"
+      name="Brand"
+      register={register}
+      placeholder="ادخل الماركة"
+      type="text"
+      error={errors.Brand?.message}
+    />
 
-            <button
-              type="button"
-              onClick={handleExcelSubmit}
-              disabled={excelData.length === 0}
-              className={`w-full md:w-auto px-6 py-2 rounded transition ${
-                excelData.length === 0
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "cursor-pointer bg-green-600 hover:bg-green-700 text-white"
-              }`}
-            >
-              إرسال ملف Excel
-            </button>
+    <ValidationInput 
+      label="السيريال"
+      name="Serial"
+      register={register}
+      placeholder="ادخل السيريال"
+      type="text"
+      error={errors.Serial?.message}
+    />
 
-            <button
-              type="button"
-              onClick={generateExcelTemplate}
-              className="cursor-pointer bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition"
-            >
-              تحميل نموذج Excel
-            </button>
-          </div>
-        </form>
+    <ValidationInput 
+      label="الكمية"
+      name="Quantity"
+      register={register}
+      placeholder="ادخل الكمية"
+      type="text"
+      error={errors.Quantity?.message}
+    />
+
+    <div className="flex flex-col">
+      <label className="mb-1 text-sm font-medium text-gray-700">
+        وحدة الكمية
+      </label>
+      <select
+        {...register("QuantityEnum")}
+        className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        <option value="">اختر وحدة</option>
+        <option value="UNIT">قطعة</option>
+        <option value="KG">كيلو</option>
+        <option value="LITER">لتر</option>
+      </select>
+      {errors.QuantityEnum && (
+        <p className="text-red-500 text-sm mt-1">{errors.QuantityEnum.message}</p>
+      )}
+    </div>
+
+    <ValidationInput
+      label="رقم التخزين"
+      name="SqId"
+      register={register}
+      placeholder="ادخل رقم التخزين"
+      type="text"
+      error={errors.SqId?.message}
+    />
+
+    {/* Image Upload */}
+    <div className="flex flex-col col-span-2">
+      <label className="mb-1 text-sm font-medium text-gray-700">الصورة</label>
+      <input
+        type="file"
+        accept="image/*"
+        {...register("ImageFile")}
+        className="p-2 border border-gray-300 rounded"
+      />
+      {errors.ImageFile && (
+        <p className="text-red-500 text-sm mt-1">{errors.ImageFile.message}</p>
+      )}
+    </div>
+  </div>
+
+  <ValidationInput
+    label="ملاحظات"
+    name="Notes"
+    register={register}
+    placeholder="ادخل الملاحظات (اختياري)"
+    type="textarea"
+    error={errors.Notes?.message}
+  />
+
+  <div className="flex justify-center mt-4">
+    <button
+      type="submit"
+      className="cursor-pointer bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+    >
+      إرسال
+    </button>
+  </div>
+</form>
+
+
       )}
 
       {/* جدول عرض العهدة */}
-      <InventoryTableHeader open={isFormOpen} />
+      <InventoryTableHeader data={data ?? []} open={isFormOpen} />
     </div>
   );
 }
