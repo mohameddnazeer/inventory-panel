@@ -8,7 +8,7 @@ import { LoginFormData } from "@/schemas/loginFormSchema";
 type Token = {
   accessToken: string;
   refreshToken: string;
- 
+  
 };
 
 const useLoginUser = ()=>{
@@ -16,7 +16,7 @@ const useLoginUser = ()=>{
     return useMutation<Token , Error , LoginFormData>({
         mutationFn: loginUserService.postData,
         onSuccess: (data) => {
-          localStorage.setItem('accessToken', JSON.stringify(data));
+          localStorage.setItem('accessToken', data.accessToken);
           router.push('/dashboard')
         },
         onError: (error) => {

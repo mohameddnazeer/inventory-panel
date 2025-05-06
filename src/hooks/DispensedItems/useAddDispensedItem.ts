@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 
 import { useRouter } from "next/navigation";
@@ -10,11 +10,13 @@ import { DispensedFormData } from "@/schemas/DispensedFormSchema";
 
 
 const useAddDispensedItem = ()=>{
-    const router = useRouter()
+
+    const queryClient = useQueryClient();
     return useMutation<DispensedItemResponse , Error , DispensedFormData>({
         mutationFn: dispensedAddService.postData,
         onSuccess: (data) => {
            console.log(data)
+           queryClient.invalidateQueries({ queryKey: ['dispensedItems'] });
         },
         onError: (error) => {
           console.error("Login failed:", error);

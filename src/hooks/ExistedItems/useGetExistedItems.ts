@@ -6,7 +6,7 @@ import existedItemsService, { ExistedItem } from "@/services/existedItems/existe
 const useGetExistedItmes = ()=>{
 
     return useQuery< ExistedItem[] , Error>({
-        queryKey: ['existedItems'],
+        queryKey: ['ExistedItems'],
         queryFn: existedItemsService.getAll
       });
 }
