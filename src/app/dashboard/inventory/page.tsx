@@ -18,7 +18,7 @@ export default function InventoryPage() {
 
   const {data:existedData } = useGetExistedItmes()
   const queryClient = new QueryClient()
- console.log('eeeeeeee' , existedData)
+ console.log('eeeeeeeexisteData' , existedData)
   const mutation =  useMutation({
     mutationFn: async (formData: FormData) => {
       const response = await axios.post("http://172.16.7.61:9991/api/ExistingItems", formData, {
@@ -31,6 +31,7 @@ export default function InventoryPage() {
     },
     onSuccess:(data)=>{
         console.log(data)
+         queryClient.invalidateQueries({queryKey:['BorrowedItmes']})
         reset()
     }
   });

@@ -29,7 +29,7 @@ export function UpdateLoansModal({ id }: { id: number }) {
 
   const [open, setOpen] = useState(false);
 
-  const { data } = useGetBorrowedById(id);
+  // const { data } = useGetBorrowedById(id);
   const {mutate , isPending}  =  useUpdateBorrowedItems()
 
   const {
@@ -43,16 +43,16 @@ export function UpdateLoansModal({ id }: { id: number }) {
   });
 
   // Prefill data when dialog opens
-  useEffect(() => {
-    if (data && open) {
-      reset({
-        name: data.name || '',
-        toWhom: data.toWhom || '',
-        isReturned: data.isReturned ? 'true' : 'false',
-        notes: data.notes || '',
-      });
-    }
-  }, [data, open, reset]);
+  // useEffect(() => {
+  //   if (data && open) {
+  //     reset({
+  //       name: data.name || '',
+  //       toWhom: data.toWhom || '',
+  //       isReturned: data.isReturned ? 'true' : 'false',
+  //       notes: data.notes || '',
+  //     });
+  //   }
+  // }, [data, open, reset]);
 
   const onSubmit = (values: BorrowedFormData) => {
     const formData = new FormData();
