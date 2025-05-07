@@ -49,15 +49,40 @@
 // export type DispensedFormData = z.infer<typeof DispencedSchema>;
 
 
+// import { z } from "zod";
+
+// export const DispencedSchema = z.object({
+//   dispensedQuantity: z.number().min(1, "الكمية المصروفة يجب أن تكون رقمًا أكبر من 0"),
+//   toWhom: z.string().min(1, "اسم المسلم له مطلوب"),
+//   receiverName: z.string().min(1, "اسم المستلم مطلوب"),
+//   deliveredName: z.string().min(1, "اسم المسلم مطلوب"),
+//   notes: z.string().optional(),
+//   existingItemId: z.number().min(1, "رقم العنصر مطلوب"),
+// });
+
+
+
 import { z } from "zod";
 
 export const DispencedSchema = z.object({
-  dispensedQuantity: z.number().min(1, "الكمية المصروفة يجب أن تكون رقمًا أكبر من 0"),
+  dispensedQuantity: z
+    .string()
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val > 0, {
+      message: "الكمية المصروفة يجب أن تكون رقمًا أكبر من 0",
+    }),
+
+  existingItemId: z
+    .string()
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val > 0, {
+      message: "رقم العنصر مطلوب",
+    }),
+
   toWhom: z.string().min(1, "اسم المسلم له مطلوب"),
   receiverName: z.string().min(1, "اسم المستلم مطلوب"),
   deliveredName: z.string().min(1, "اسم المسلم مطلوب"),
   notes: z.string().optional(),
-  existingItemId: z.number().min(1, "رقم العنصر مطلوب"),
 });
 
 export type DispensedFormData = z.infer<typeof DispencedSchema>;

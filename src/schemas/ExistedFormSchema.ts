@@ -8,9 +8,13 @@ export const ExistedSchema = z.object({
   Brand: z.string().min(1, "الماركة مطلوبة"),
   Serial: z.string().min(1, "السيريال مطلوب"),
   Quantity: z.string().regex(/^\d+$/, "الكمية يجب أن تكون رقم"),
-  QuantityEnum: z.enum(['UNIT', 'KG', 'LITER']), // add more options if needed
+  QuantityEnum: z.enum(['UNIT', 'METER']), // add more options if needed
   Notes: z.string().optional(),
   SqId: z.string().min(1, "SqId مطلوب"),
 });
 
 export type ExistedFormData = z.infer<typeof ExistedSchema>;
+
+
+
+

@@ -6,19 +6,22 @@ export const BorrowedSchema = z.object({
     .nonempty({ message: "الاسم مطلوب" })
     .min(2, { message: "الاسم يجب أن يكون أكثر من حرفين" }),
 
-    toWhom: z
+  toWhom: z
     .string()
     .nonempty({ message: "اسم المسلم له مطلوب" })
     .min(2, { message: "الاسم يجب أن يكون أكثر من حرفين" }),
 
-    isReturned: z
-    .enum(["yes", "no"], {
-      errorMap: () => ({ message: "يرجى اختيار حالة التسليم" }),
+  isReturned: z
+    .string()
+    .transform((val) => val === "true") // convert string to boolean
+    .refine((val) => typeof val === "boolean", {
+      message: "يرجى اختيار حالة التسليم",
     }),
 
-    notes: z
+  notes: z
     .string()
-    .max(1000, { message: "الملاحظات يجب ألا تزيد عن 1000 حرف" }).optional(),
+    .max(1000, { message: "الملاحظات يجب ألا تزيد عن 1000 حرف" })
+    .optional(),
 });
 
 export type BorrowedFormData = z.infer<typeof BorrowedSchema>;

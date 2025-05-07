@@ -12,23 +12,27 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BorrowedFormData, BorrowedSchema } from "@/schemas/BorrowedFormSchema";
 import ValidationInput from "@/components/ValidationInput";
+import { BorrowedItem } from "@/services/borrowedItems/borrowedGetService";
 export default function Page() {
   const [excelData, setExcelData] = useState<any[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const {data} = useGetBorrowedItems()
+  const {data , refetch} = useGetBorrowedItems()
+  console.log('text data coming from useGetBorrowedItems' , data)
   const Mutation = useAddBorrowedItems();
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm<BorrowedFormData>({
+  } = useForm({
     resolver: zodResolver(BorrowedSchema),
   });
-
-  const onSubmit = (data: BorrowedFormData) => {
+ 
+  const onSubmit = (passingdata: BorrowedFormData) => {
     console.log("بيانات الفورم اليدوية", data);
-    Mutation.mutate(data); // assuming your mutate function accepts the form data
+    Mutation.mutate(passingdata); // assuming your mutate function accepts the form data
+    reset()
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,8 +128,8 @@ export default function Page() {
                 className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">الحاله</option>
-                <option value="yes">تم العودة</option>
-                <option value="no">لم يتم العودة</option>
+                <option value="true">تم العودة</option>
+                <option value="false">لم يتم العودة</option>
               </select>
             </div>
           </div>
@@ -218,7 +222,7 @@ export default function Page() {
       )}
 
       {/* جدول عرض السلف السابقة */}
-      <LoansTable data={data ?? []} open={isFormOpen}/>
+      <LoansTable data={data ?? []} open={isFormOpen}  />
     </div>
   );
 }

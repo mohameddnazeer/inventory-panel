@@ -41,6 +41,6 @@ export interface ExistedItemResponse {
   }
   
 
-export default new APIClient<ExistedFormData, ExistedItemResponse >("api/ExistedItems");
+export default new APIClient<ExistedFormData, ExistedItemResponse >("api/ExistingItems");
 
 // this null for the response from the postData method if the post has a response Data we should change it to the comming response Data type

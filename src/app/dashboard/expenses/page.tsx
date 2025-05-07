@@ -3,8 +3,10 @@
 import ExpensesTable from "@/components/ExpensesTable";
 import Input from "@/components/Input";
 import ValidationInput from "@/components/ValidationInput";
+import ValidationSelect from "@/components/ValidationSelect";
 import { useAddDispensedItem } from "@/hooks/DispensedItems/useAddDispensedItem";
 import { useGetDispensedItems } from "@/hooks/DispensedItems/useGetDispensedItems";
+import { useGetExistedItmes } from "@/hooks/ExistedItems/useGetExistedItems";
 import { DispencedSchema, DispensedFormData } from "@/schemas/DispensedFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -17,14 +19,15 @@ import * as XLSX from "xlsx";
 export default function page() {
   const [excelData, setExcelData] = useState<any[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
-
-  const {data} = useGetDispensedItems();
+   const  {data:existedData } = useGetExistedItmes()
+  const {data } = useGetDispensedItems();
   const mutation = useAddDispensedItem();
    const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
-      } = useForm<DispensedFormData>({
+      } = useForm({
         resolver: zodResolver(DispencedSchema),
       });
 
@@ -69,6 +72,7 @@ export default function page() {
   const onSubmit = (data:DispensedFormData ) => {
     console.log("بيانات الفورم اليدوية");
     mutation.mutate(data)
+    reset()
   };
 
   const handleExcelSubmit = () => {
@@ -106,7 +110,7 @@ export default function page() {
         <form onSubmit={handleSubmit(onSubmit)} className="bg-gray-50 shadow p-3 rounded-lg mb-2 border border-gray-200">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       
-          <ValidationInput 
+          {/* <ValidationInput 
             label="رقم العنصر"
             name="existingItemId"
             register={register}
@@ -114,7 +118,14 @@ export default function page() {
             type="number"
             error={errors.existingItemId?.message}
           />
-      
+       */}
+         <ValidationSelect
+            label="اختر العنصر"
+            name="existingItemId"
+            register={register}
+            options={existedData || []}
+            error={errors.existingItemId?.message}
+          />
           <ValidationInput 
             label="الكمية المصروفة"
             name="dispensedQuantity"

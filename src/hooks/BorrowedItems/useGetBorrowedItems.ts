@@ -3,7 +3,7 @@ import borrowedItemsService, { BorrowedItem } from "@/services/borrowedItems/bor
 
 const useGetBorrowedItems = ()=>{
     return useQuery<BorrowedItem[] , Error>({
-        queryKey: ['borrowedItmes'],
+        queryKey: ['BorrowedItmes'],
         queryFn: borrowedItemsService.getAll
       });
 }

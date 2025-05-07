@@ -1,31 +1,59 @@
 
 'use client';
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaArrowRight } from "react-icons/fa";
 import Link from "next/link";
-import { useAddCategory } from "@/hooks/Category/useAddCategory";
+
 import { useGetCategory } from "@/hooks/Category/useGetCategory";
 import { CategoryFormData, CategorySchema } from "@/schemas/CategoryFormSchema";
 import ValidationInput from "@/components/ValidationInput";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { DeleteCategoryModal} from "@/modal/category/DeleteCategoryModal";
 
 export default function CategoryPage() {
-  const { data:tableData = [] } = useGetCategory();
-  const mutation = useAddCategory()
-  const [isFormOpen, setIsFormOpen] = useState(false);
 
+  const queryClient = useQueryClient();
+  const { data:tableData = []  } = useGetCategory();
+  
+   const mutation =  useMutation({
+      mutationFn: async (formData: FormData) => {
+        const response = await axios.post("http://172.16.7.61:9991/api/SQs", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization:`Bearer `+ localStorage.getItem('accessToken')
+          },
+        });
+        return response.data;
+      },
+      onSuccess:(data)=>{
+        console.log("text invalidationQuereis")
+        queryClient.invalidateQueries({ queryKey: ['Category'] });
+        reset()
+          
+      }
+    });
+  
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  
   // Initialize react-hook-form with Zod resolver
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<CategoryFormData>({
+  const { register, handleSubmit, reset,formState: { errors },  setValue } = useForm<CategoryFormData>({
     resolver: zodResolver(CategorySchema),
   });
-
+  //  useEffect(()=>{
+  //    refetch()
+  //  },[tableData])
   // Handle form submission
   const handleManualSubmit = (data: CategoryFormData) => {
     console.log("بيانات الفورم اليدوية", data);
-    // Send the validated form data to the backend
-    // sendDataToBackend(data);
-    mutation.mutate(data)
+    const formData = new FormData();
+    formData.append("Name", data.Name);
+    formData.append("Number", String(data.Number));
+     mutation.mutate(formData);
+  
   };
 
   return (
@@ -52,43 +80,7 @@ export default function CategoryPage() {
 
       {/* Manual Entry Form */}
       {isFormOpen && (
-        // <form
-        //   onSubmit={handleSubmit(handleManualSubmit)}
-        //   className="bg-gray-50 shadow p-3 rounded-lg mb-2 border border-gray-200"
-        // >
-        //   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        //     <Input
-        //       label="الاسم"
-        //       placeholder="ادخل الاسم"
-        //       type="text"
-        //       {...register("name")}
-        //       error={errors.name?.message}
-        //     />
-        //     <Input
-        //       label="الرقم"
-        //       placeholder="ادخل الرقم"
-        //       type="number"
-        //       {...register("number")}
-        //       error={errors.number?.message}
-        //     />
-        //   </div>
-        //   <Input
-        //     label="ملاحظات"
-        //     placeholder="ادخل جميع الملاحظات"
-        //     type="textarea"
-        //     {...register("notes")}
-        //     error={errors.notes?.message}
-        //   />
-
-        //   <div className="flex flex-col md:flex-row items-center justify-center mt-1 gap-4">
-        //     <button
-        //       type="submit"
-        //       className="cursor-pointer w-full md:w-auto bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
-        //     >
-        //       إضافة يدويًا
-        //     </button>
-        //   </div>
-        // </form>
+      
         <form
           onSubmit={handleSubmit(handleManualSubmit)}
           className="bg-gray-50 shadow p-3 rounded-lg mb-2 border border-gray-200"
@@ -123,8 +115,8 @@ export default function CategoryPage() {
       )}
 
       {/* Table Display */}
-      <div className="overflow-x-auto border border-gray-200 rounded-lg shadow">
-        <table className="min-w-full table-auto bg-white">
+      <div className={`overflow-x-auto overflow-y-scroll ${!isFormOpen ? 'h-[75vh]' :'h-[60vh]' }  border border-gray-200 rounded-lg shadow`}>
+        {/* <table className="min-w-full table-auto bg-white">
           <thead className="bg-gray-100 text-right text-sm font-bold text-gray-700">
             <tr>
               <th scope="col" className="px-4 py-2">المعرف</th>
@@ -144,7 +136,7 @@ export default function CategoryPage() {
                 </td>
               </tr>
             ))}
-            {tableData.length === 0 && (
+            {tableData?.length === 0 && (
               <tr>
                 <td colSpan={4} className="text-center py-4 text-gray-500">
                   لا توجد بيانات حاليًا.
@@ -152,7 +144,95 @@ export default function CategoryPage() {
               </tr>
             )}
           </tbody>
-        </table>
+        </table> */}
+        {/* <table className="w-full text-sm text-right text-gray-600 border-collapse">
+  <thead className="bg-gray-100 text-gray-700">
+    <tr>
+      <th className="px-4 py-3 text-xs font-semibold">المعرف</th>
+      <th className="px-4 py-3 text-xs font-semibold">الاسم</th>
+      <th className="px-4 py-3 text-xs font-semibold">الرقم</th>
+      <th className="px-4 py-3 text-xs font-semibold">تاريخ الإنشاء</th>
+    </tr>
+  </thead>
+  <tbody>
+    {tableData.length === 0 ? (
+      <tr>
+        <td colSpan={4} className="text-center py-6 text-gray-400">
+          لا توجد بيانات حاليًا.
+        </td>
+      </tr>
+    ) : (
+      tableData.map((item: any, idx: number) => (
+        <tr
+          key={item.id}
+          className="bg-white hover:bg-blue-50 border-b transition duration-150"
+        >
+          <td className="px-4 py-3 font-medium">{idx + 1}</td>
+          <td className="px-4 py-3">{item.name || "—"}</td>
+          <td className="px-4 py-3">{item.number || "—"}</td>
+          <td className="px-4 py-3">
+            {item.createdDate
+              ? new Date(item.createdDate).toLocaleDateString("ar-EG")
+              : "—"}
+          </td>
+        </tr>
+      ))
+    )}
+  </tbody>
+</table> */}
+<table className="w-full text-sm text-right text-gray-600 border-collapse">
+  <thead className="bg-gray-100 text-gray-700">
+    <tr>
+      <th className="px-4 py-3 text-xs font-semibold">المعرف</th>
+      <th className="px-4 py-3 text-xs font-semibold">الاسم</th>
+      <th className="px-4 py-3 text-xs font-semibold">الرقم</th>
+      <th className="px-4 py-3 text-xs font-semibold">تاريخ الإنشاء</th>
+      <th className="px-4 py-3 text-xs font-semibold text-center">إجراءات</th>
+    </tr>
+  </thead>
+  <tbody>
+    {tableData.length === 0 ? (
+      <tr>
+        <td colSpan={5} className="text-center py-6 text-gray-400">
+          لا توجد بيانات حاليًا.
+        </td>
+      </tr>
+    ) : (
+      tableData.map((item: any, idx: number) => (
+        <tr
+          key={item.id}
+          className="bg-white hover:bg-blue-50 border-b transition duration-150"
+        >
+          <td className="px-4 py-3 font-medium">{idx + 1}</td>
+          <td className="px-4 py-3">{item.name || "—"}</td>
+          <td className="px-4 py-3">{item.number || "—"}</td>
+          <td className="px-4 py-3">
+            {item.createdDate
+              ? new Date(item.createdDate).toLocaleDateString("ar-EG")
+              : "—"}
+          </td>
+          <td className="px-4 py-3 text-center">
+            <div className="flex justify-center gap-2">
+              <button
+                className=" text-white text-xs font-medium  shadow-sm transition"
+                onClick={() => console.log("Update", item.id)}
+              >
+              {/* <UpdateCategoryModal /> */}
+              </button>
+              <button
+                className=" text-white text-xs font-medium  shadow-sm transition"
+                onClick={() => console.log("Delete", item.id)}
+              >
+               <DeleteCategoryModal id={item.SqId}/>
+              </button>
+            </div>
+          </td>
+        </tr>
+      ))
+    )}
+  </tbody>
+</table>
+
       </div>
     </div>
   );
