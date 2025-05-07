@@ -14,7 +14,9 @@ interface ValidationSelectProps {
           {...register(name)}
           className={`w-full rounded-lg border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 ${error ? 'border-red-500' : ''}`}
         >
-          <option disabled value="">اختر عنصرًا</option>
+
+          {/* this option value 21 for starting posting first item then you can remove it or make disable */}
+          <option  value={21}> pc</option>
           {options.map((option) => (
             <option key={option.id} value={option.id}>
               {option.name}

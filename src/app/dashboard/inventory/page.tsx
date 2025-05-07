@@ -16,9 +16,9 @@ import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
 export default function InventoryPage() {
 
-  const {data:existedData ,refetch} = useGetExistedItmes()
+  const {data:existedData } = useGetExistedItmes()
   const queryClient = new QueryClient()
- 
+ console.log('eeeeeeee' , existedData)
   const mutation =  useMutation({
     mutationFn: async (formData: FormData) => {
       const response = await axios.post("http://172.16.7.61:9991/api/ExistingItems", formData, {
@@ -31,9 +31,7 @@ export default function InventoryPage() {
     },
     onSuccess:(data)=>{
         console.log(data)
-        queryClient.invalidateQueries({ queryKey: ['ExistedItems'] });
         reset()
-        refetch()
     }
   });
   console.log(existedData)
@@ -102,7 +100,11 @@ export default function InventoryPage() {
       formData.append("Notes", data.Notes);
     }
   
-    mutation.mutate(formData);
+    mutation.mutate(formData,{
+      onSuccess:(data)=>{
+       console.log("inventory success muations" , data)
+      }
+    });
   };
 
   const handleExcelSubmit = () => {
@@ -302,8 +304,6 @@ export default function InventoryPage() {
           </button>
         </div>
        </form>
-
-
       )}
 
       {/* جدول عرض العهدة */}

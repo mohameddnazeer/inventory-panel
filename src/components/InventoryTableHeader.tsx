@@ -79,20 +79,23 @@
 //   );
 // }
 
+// import { DialogDemo } from "@/modal/category/DeleteCategoryModal";
+import { DeleteInventoryModal } from "@/modal/inventory/DeleteInventoryModal";
+// import { UpdateInventoryModal } from "@/modal/inventory/UpdateInventoryModal";
 import { ExistedItem } from "@/services/existedItems/existedGetService";
 import { useState } from "react";
 
 export default function InventoryTableHeader({
   open,
-  data: products,
+  data: existedItems,
 }: {
   open: boolean;
   data: ExistedItem[];
 }) {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredProducts = products.filter((product) =>
-    product.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProducts = existedItems.filter((existeditem) =>
+    existeditem.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -148,28 +151,28 @@ export default function InventoryTableHeader({
               </td>
             </tr>
           ) : (
-            filteredProducts.map((product) => (
+            filteredProducts.map((item) => (
               <tr
-                key={product.id}
+                key={item.id}
                 className="bg-white hover:bg-blue-50 border-b transition duration-150"
               >
-                <td className="px-4 py-3">{product.name ?? "—"}</td>
-                <td className="px-4 py-3">{product.brand ?? "—"}</td>
-                <td className="px-4 py-3">{product.serial ?? "—"}</td>
-                <td className="px-4 py-3">{product.notes ?? "—"}</td>
+                <td className="px-4 py-3">{item.name ?? "—"}</td>
+                <td className="px-4 py-3">{item.brand ?? "—"}</td>
+                <td className="px-4 py-3">{item.serial ?? "—"}</td>
+                <td className="px-4 py-3">{item.notes ?? "—"}</td>
                 <td className="px-4 py-3 text-center">
                   <div className="flex justify-center gap-2">
                     <button
-                      className="bg-yellow-400 hover:bg-yellow-500 text-white text-xs font-medium px-3 py-1 rounded-full shadow-sm transition"
-                      onClick={() => console.log("Update", product.id)}
+                      className="  text-white text-xs font-medium px-3 py-1  shadow-sm transition"
+                      onClick={() => console.log("Update", item.id)}
                     >
-                      تحديث
+                    {/* <UpdateInventoryModal id={item.id}/> */}
                     </button>
                     <button
-                      className="bg-red-500 hover:bg-red-600 text-white text-xs font-medium px-3 py-1 rounded-full shadow-sm transition"
-                      onClick={() => console.log("Delete", product.id)}
+                      className="  text-white text-xs font-medium px-3 py-1  shadow-sm transition"
+                      onClick={() => console.log("Delete", item.id)}
                     >
-                      حذف
+                      <DeleteInventoryModal id={item.id} />
                     </button>
                   </div>
                 </td>

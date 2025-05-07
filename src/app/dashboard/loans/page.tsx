@@ -17,6 +17,7 @@ export default function Page() {
   const [excelData, setExcelData] = useState<any[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const {data , refetch} = useGetBorrowedItems()
+  console.log('text data coming from useGetBorrowedItems' , data)
   const Mutation = useAddBorrowedItems();
 
   const {
@@ -28,9 +29,9 @@ export default function Page() {
     resolver: zodResolver(BorrowedSchema),
   });
  
-  const onSubmit = (data: BorrowedFormData) => {
+  const onSubmit = (passingdata: BorrowedFormData) => {
     console.log("بيانات الفورم اليدوية", data);
-    Mutation.mutate(data); // assuming your mutate function accepts the form data
+    Mutation.mutate(passingdata); // assuming your mutate function accepts the form data
     reset()
   };
 
@@ -221,11 +222,7 @@ export default function Page() {
       )}
 
       {/* جدول عرض السلف السابقة */}
-      <LoansTable data={data ?? []} open={isFormOpen} onUpdate={function (item: BorrowedItem): void {
-        throw new Error("Function not implemented.");
-      } } onDelete={function (id: number): void {
-        throw new Error("Function not implemented.");
-      } }/>
+      <LoansTable data={data ?? []} open={isFormOpen}  />
     </div>
   );
 }

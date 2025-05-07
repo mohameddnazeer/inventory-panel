@@ -12,6 +12,7 @@ import { CategoryFormData, CategorySchema } from "@/schemas/CategoryFormSchema";
 import ValidationInput from "@/components/ValidationInput";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { DeleteCategoryModal} from "@/modal/category/DeleteCategoryModal";
 
 export default function CategoryPage() {
 
@@ -213,16 +214,16 @@ export default function CategoryPage() {
           <td className="px-4 py-3 text-center">
             <div className="flex justify-center gap-2">
               <button
-                className="bg-yellow-400 hover:bg-yellow-500 text-white text-xs font-medium px-3 py-1 rounded-full shadow-sm transition"
+                className=" text-white text-xs font-medium  shadow-sm transition"
                 onClick={() => console.log("Update", item.id)}
               >
-                تحديث
+              {/* <UpdateCategoryModal /> */}
               </button>
               <button
-                className="bg-red-500 hover:bg-red-600 text-white text-xs font-medium px-3 py-1 rounded-full shadow-sm transition"
+                className=" text-white text-xs font-medium  shadow-sm transition"
                 onClick={() => console.log("Delete", item.id)}
               >
-                حذف
+               <DeleteCategoryModal id={item.SqId}/>
               </button>
             </div>
           </td>

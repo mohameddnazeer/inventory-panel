@@ -4,12 +4,11 @@ import borrowAddService, { BorrowedItemResponse } from "@/services/borrowedItems
 
 
 const useAddBorrowedItems = ()=>{
-      const queryClient = useQueryClient()
+     
     return useMutation<BorrowedItemResponse , Error , BorrowedFormData>({
         mutationFn: borrowAddService.postData,
         onSuccess: (data) => {
-           console.log(data)
-           queryClient.invalidateQueries({queryKey:['borrowedItmes']})
+            
         },
         onError: (error) => {
           console.error("Borrowed Item failed:", error);

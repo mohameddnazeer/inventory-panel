@@ -34,12 +34,19 @@ class APIClient<TRequest , TResponse> {
             return res.data
         })
     }
-    delete = (id: number | string): Promise<void> => {
-      return axiosInstance.delete(`${this.endpoint}/${id}`).then(() => {});
+    delete = (id: number | string): Promise<TResponse> => {
+      return axiosInstance.delete(`${this.endpoint}/${id}`).then(() => null as TResponse);
     };
-    update = (data: TRequest): Promise<TResponse> => {
-      return axiosInstance.put<TResponse>(this.endpoint, data).then(res => res.data);
+    getItem = (id: number | string): Promise<TResponse> => {
+      return axiosInstance.delete(`${this.endpoint}/${id}`).then((res) => res.data);
     };
+    // update = (data: TRequest): Promise<TResponse> => {
+    //   return axiosInstance.put<TResponse>(this.endpoint, data).then(res => res.data);
+    // };
+    // update = (id: number, data: TRequest): Promise<TResponse> => {
+    //   const url = `${this.endpoint}/${id}`;
+    //   return axiosInstance.put<TResponse>(url, data).then(res => res.data);
+    // };
 }
 
 
