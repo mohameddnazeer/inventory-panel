@@ -27,7 +27,7 @@ export function DeleteCategoryModal({ id }: { id: number }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="destructive">حذف</Button>
+        <Button className="cursor-pointer" variant="destructive">حذف</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

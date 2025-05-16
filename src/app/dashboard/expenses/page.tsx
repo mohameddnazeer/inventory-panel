@@ -1,7 +1,6 @@
 "use client";
 
 import ExpensesTable from "@/components/ExpensesTable";
-import Input from "@/components/Input";
 import ValidationInput from "@/components/ValidationInput";
 import ValidationSelect from "@/components/ValidationSelect";
 import { useAddDispensedItem } from "@/hooks/DispensedItems/useAddDispensedItem";
@@ -16,8 +15,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
-export default function page() {
-  const [excelData, setExcelData] = useState<any[]>([]);
+export default function ExpensesPage() {
+  const [excelData, setExcelData] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
    const  {data:existedData } = useGetExistedItmes()
   const {data } = useGetDispensedItems();
@@ -45,7 +44,7 @@ export default function page() {
       const worksheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
 
-      setExcelData(jsonData as any[]);
+      setExcelData(jsonData as []);
     };
 
     reader.readAsBinaryString(file);

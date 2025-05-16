@@ -20,7 +20,7 @@ export const BorrowedSchema = z.object({
 
   notes: z
     .string()
-    .max(1000, { message: "الملاحظات يجب ألا تزيد عن 1000 حرف" })
+    .max(100, { message: "الملاحظات يجب ألا تزيد عن 100 حرف" })
     .optional(),
 });
 

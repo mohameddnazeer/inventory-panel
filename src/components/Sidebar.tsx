@@ -9,7 +9,7 @@ import { MdInventory2 , MdCategory } from "react-icons/md";
 import { IoHome  } from "react-icons/io5";
 import { IoLogOutSharp } from "react-icons/io5";
 const navLinks = [
-  { href: '/dashboard/', label: 'الصفحة الرائسية', icon: <IoHome   className="w-5 h-5" /> },
+  { href: '/dashboard', label: 'الصفحة الرائسية', icon: <IoHome   className="w-5 h-5" /> },
   { href: '/dashboard/inventory', label: 'العهدة', icon: <MdInventory2  className="w-5 h-5" /> },
   { href: '/dashboard/expenses', label: 'المصروف', icon: <FaCashRegister className="w-5 h-5" /> },
   { href: '/dashboard/loans', label: 'السلفة', icon: <FaClipboardList className="w-5 h-5" /> },

@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaArrowRight } from "react-icons/fa";
@@ -14,6 +14,19 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { DeleteCategoryModal} from "@/modal/category/DeleteCategoryModal";
 
+
+interface TableData {
+  name: string
+  number: string
+  createdByUserId: string
+  createdUser?: string | null
+  createdDate: string
+  lastModifiedUserId: string
+  lastModifiedUser?: string | null
+  lastModifiedDate: string
+  isDeleted: boolean
+  id: number
+}
 export default function CategoryPage() {
 
   const queryClient = useQueryClient();
@@ -29,7 +42,7 @@ export default function CategoryPage() {
         });
         return response.data;
       },
-      onSuccess:(data)=>{
+      onSuccess:()=>{
         console.log("text invalidationQuereis")
         queryClient.invalidateQueries({ queryKey: ['Category'] });
         reset()
@@ -40,12 +53,10 @@ export default function CategoryPage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   
   // Initialize react-hook-form with Zod resolver
-  const { register, handleSubmit, reset,formState: { errors },  setValue } = useForm<CategoryFormData>({
+  const { register, handleSubmit, reset,formState: { errors } } = useForm<CategoryFormData>({
     resolver: zodResolver(CategorySchema),
   });
-  //  useEffect(()=>{
-  //    refetch()
-  //  },[tableData])
+
   // Handle form submission
   const handleManualSubmit = (data: CategoryFormData) => {
     console.log("بيانات الفورم اليدوية", data);
@@ -73,7 +84,7 @@ export default function CategoryPage() {
       <button
         type="button"
         onClick={() => setIsFormOpen(!isFormOpen)}
-        className="mb-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded transition"
+        className="mb-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded transition cursor-pointer"
       >
         {isFormOpen ? "إخفاء الفورم" : "إظهار الفورم"}
       </button>
@@ -198,7 +209,7 @@ export default function CategoryPage() {
         </td>
       </tr>
     ) : (
-      tableData.map((item: any, idx: number) => (
+      tableData.map((item: TableData, idx: number) => (
         <tr
           key={item.id}
           className="bg-white hover:bg-blue-50 border-b transition duration-150"
@@ -223,7 +234,7 @@ export default function CategoryPage() {
                 className=" text-white text-xs font-medium  shadow-sm transition"
                 onClick={() => console.log("Delete", item.id)}
               >
-               <DeleteCategoryModal id={item.SqId}/>
+               <DeleteCategoryModal id={item.id}/>
               </button>
             </div>
           </td>

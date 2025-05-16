@@ -9,7 +9,8 @@ export const ExistedSchema = z.object({
   Serial: z.string().min(1, "السيريال مطلوب"),
   Quantity: z.string().regex(/^\d+$/, "الكمية يجب أن تكون رقم"),
   QuantityEnum: z.enum(['UNIT', 'METER']), // add more options if needed
-  Notes: z.string().optional(),
+  Notes: z.string().max(100, { message: "الملاحظات يجب ألا تزيد عن 100 حرف" })
+  .optional(),
   SqId: z.string().min(1, "SqId مطلوب"),
 });
 

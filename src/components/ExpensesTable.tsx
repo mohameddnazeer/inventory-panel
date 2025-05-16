@@ -20,7 +20,7 @@ export default function ExpensesTable({
   return (
     <div
       className={`relative overflow-x-auto bg-white shadow-xl border border-gray-200 rounded-2xl p-4 transition-all duration-300 ${
-        open ? "max-h-[300px]" : "max-h-[700px]"
+        open ? "max-h-[250px]" : "max-h-[700px]"
       }`}
     >
       {/* Header */}
@@ -80,9 +80,7 @@ export default function ExpensesTable({
               >
                 <td className="px-4 py-3 font-medium">{item.toWhom ?? "—"}</td>
                 <td className="px-4 py-3">
-                  {item.deliveredName
-                    ? new Date(item.deliveredName).toLocaleDateString()
-                    : "—"}
+                  {item.createdDate.slice(0,10)}
                 </td>
                 <td className="px-4 py-3">{item.receiverName ?? "—"}</td>
                 <td className="px-4 py-3">{item.toWhom ?? "—"}</td>
@@ -92,13 +90,13 @@ export default function ExpensesTable({
                 <td className="px-4 py-3 text-center">
                   <div className="flex justify-center gap-2">
                     <button
-                      className=" text-white text-xs font-medium px-3 py-1 rounded-full shadow-sm transition"
+                      className=" text-white text-xs font-medium px-3 py-1 rounded-full  transition"
                       onClick={() => console.log("Update", item.existingItemId)}
                     >
                       {/* <DialogDemo type="update"/> */}
                     </button>
                     <button
-                      className=" text-white text-xs font-medium px-3 py-1 rounded-full shadow-sm transition"
+                      className=" text-white text-xs font-medium px-3 py-1 rounded-full  transition"
                       onClick={() => console.log("Delete", item.existingItemId)}
                     >
                      < DeleteDispensedModal id={item.id}/>

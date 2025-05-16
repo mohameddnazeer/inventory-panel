@@ -1,6 +1,5 @@
 "use client";
 
-import Input from "@/components/Input";
 import LoansTable from "@/components/LoansTable";
 import { useAddBorrowedItems } from "@/hooks/BorrowedItems/useAddBorrowedItems";
 import { useGetBorrowedItems } from "@/hooks/BorrowedItems/useGetBorrowedItems";
@@ -12,11 +11,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BorrowedFormData, BorrowedSchema } from "@/schemas/BorrowedFormSchema";
 import ValidationInput from "@/components/ValidationInput";
-import { BorrowedItem } from "@/services/borrowedItems/borrowedGetService";
 export default function Page() {
-  const [excelData, setExcelData] = useState<any[]>([]);
+  const [excelData, setExcelData] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const {data , refetch} = useGetBorrowedItems()
+  const {data } = useGetBorrowedItems()
   console.log('text data coming from useGetBorrowedItems' , data)
   const Mutation = useAddBorrowedItems();
 
@@ -48,7 +46,7 @@ export default function Page() {
       const worksheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
 
-      setExcelData(jsonData as any[]);
+      setExcelData(jsonData as []);
     };
 
     reader.readAsBinaryString(file);

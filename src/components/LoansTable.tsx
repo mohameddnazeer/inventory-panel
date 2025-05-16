@@ -34,7 +34,7 @@ export default function LoansTable({ open, data }: Props) {
   return (
     <div
       className={`relative overflow-x-auto shadow-md sm:rounded-lg ${
-        open ? "max-h-[300px]" : "max-h-[700px]"
+        open ? "max-h-[250px]" : "max-h-[700px]"
       }`}
     >
       <div className="flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
@@ -80,8 +80,8 @@ export default function LoansTable({ open, data }: Props) {
           {filteredData.map((item) => (
             <tr key={item.id} className="bg-white border-b hover:bg-gray-50">
             <td className="px-6 py-4 font-medium text-gray-900">{item.name}</td>
-            <td className="px-6 py-4">{item.createdDate}</td>
-            <td className="px-6 py-4">{item.createdUser?.name || "N/A"}</td>
+            <td className="px-6 py-4">{item.createdDate.slice(0,10)}</td>
+            <td className="px-6 py-4">{item.createdUser?.name || "لم يتم التحديد"}</td>
             <td className="px-6 py-4">{item.toWhom}</td>
             <td className="px-6 py-4">{item.isReturned ? "تم" : "لم يتم"}</td>
             <td className="px-6 py-4">{item.notes == null ? "لا يوجد ملاحظات" : item.notes}</td>

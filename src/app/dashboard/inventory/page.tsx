@@ -3,7 +3,6 @@
 import InventoryTableHeader from "@/components/InventoryTableHeader";
 import ValidationInput from "@/components/ValidationInput";
 import ValidationSelect from "@/components/ValidationSelect";
-import { useAddExistedItem } from "@/hooks/ExistedItems/useAddExistedItem";
 import { useGetExistedItmes } from "@/hooks/ExistedItems/useGetExistedItems";
 import { ExistedFormData, ExistedSchema } from "@/schemas/ExistedFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,11 +13,32 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
+
+
+interface ExistingItems {
+  name: string
+  imagePath: string
+  brand: string
+  serial: string
+  notes: string
+  quantity: number
+  quantityEnum: string
+  sqId: number
+  sq: string |null
+  createdByUserId: string
+  createdUser: string |null
+  createdDate: string
+  lastModifiedUserId: string |null
+  lastModifiedUser: string |null
+  lastModifiedDate: string
+  isDeleted: boolean
+  id: number
+}
 export default function InventoryPage() {
 
   const {data:existedData } = useGetExistedItmes()
   const queryClient = new QueryClient()
- console.log('eeeeeeeexisteData' , existedData)
+
   const mutation =  useMutation({
     mutationFn: async (formData: FormData) => {
       const response = await axios.post("http://172.16.7.61:9991/api/ExistingItems", formData, {
@@ -36,7 +56,7 @@ export default function InventoryPage() {
     }
   });
   console.log(existedData)
-  const [excelData, setExcelData] = useState<any[]>([]);
+  const [excelData, setExcelData] = useState<ExistingItems[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
  
    const {
@@ -61,7 +81,7 @@ export default function InventoryPage() {
       const worksheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
 
-      setExcelData(jsonData as any[]);
+      setExcelData(jsonData as ExistingItems[]);
     };
 
     reader.readAsBinaryString(file);
