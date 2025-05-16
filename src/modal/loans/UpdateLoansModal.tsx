@@ -1,12 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
-import { z } from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -15,27 +14,24 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
-import { BorrowedFormData, BorrowedSchema } from '@/schemas/BorrowedFormSchema';
-import { useGetBorrowedById } from '@/hooks/BorrowedItems/useGetBorrowedById';
-import { useUpdateBorrowedItems } from '@/hooks/BorrowedItems/useUpdateBorrowedItems';
+import { useUpdateBorrowedItems } from "@/hooks/BorrowedItems/useUpdateBorrowedItems";
+import { BorrowedFormData, BorrowedSchema } from "@/schemas/BorrowedFormSchema";
+import { useGetBorrowedById } from "@/hooks/BorrowedItems/useGetBorrowedById";
 
 export function UpdateLoansModal({ id }: { id: number }) {
-  const queryClient = useQueryClient()
-
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
-
-  // const { data } = useGetBorrowedById(id);
-  const {mutate , isPending}  =  useUpdateBorrowedItems()
+  const { data } = useGetBorrowedById(id);
+  const { mutate, isPending } = useUpdateBorrowedItems();
 
   const {
     register,
     handleSubmit,
-    setValue,
+
     reset,
     formState: { errors },
   } = useForm({
@@ -43,41 +39,36 @@ export function UpdateLoansModal({ id }: { id: number }) {
   });
 
   // Prefill data when dialog opens
-  // useEffect(() => {
-  //   if (data && open) {
-  //     reset({
-  //       name: data.name || '',
-  //       toWhom: data.toWhom || '',
-  //       isReturned: data.isReturned ? 'true' : 'false',
-  //       notes: data.notes || '',
-  //     });
-  //   }
-  // }, [data, open, reset]);
+  useEffect(() => {
+    if (data && open) {
+      reset({
+        name: data.name || "",
+        toWhom: data.toWhom || "",
+        isReturned: data.isReturned ? "true" : "false",
+        notes: data.notes || "",
+      });
+    }
+  }, [data, open, reset]);
 
   const onSubmit = (values: BorrowedFormData) => {
-    const formData = new FormData();
-    formData.append('name', values.name);
-    formData.append('toWhom', values.toWhom);
-    formData.append('isReturned', values.isReturned ? 'true' : 'false');
-    if (values.notes) {
-      formData.append('notes', values.notes);
-    }
+    console.log("value from on submit ", values);
 
     mutate(
-      { id, formData },
+      { id, formData: values },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['BorrowedItems'] });
+          queryClient.invalidateQueries({ queryKey: ["BorrowedItems"] });
           setOpen(false);
         },
-      }
+      },
     );
   };
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="yellow">تعديل</Button>
+        <Button className="cursor-pointer" variant="yellow">
+          تعديل
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
@@ -89,21 +80,21 @@ export function UpdateLoansModal({ id }: { id: number }) {
           {/* Name */}
           <div>
             <Label>اسم العنصر</Label>
-            <Input {...register('name')} />
+            <Input {...register("name")} />
             {errors.name && <p className="text-red-500">{errors.name.message}</p>}
           </div>
 
           {/* To Whom */}
           <div>
             <Label>اسم المستلم</Label>
-            <Input {...register('toWhom')} />
+            <Input {...register("toWhom")} />
             {errors.toWhom && <p className="text-red-500">{errors.toWhom.message}</p>}
           </div>
 
           {/* Is Returned */}
           <div>
             <Label>تم الإرجاع؟</Label>
-            <select {...register('isReturned')} className="w-full border rounded px-2 py-1">
+            <select {...register("isReturned")} className="w-full border rounded px-2 py-1">
               <option value="">اختر الحالة</option>
               <option value="true">تم الإرجاع</option>
               <option value="false">لم يتم الإرجاع</option>
@@ -114,13 +105,13 @@ export function UpdateLoansModal({ id }: { id: number }) {
           {/* Notes */}
           <div>
             <Label>ملاحظات</Label>
-            <Input {...register('notes')} />
+            <Input {...register("notes")} />
             {errors.notes && <p className="text-red-500">{errors.notes.message}</p>}
           </div>
 
           <DialogFooter>
             <Button type="submit" disabled={isPending}>
-              {isPending ? 'جارٍ التحديث...' : 'حفظ التعديلات'}
+              {isPending ? "جارٍ التحديث..." : "حفظ التعديلات"}
             </Button>
           </DialogFooter>
         </form>

@@ -17,4 +17,3 @@ export interface BorrowedItem {
 }
 
 export default new APIClient<BorrowedItem, null >("api/BorrowedItems");
-

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,13 +7,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import { useDeleteBorrowedItem } from "@/hooks/BorrowedItems/useDeleteBorrowedItem";
-import { useDeleteCategory } from "@/hooks/Category/useDeleteCategory";
-import { useDeleteDispensedItem } from "@/hooks/DispensedItems/useDeleteDispensedItem";
-import { useDeleteExisteditem } from "@/hooks/ExistedItems/useDeleteExistedItem";
 // adjust this path
-import { useState } from "react"
+import { useState } from "react";
 
 export function DeleteLoansModal({ id }: { id: number }) {
   const { mutate } = useDeleteBorrowedItem();
@@ -30,20 +27,18 @@ export function DeleteLoansModal({ id }: { id: number }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="destructive">حذف</Button>
+        <Button className="cursor-pointer" variant="destructive">
+          حذف
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>حذف عنصر</DialogTitle>
-          <DialogDescription>
-            قم بتأكيد الحذف إن كنت ترغب في حذف هذا العنصر
-          </DialogDescription>
+          <DialogDescription>قم بتأكيد الحذف إن كنت ترغب في حذف هذا العنصر</DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          {/* Optional: Extra content or message */}
-        </div>
+        <div className="grid gap-4 py-4">{/* Optional: Extra content or message */}</div>
         <DialogFooter>
-          <Button onClick={handleDelete} variant="destructive">
+          <Button className="cursor-pointer" onClick={handleDelete} variant="destructive">
             تأكيد الحذف
           </Button>
         </DialogFooter>

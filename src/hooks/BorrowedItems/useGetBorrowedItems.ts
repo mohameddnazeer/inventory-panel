@@ -1,14 +1,13 @@
-import {  useQuery } from "@tanstack/react-query";
 import borrowedItemsService, { BorrowedItem } from "@/services/borrowedItems/borrowedGetService";
+import { useQuery } from "@tanstack/react-query";
 
-const useGetBorrowedItems = ()=>{
-    return useQuery<BorrowedItem[] , Error>({
-        queryKey: ['BorrowedItmes'],
-        queryFn: borrowedItemsService.getAll
-      });
-}
+const useGetBorrowedItems = () => {
+  return useQuery<BorrowedItem[], Error>({
+    queryKey: ["BorrowedItems"],
+    queryFn: borrowedItemsService.getAll,
+  });
+};
 
-
-export  {useGetBorrowedItems}
+export { useGetBorrowedItems };
 
 // accessToken
