@@ -233,7 +233,7 @@ export default function CategoryPage() {
                         className=" text-white text-xs font-medium  shadow-sm transition cursor-pointer"
                         onClick={() => console.log("Update", item.id)}
                       >
-                        <DialogDemo />
+                        {/* <DialogDemo /> */}
                       </button>
                       <button
                         className=" text-white text-xs font-medium  shadow-sm transition"

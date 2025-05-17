@@ -26,5 +26,6 @@ export interface InventoryItemResponse {
     id: number;
   }
 
+
 export default new APIClient<null, InventoryItemResponse >("api/ExistingItems");
 

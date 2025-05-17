@@ -30,10 +30,10 @@ export function UpdateInventoryModal({ id,sqId }: { id: number, sqId:number }) {
   const queryClient = useQueryClient();
   const { data } = useGetExistedItem(id);
   // const { mutate, isPending } = useUpdateExistedItems();
-  
+
      const {mutate , isPending}=useMutation({
       mutationFn: async ({ id, formData }: { id: number; formData: FormData }) => {
-      
+
         const response = await axios.put(
           `http://172.16.7.61:9991/api/ExistingItems/${id}`,
           formData,
@@ -47,7 +47,7 @@ export function UpdateInventoryModal({ id,sqId }: { id: number, sqId:number }) {
         return response.data;
       },
     });
-  
+
 
   const {
     register,
@@ -69,7 +69,7 @@ export function UpdateInventoryModal({ id,sqId }: { id: number, sqId:number }) {
         QuantityEnum: data.quantityEnum || 'UNIT',
         Notes: data.notes || '',
         SqId: sqId.toString(),
-        // ImageFile: undefined, 
+        // ImageFile: undefined,
       });
     }
   }, [data, open, reset]);
@@ -77,9 +77,9 @@ export function UpdateInventoryModal({ id,sqId }: { id: number, sqId:number }) {
   const onSubmit = (values: ExistedFormData) => {
 
     console.log("test");
-    
+
     const formData = new FormData();
-  
+
     formData.append("Name", values.Name);
     formData.append("Brand", values.Brand);
     formData.append("Serial", values.Serial);
@@ -89,12 +89,12 @@ export function UpdateInventoryModal({ id,sqId }: { id: number, sqId:number }) {
     if (values.Notes) {
       formData.append("Notes", values.Notes);
     }
-  
+
     // Append image if provided
     if (values.ImageFile ) {
       formData.append("ImageFile", values.ImageFile);
     }
-   
+
     mutate(
       { id, formData },
       {
@@ -106,6 +106,16 @@ export function UpdateInventoryModal({ id,sqId }: { id: number, sqId:number }) {
     );
   };
 
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="yellow">تعديل</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[600px]">
+        <DialogHeader>
+          <DialogTitle>تعديل عنصر</DialogTitle>
+          <DialogDescription>قم بتحديث معلومات العنصر.</DialogDescription>
+        </DialogHeader>
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>

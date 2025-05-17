@@ -53,7 +53,7 @@ class APIClient<TRequest, TResponse> {
     formData: BorrowedFormData;
   }): Promise<TResponse> => {
     const url = `${this.endpoint}/${id}`;
-    console.log("id from apiClient update method", id);
+
     return axiosInstance.put<TResponse>(url, formData).then(res => res.data);
   };
 
@@ -65,7 +65,18 @@ class APIClient<TRequest, TResponse> {
     formData: DispensedFormData;
   }): Promise<TResponse> => {
     const url = `${this.endpoint}/${id}`;
-    console.log("id from apiClient update method", id);
+
+    return axiosInstance.put<TResponse>(url, formData).then(res => res.data);
+  };
+    updateExistedItem = ({
+    id,
+    formData,
+  }: {
+    id: number;
+    formData: ExistedFormData;
+  }): Promise<TResponse> => {
+    const url = `${this.endpoint}/${id}`;
+
     return axiosInstance.put<TResponse>(url, formData).then(res => res.data);
   };
   updateExistedItems = ({
