@@ -1,21 +1,21 @@
 "use client";
 
 import LoansTable from "@/components/LoansTable";
+import ValidationInput from "@/components/ValidationInput";
 import { useAddBorrowedItems } from "@/hooks/BorrowedItems/useAddBorrowedItems";
 import { useGetBorrowedItems } from "@/hooks/BorrowedItems/useGetBorrowedItems";
+import { BorrowedFormData, BorrowedSchema } from "@/schemas/BorrowedFormSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { BorrowedFormData, BorrowedSchema } from "@/schemas/BorrowedFormSchema";
-import ValidationInput from "@/components/ValidationInput";
 export default function Page() {
   const [excelData, setExcelData] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const {data } = useGetBorrowedItems()
-  console.log('text data coming from useGetBorrowedItems' , data)
+  const { data } = useGetBorrowedItems();
+  console.log("text data coming from useGetBorrowedItems", data);
   const Mutation = useAddBorrowedItems();
 
   const {
@@ -26,11 +26,12 @@ export default function Page() {
   } = useForm({
     resolver: zodResolver(BorrowedSchema),
   });
- 
+
   const onSubmit = (passingdata: BorrowedFormData) => {
     console.log("بيانات الفورم اليدوية", data);
     Mutation.mutate(passingdata); // assuming your mutate function accepts the form data
-    reset()
+
+    reset();
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +40,7 @@ export default function Page() {
 
     const reader = new FileReader();
 
-    reader.onload = (event) => {
+    reader.onload = event => {
       const binaryStr = event.target?.result;
       const workbook = XLSX.read(binaryStr, { type: "binary" });
       const sheetName = workbook.SheetNames[0];
@@ -52,15 +53,7 @@ export default function Page() {
     reader.readAsBinaryString(file);
   };
   const generateExcelTemplate = () => {
-    const headers = [
-      "الاسم",
-      "تاريخ الخروج",
-      "المسلم",
-      "المسلم له",
-      "السبب",
-      "ملاحظات",
-      "الحالة",
-    ];
+    const headers = ["الاسم", "تاريخ الخروج", "المسلم", "المسلم له", "السبب", "ملاحظات", "الحالة"];
 
     const worksheet = XLSX.utils.json_to_sheet([], { header: headers });
     const workbook = XLSX.utils.book_new();
@@ -76,9 +69,7 @@ export default function Page() {
   return (
     <div className="p-0 w-full">
       <h1 className="text-2xl font-bold mb-2 flex items-center justify-between  p-1 ">
-        <span className="text-blue-700 flex items-center gap-2">
-          📦 صفحة السلف
-        </span>
+        <span className="text-blue-700 flex items-center gap-2">📦 صفحة السلف</span>
         <Link
           href="/dashboard"
           className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-600 transition"
@@ -99,16 +90,19 @@ export default function Page() {
 
       {/* Form لإضافة عنصر جديد */}
       {isFormOpen && (
-        <form onSubmit={handleSubmit(onSubmit)} className="bg-gray-50 shadow p-3 rounded-lg mb-2 border border-gray-200">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="bg-gray-50 shadow p-3 rounded-lg mb-2 border border-gray-200"
+        >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-            <ValidationInput 
-             label="اسم الصنف"
-             name="name"
-             register={register}
-             placeholder="ادخل الاسم "
-             type="text"  
-             error={errors.name?.message}
-             />
+            <ValidationInput
+              label="اسم الصنف"
+              name="name"
+              register={register}
+              placeholder="ادخل الاسم "
+              type="text"
+              error={errors.name?.message}
+            />
             <ValidationInput
               name="toWhom"
               register={register}
@@ -118,9 +112,7 @@ export default function Page() {
               error={errors.toWhom?.message}
             />
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-medium text-gray-700">
-                هل تم التسليم؟
-              </label>
+              <label className="mb-1 text-sm font-medium text-gray-700">هل تم التسليم؟</label>
               <select
                 {...register("isReturned")}
                 className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -139,7 +131,6 @@ export default function Page() {
             placeholder="ادخل جميع الملاحظات"
             type="textarea"
             error={errors.notes?.message}
-            
           />
 
           {/* Excel Upload */}
@@ -191,9 +182,7 @@ export default function Page() {
       {/* عرض بيانات Excel إن وجدت */}
       {excelData.length > 0 && (
         <div className="overflow-x-auto mt-6">
-          <h2 className="text-lg font-semibold mb-2 text-blue-700">
-            📋 بيانات الملف:
-          </h2>
+          <h2 className="text-lg font-semibold mb-2 text-blue-700">📋 بيانات الملف:</h2>
           <table className="min-w-full text-sm text-left text-gray-700 border">
             <thead className="bg-gray-100 text-xs uppercase">
               <tr>
@@ -220,7 +209,7 @@ export default function Page() {
       )}
 
       {/* جدول عرض السلف السابقة */}
-      <LoansTable data={data ?? []} open={isFormOpen}  />
+      <LoansTable data={data ?? []} open={isFormOpen} />
     </div>
   );
 }

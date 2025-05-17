@@ -1,20 +1,14 @@
 
 // import { DialogDemo } from "@/modal/category/DeleteCategoryModal";
 import { DeleteDispensedModal } from "@/modal/dispensed/DeleteDispensedModal";
-import { DispensedItem } from "@/services/dispensedItems/dispensedGetService";
+import { UpdateDispensedModal } from "@/modal/dispensed/UpdateDispensedModal";
 import { useState } from "react";
 
-export default function ExpensesTable({
-  open,
-  data,
-}: {
-  open: boolean;
-  data: DispensedItem[];
-}) {
+export default function ExpensesTable({ open, data }: { open: boolean; data: DispensedItem[] }) {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredData = data.filter((item) =>
-    item.receiverName?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData = data.filter(item =>
+    item.receiverName?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -30,19 +24,15 @@ export default function ExpensesTable({
           <input
             type="text"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
             placeholder="ابحث عن اسم المستلم"
             className="w-full pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50 text-gray-800"
           />
           <div className="absolute left-3 top-2.5 text-gray-400 pointer-events-none">
-            <svg
-              className="w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path
                 fillRule="evenodd"
-                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817
                    4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                 clipRule="evenodd"
               />
@@ -56,6 +46,7 @@ export default function ExpensesTable({
         <thead className="bg-gray-100 text-gray-700">
           <tr>
             <th className="px-4 py-3 text-xs font-semibold">اسم الصنف</th>
+            <th className="px-4 py-3 text-xs font-semibold">الكميه المصروفة </th>
             <th className="px-4 py-3 text-xs font-semibold">تاريخ الصرف</th>
             <th className="px-4 py-3 text-xs font-semibold">اسم المصروف له</th>
             <th className="px-4 py-3 text-xs font-semibold">المسلم</th>
@@ -73,15 +64,14 @@ export default function ExpensesTable({
               </td>
             </tr>
           ) : (
-            filteredData.map((item) => (
+            filteredData.map(item => (
               <tr
                 key={item.existingItemId}
                 className="bg-white hover:bg-blue-50 border-b transition duration-150"
               >
-                <td className="px-4 py-3 font-medium">{item.toWhom ?? "—"}</td>
-                <td className="px-4 py-3">
-                  {item.createdDate.slice(0,10)}
-                </td>
+                <td className="px-4 py-3 font-medium">{item.existingItemId ?? "—"}</td>
+                <td className="px-4 py-3 font-medium">{item.dispensedQuantity ?? "—"}</td>
+                <td className="px-4 py-3">{item.createdDate.slice(0, 10)}</td>
                 <td className="px-4 py-3">{item.receiverName ?? "—"}</td>
                 <td className="px-4 py-3">{item.toWhom ?? "—"}</td>
                 <td className="px-4 py-3">{item.deliveredName ?? "—"}</td>
@@ -93,13 +83,13 @@ export default function ExpensesTable({
                       className=" text-white text-xs font-medium px-3 py-1 rounded-full  transition"
                       onClick={() => console.log("Update", item.existingItemId)}
                     >
-                      {/* <DialogDemo type="update"/> */}
+                      <UpdateDispensedModal id={item.id} existingItemId={item.existingItemId} />
                     </button>
                     <button
                       className=" text-white text-xs font-medium px-3 py-1 rounded-full  transition"
                       onClick={() => console.log("Delete", item.existingItemId)}
                     >
-                     < DeleteDispensedModal id={item.id}/>
+                      <DeleteDispensedModal id={item.id} />
                     </button>
                   </div>
                 </td>

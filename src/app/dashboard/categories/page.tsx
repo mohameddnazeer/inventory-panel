@@ -1,59 +1,62 @@
 
 'use client';
 
-import React, {  useState } from "react";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FaArrowRight } from "react-icons/fa";
 import Link from "next/link";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { FaArrowRight } from "react-icons/fa";
 
-import { useGetCategory } from "@/hooks/Category/useGetCategory";
-import { CategoryFormData, CategorySchema } from "@/schemas/CategoryFormSchema";
 import ValidationInput from "@/components/ValidationInput";
+import { useGetCategory } from "@/hooks/Category/useGetCategory";
+import { DeleteCategoryModal } from "@/modal/category/DeleteCategoryModal";
+import { DialogDemo } from "@/modal/category/UpdateCategoryModal";
+import { CategoryFormData, CategorySchema } from "@/schemas/CategoryFormSchema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { DeleteCategoryModal} from "@/modal/category/DeleteCategoryModal";
-
 
 interface TableData {
-  name: string
-  number: string
-  createdByUserId: string
-  createdUser?: string | null
-  createdDate: string
-  lastModifiedUserId: string
-  lastModifiedUser?: string | null
-  lastModifiedDate: string
-  isDeleted: boolean
-  id: number
+  name: string;
+  number: string;
+  createdByUserId: string;
+  createdUser?: string | null;
+  createdDate: string;
+  lastModifiedUserId: string;
+  lastModifiedUser?: string | null;
+  lastModifiedDate: string;
+  isDeleted: boolean;
+  id: number;
 }
 export default function CategoryPage() {
-
   const queryClient = useQueryClient();
-  const { data:tableData = []  } = useGetCategory();
-  
-   const mutation =  useMutation({
-      mutationFn: async (formData: FormData) => {
-        const response = await axios.post("http://172.16.7.61:9991/api/SQs", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization:`Bearer `+ localStorage.getItem('accessToken')
-          },
-        });
-        return response.data;
-      },
-      onSuccess:()=>{
-        console.log("text invalidationQuereis")
-        queryClient.invalidateQueries({ queryKey: ['Category'] });
-        reset()
-          
-      }
-    });
-  
+  const { data: tableData = [] } = useGetCategory();
+
+  const mutation = useMutation({
+    mutationFn: async (formData: FormData) => {
+      const response = await axios.post("http://172.16.7.61:9991/api/SQs", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ` + localStorage.getItem("accessToken"),
+        },
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      console.log("text invalidationQuereis");
+      queryClient.invalidateQueries({ queryKey: ["Category"] });
+      reset();
+    },
+  });
+
   const [isFormOpen, setIsFormOpen] = useState(false);
-  
+
   // Initialize react-hook-form with Zod resolver
-  const { register, handleSubmit, reset,formState: { errors } } = useForm<CategoryFormData>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<CategoryFormData>({
     resolver: zodResolver(CategorySchema),
   });
 
@@ -63,8 +66,7 @@ export default function CategoryPage() {
     const formData = new FormData();
     formData.append("Name", data.Name);
     formData.append("Number", String(data.Number));
-     mutation.mutate(formData);
-  
+    mutation.mutate(formData);
   };
 
   return (
@@ -91,7 +93,6 @@ export default function CategoryPage() {
 
       {/* Manual Entry Form */}
       {isFormOpen && (
-      
         <form
           onSubmit={handleSubmit(handleManualSubmit)}
           className="bg-gray-50 shadow p-3 rounded-lg mb-2 border border-gray-200"
@@ -126,7 +127,11 @@ export default function CategoryPage() {
       )}
 
       {/* Table Display */}
-      <div className={`overflow-x-auto overflow-y-scroll ${!isFormOpen ? 'h-[75vh]' :'h-[60vh]' }  border border-gray-200 rounded-lg shadow`}>
+      <div
+        className={`overflow-x-auto overflow-y-scroll ${
+          !isFormOpen ? "h-[75vh]" : "h-[60vh]"
+        }  border border-gray-200 rounded-lg shadow`}
+      >
         {/* <table className="min-w-full table-auto bg-white">
           <thead className="bg-gray-100 text-right text-sm font-bold text-gray-700">
             <tr>
@@ -191,59 +196,58 @@ export default function CategoryPage() {
     )}
   </tbody>
 </table> */}
-<table className="w-full text-sm text-right text-gray-600 border-collapse">
-  <thead className="bg-gray-100 text-gray-700">
-    <tr>
-      <th className="px-4 py-3 text-xs font-semibold">المعرف</th>
-      <th className="px-4 py-3 text-xs font-semibold">الاسم</th>
-      <th className="px-4 py-3 text-xs font-semibold">الرقم</th>
-      <th className="px-4 py-3 text-xs font-semibold">تاريخ الإنشاء</th>
-      <th className="px-4 py-3 text-xs font-semibold text-center">إجراءات</th>
-    </tr>
-  </thead>
-  <tbody>
-    {tableData.length === 0 ? (
-      <tr>
-        <td colSpan={5} className="text-center py-6 text-gray-400">
-          لا توجد بيانات حاليًا.
-        </td>
-      </tr>
-    ) : (
-      tableData.map((item: TableData, idx: number) => (
-        <tr
-          key={item.id}
-          className="bg-white hover:bg-blue-50 border-b transition duration-150"
-        >
-          <td className="px-4 py-3 font-medium">{idx + 1}</td>
-          <td className="px-4 py-3">{item.name || "—"}</td>
-          <td className="px-4 py-3">{item.number || "—"}</td>
-          <td className="px-4 py-3">
-            {item.createdDate
-              ? new Date(item.createdDate).toLocaleDateString("ar-EG")
-              : "—"}
-          </td>
-          <td className="px-4 py-3 text-center">
-            <div className="flex justify-center gap-2">
-              <button
-                className=" text-white text-xs font-medium  shadow-sm transition"
-                onClick={() => console.log("Update", item.id)}
-              >
-              {/* <UpdateCategoryModal /> */}
-              </button>
-              <button
-                className=" text-white text-xs font-medium  shadow-sm transition"
-                onClick={() => console.log("Delete", item.id)}
-              >
-               <DeleteCategoryModal id={item.id}/>
-              </button>
-            </div>
-          </td>
-        </tr>
-      ))
-    )}
-  </tbody>
-</table>
-
+        <table className="w-full text-sm text-right text-gray-600 border-collapse">
+          <thead className="bg-gray-100 text-gray-700">
+            <tr>
+              <th className="px-4 py-3 text-xs font-semibold">المعرف</th>
+              <th className="px-4 py-3 text-xs font-semibold">الاسم</th>
+              <th className="px-4 py-3 text-xs font-semibold">الرقم</th>
+              <th className="px-4 py-3 text-xs font-semibold">تاريخ الإنشاء</th>
+              <th className="px-4 py-3 text-xs font-semibold text-center">إجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tableData.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="text-center py-6 text-gray-400">
+                  لا توجد بيانات حاليًا.
+                </td>
+              </tr>
+            ) : (
+              tableData.map((item: TableData, idx: number) => (
+                <tr
+                  key={item.id}
+                  className="bg-white hover:bg-blue-50 border-b transition duration-150"
+                >
+                  <td className="px-4 py-3 font-medium">{idx + 1}</td>
+                  <td className="px-4 py-3">{item.name || "—"}</td>
+                  <td className="px-4 py-3">{item.number || "—"}</td>
+                  <td className="px-4 py-3">
+                    {item.createdDate
+                      ? new Date(item.createdDate).toLocaleDateString("ar-EG")
+                      : "—"}
+                  </td>
+                  <td className="px-4 py-3 text-center">
+                    <div className="flex justify-center gap-2">
+                      <button
+                        className=" text-white text-xs font-medium  shadow-sm transition cursor-pointer"
+                        onClick={() => console.log("Update", item.id)}
+                      >
+                        <DialogDemo />
+                      </button>
+                      <button
+                        className=" text-white text-xs font-medium  shadow-sm transition"
+                        onClick={() => console.log("Delete", item.id)}
+                      >
+                        <DeleteCategoryModal id={item.id} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );

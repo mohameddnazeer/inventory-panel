@@ -11,13 +11,12 @@ export interface ItemDetailsResponse {
   isReturned: boolean;
   notes?: string;
   createdByUserId: string;
-  createdUser: any | null;
+  createdUser: string | null;
   createdDate: string;
   lastModifiedUserId: string;
-  lastModifiedUser: any | null;
+  lastModifiedUser: string | null;
   lastModifiedDate: string;
   isDeleted: boolean;
 }
 
 export default new APIClient<null, ItemDetailsResponse >("api/BorrowedItems");
-

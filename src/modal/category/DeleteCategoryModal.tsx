@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,10 +7,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import { useDeleteCategory } from "@/hooks/Category/useDeleteCategory";
 // adjust this path
-import { useState } from "react"
+import { useState } from "react";
 
 export function DeleteCategoryModal({ id }: { id: number }) {
   const { mutate } = useDeleteCategory();
@@ -21,24 +21,23 @@ export function DeleteCategoryModal({ id }: { id: number }) {
       onSuccess: () => {
         setOpen(false); // close modal after successful delete
       },
+      onError: () => {},
     });
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="cursor-pointer" variant="destructive">حذف</Button>
+        <Button className="cursor-pointer" variant="destructive">
+          حذف
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>حذف عنصر</DialogTitle>
-          <DialogDescription>
-            قم بتأكيد الحذف إن كنت ترغب في حذف هذا العنصر
-          </DialogDescription>
+          <DialogDescription>قم بتأكيد الحذف إن كنت ترغب في حذف هذا العنصر</DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          {/* Optional: Extra content or message */}
-        </div>
+        <div className="grid gap-4 py-4">{/* Optional: Extra content or message */}</div>
         <DialogFooter>
           <Button onClick={handleDelete} variant="destructive">
             تأكيد الحذف

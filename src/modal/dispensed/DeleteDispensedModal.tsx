@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { useDeleteCategory } from "@/hooks/Category/useDeleteCategory";
+// import { useDeleteCategory } from "@/hooks/Category/useDeleteCategory";
 import { useDeleteDispensedItem } from "@/hooks/DispensedItems/useDeleteDispensedItem";
 // adjust this path
 import { useState } from "react"
