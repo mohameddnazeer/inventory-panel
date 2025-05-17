@@ -1,5 +1,6 @@
 
 import { DeleteInventoryModal } from "@/modal/inventory/DeleteInventoryModal";
+import { UpdateInventoryModal } from "@/modal/inventory/UpdateInventoryModal";
 // import { UpdateInventoryModal } from "@/modal/inventory/UpdateInventoryModal";
 import { ExistedItem } from "@/services/existedItems/existedGetService";
 import { useState } from "react";
@@ -87,9 +88,9 @@ export default function InventoryTableHeader({
                   <div className="flex justify-center gap-2">
                     <button
                       className="  text-white text-xs font-medium px-3 py-1   transition"
-                      onClick={() => console.log("Update", item.id)}
+                      // onClick={() => console.log("Update", item.id)}
                     >
-                    {/* <UpdateInventoryModal id={item.id}/> */}
+                    <UpdateInventoryModal id={item.id} sqId={item.sqId}/>
                     </button>
                     <button
                       className="  text-white text-xs font-medium px-3 py-1   transition"

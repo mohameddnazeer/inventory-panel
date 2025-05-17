@@ -4,7 +4,8 @@ export const ExistedSchema = z.object({
   Name: z.string().min(1, "الاسم مطلوب"),
   ImageFile: z
     .instanceof(File)
-    .refine((file) => file.size > 0, "الملف مطلوب"),
+    .refine((file) => file.size > 0, "الملف مطلوب")
+    .optional(),
   Brand: z.string().min(1, "الماركة مطلوبة"),
   Serial: z.string().min(1, "السيريال مطلوب"),
   Quantity: z.string().regex(/^\d+$/, "الكمية يجب أن تكون رقم"),

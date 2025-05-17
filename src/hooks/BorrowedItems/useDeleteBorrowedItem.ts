@@ -5,8 +5,7 @@ const useDeleteBorrowedItem = () => {
   const queryClient = useQueryClient();
   return useMutation<null, Error, number>({
     mutationFn: id => borrowDeleteService.delete(id),
-    onSuccess: data => {
-      console.log(data);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["BorrowedItems"] });
     },
     onError: error => {

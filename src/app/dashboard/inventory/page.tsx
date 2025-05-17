@@ -6,7 +6,7 @@ import ValidationSelect from "@/components/ValidationSelect";
 import { useGetExistedItems } from "@/hooks/ExistedItems/useGetExistedItems";
 import { ExistedFormData, ExistedSchema } from "@/schemas/ExistedFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import {  useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -35,7 +35,7 @@ interface ExistingItems {
 }
 export default function InventoryPage() {
   const { data: existedData } = useGetExistedItems();
-  const queryClient = new QueryClient();
+  const queryClient =  useQueryClient();
 
   const mutation = useMutation({
     mutationFn: async (formData: FormData) => {
@@ -47,9 +47,10 @@ export default function InventoryPage() {
       });
       return response.data;
     },
-    onSuccess: data => {
-      console.log(data);
-      queryClient.invalidateQueries({ queryKey: ["BorrowedItems"] });
+    onSuccess: () => {
+      // console.log(data); 
+      // queryClient.invalidateQueries({queryKey:['ExistedItems']})
+      queryClient.invalidateQueries({ queryKey: ["ExistedItems"] });
       reset();
     },
   });
@@ -120,11 +121,7 @@ export default function InventoryPage() {
       formData.append("Notes", data.Notes);
     }
 
-    mutation.mutate(formData, {
-      onSuccess: data => {
-        console.log("inventory success muations", data);
-      },
-    });
+    mutation.mutate(formData);
   };
 
   const handleExcelSubmit = () => {

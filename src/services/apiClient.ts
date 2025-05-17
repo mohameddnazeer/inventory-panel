@@ -1,5 +1,6 @@
 import { BorrowedFormData } from "@/schemas/BorrowedFormSchema";
 import { DispensedFormData } from "@/schemas/DispensedFormSchema";
+import { ExistedFormData } from "@/schemas/ExistedFormSchema";
 import axios from "axios";
 
 const axiosInstance = axios.create({
@@ -62,6 +63,17 @@ class APIClient<TRequest, TResponse> {
   }: {
     id: number;
     formData: DispensedFormData;
+  }): Promise<TResponse> => {
+    const url = `${this.endpoint}/${id}`;
+    console.log("id from apiClient update method", id);
+    return axiosInstance.put<TResponse>(url, formData).then(res => res.data);
+  };
+  updateExistedItems = ({
+    id,
+    formData,
+  }: {
+    id: number;
+    formData: FormData;
   }): Promise<TResponse> => {
     const url = `${this.endpoint}/${id}`;
     console.log("id from apiClient update method", id);
