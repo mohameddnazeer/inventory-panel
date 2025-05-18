@@ -2,6 +2,7 @@
 // import { DialogDemo } from "@/modal/category/DeleteCategoryModal";
 import { DeleteDispensedModal } from "@/modal/dispensed/DeleteDispensedModal";
 import { UpdateDispensedModal } from "@/modal/dispensed/UpdateDispensedModal";
+import { DispensedItem } from "@/services/dispensedItems/dispensedGetService";
 import { useState } from "react";
 
 export default function ExpensesTable({ open, data }: { open: boolean; data: DispensedItem[] }) {

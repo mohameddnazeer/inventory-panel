@@ -6,11 +6,12 @@ import ValidationSelect from "@/components/ValidationSelect";
 import { useGetExistedItems } from "@/hooks/ExistedItems/useGetExistedItems";
 import { ExistedFormData, ExistedSchema } from "@/schemas/ExistedFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {  useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
 
@@ -35,22 +36,28 @@ interface ExistingItems {
 }
 export default function InventoryPage() {
   const { data: existedData } = useGetExistedItems();
-  const queryClient =  useQueryClient();
+  const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: async (formData: FormData) => {
-      const response = await axios.post("http://172.16.7.61:9991/api/ExistingItems", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ` + localStorage.getItem("accessToken"),
-        },
-      });
-      return response.data;
+      try {
+        const response = await axios.post("http://172.16.7.61:9991/api/ExistingItems", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ` + localStorage.getItem("accessToken"),
+          },
+        });
+        return response.data;
+      } catch (error) {
+        toast.error("فشل إضافة العنصر");
+        throw error;
+      }
     },
-    onSuccess: () => {
-      // console.log(data); 
-      // queryClient.invalidateQueries({queryKey:['ExistedItems']})
+
+    onSuccess: data => {
+      console.log(data);
       queryClient.invalidateQueries({ queryKey: ["ExistedItems"] });
+      toast.success("تمت إضافة العنصر بنجاح");
       reset();
     },
   });

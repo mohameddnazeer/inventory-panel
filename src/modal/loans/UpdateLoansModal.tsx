@@ -18,9 +18,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import { useGetBorrowedById } from "@/hooks/BorrowedItems/useGetBorrowedById";
 import { useUpdateBorrowedItems } from "@/hooks/BorrowedItems/useUpdateBorrowedItems";
 import { BorrowedFormData, BorrowedSchema } from "@/schemas/BorrowedFormSchema";
-import { useGetBorrowedById } from "@/hooks/BorrowedItems/useGetBorrowedById";
 
 export function UpdateLoansModal({ id }: { id: number }) {
   const queryClient = useQueryClient();

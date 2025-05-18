@@ -1,7 +1,7 @@
-
 import { DeleteInventoryModal } from "@/modal/inventory/DeleteInventoryModal";
 import { UpdateInventoryModal } from "@/modal/inventory/UpdateInventoryModal";
-// import { UpdateInventoryModal } from "@/modal/inventory/UpdateInventoryModal";
+
+
 import { ExistedItem } from "@/services/existedItems/existedGetService";
 import { useState } from "react";
 
@@ -14,8 +14,8 @@ export default function InventoryTableHeader({
 }) {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredProducts = existedItems.filter((existeditem) =>
-    existeditem.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProducts = existedItems.filter(existeditem =>
+    existeditem.name?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -31,19 +31,15 @@ export default function InventoryTableHeader({
           <input
             type="text"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
             placeholder="ابحث عن اسم المنتج"
             className="w-full pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50 text-gray-800"
           />
           <div className="absolute left-3 top-2.5 text-gray-400 pointer-events-none">
-            <svg
-              className="w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path
                 fillRule="evenodd"
-                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817
                    4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                 clipRule="evenodd"
               />
@@ -73,7 +69,7 @@ export default function InventoryTableHeader({
               </td>
             </tr>
           ) : (
-            filteredProducts.map((item) => (
+            filteredProducts.map(item => (
               <tr
                 key={item.id}
                 className="bg-white hover:bg-blue-50 border-b transition duration-150"
@@ -90,7 +86,7 @@ export default function InventoryTableHeader({
                       className="  text-white text-xs font-medium px-3 py-1   transition"
                       // onClick={() => console.log("Update", item.id)}
                     >
-                    <UpdateInventoryModal id={item.id} sqId={item.sqId}/>
+                      <UpdateInventoryModal id={item.id} sqId={item.sqId} />
                     </button>
                     <button
                       className="  text-white text-xs font-medium px-3 py-1   transition"

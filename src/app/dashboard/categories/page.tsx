@@ -10,7 +10,7 @@ import { FaArrowRight } from "react-icons/fa";
 import ValidationInput from "@/components/ValidationInput";
 import { useGetCategory } from "@/hooks/Category/useGetCategory";
 import { DeleteCategoryModal } from "@/modal/category/DeleteCategoryModal";
-import { DialogDemo } from "@/modal/category/UpdateCategoryModal";
+import { UpdateCategoryModal } from "@/modal/category/UpdateCategoryModal";
 import { CategoryFormData, CategorySchema } from "@/schemas/CategoryFormSchema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -233,7 +233,7 @@ export default function CategoryPage() {
                         className=" text-white text-xs font-medium  shadow-sm transition cursor-pointer"
                         onClick={() => console.log("Update", item.id)}
                       >
-                        <DialogDemo />
+                        <UpdateCategoryModal id={item.id} />
                       </button>
                       <button
                         className=" text-white text-xs font-medium  shadow-sm transition"

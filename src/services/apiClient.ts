@@ -1,6 +1,5 @@
 import { BorrowedFormData } from "@/schemas/BorrowedFormSchema";
 import { DispensedFormData } from "@/schemas/DispensedFormSchema";
-import { ExistedFormData } from "@/schemas/ExistedFormSchema";
 import axios from "axios";
 
 const axiosInstance = axios.create({
@@ -10,17 +9,6 @@ const axiosInstance = axios.create({
     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
   },
 });
-
-//    Add token dynamically (only on client side)
-// axiosInstance.interceptors.request.use((config) => {
-//   if (typeof window !== "undefined") {
-//     const token = localStorage.getItem("accessToken");
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-//   }
-//   return config;
-// });
 
 class APIClient<TRequest, TResponse> {
   endpoint: string;
@@ -53,10 +41,9 @@ class APIClient<TRequest, TResponse> {
     formData: BorrowedFormData;
   }): Promise<TResponse> => {
     const url = `${this.endpoint}/${id}`;
-    console.log("id from apiClient update method", id);
+
     return axiosInstance.put<TResponse>(url, formData).then(res => res.data);
   };
-
   updateDispensedItems = ({
     id,
     formData,
@@ -65,18 +52,7 @@ class APIClient<TRequest, TResponse> {
     formData: DispensedFormData;
   }): Promise<TResponse> => {
     const url = `${this.endpoint}/${id}`;
-    console.log("id from apiClient update method", id);
-    return axiosInstance.put<TResponse>(url, formData).then(res => res.data);
-  };
-  updateExistedItems = ({
-    id,
-    formData,
-  }: {
-    id: number;
-    formData: FormData;
-  }): Promise<TResponse> => {
-    const url = `${this.endpoint}/${id}`;
-    console.log("id from apiClient update method", id);
+
     return axiosInstance.put<TResponse>(url, formData).then(res => res.data);
   };
 }

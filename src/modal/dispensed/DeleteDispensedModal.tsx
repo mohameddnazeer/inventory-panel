@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,11 +7,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 // import { useDeleteCategory } from "@/hooks/Category/useDeleteCategory";
 import { useDeleteDispensedItem } from "@/hooks/DispensedItems/useDeleteDispensedItem";
 // adjust this path
-import { useState } from "react"
+import { useState } from "react";
 
 export function DeleteDispensedModal({ id }: { id: number }) {
   const { mutate } = useDeleteDispensedItem();
@@ -33,13 +33,9 @@ export function DeleteDispensedModal({ id }: { id: number }) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>حذف عنصر</DialogTitle>
-          <DialogDescription>
-            قم بتأكيد الحذف إن كنت ترغب في حذف هذا العنصر
-          </DialogDescription>
+          <DialogDescription>قم بتأكيد الحذف إن كنت ترغب في حذف هذا العنصر</DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          {/* Optional: Extra content or message */}
-        </div>
+        <div className="grid gap-4 py-4">{/* Optional: Extra content or message */}</div>
         <DialogFooter>
           <Button onClick={handleDelete} variant="destructive">
             تأكيد الحذف

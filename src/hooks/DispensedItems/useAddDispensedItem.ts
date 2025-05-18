@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 import { DispensedFormData } from "@/schemas/DispensedFormSchema";
 import dispensedAddService, {
@@ -12,9 +13,11 @@ const useAddDispensedItem = () => {
     onSuccess: data => {
       console.log(data);
       queryClient.invalidateQueries({ queryKey: ["dispensedItems"] });
+      toast.success("تمت إضافة العنصر بنجاح");
     },
     onError: error => {
       console.error("Login failed:", error);
+      toast.error(error.message);
     },
   });
 };

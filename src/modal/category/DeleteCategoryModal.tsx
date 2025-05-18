@@ -12,6 +12,7 @@ import { useDeleteCategory } from "@/hooks/Category/useDeleteCategory";
 // adjust this path
 import { useState } from "react";
 
+
 export function DeleteCategoryModal({ id }: { id: number }) {
   const { mutate } = useDeleteCategory();
   const [open, setOpen] = useState(false);
@@ -19,9 +20,9 @@ export function DeleteCategoryModal({ id }: { id: number }) {
   const handleDelete = () => {
     mutate(id, {
       onSuccess: () => {
-        setOpen(false); // close modal after successful delete
+        setOpen(false);
+        // close modal after successful delete
       },
-      onError: () => {},
     });
   };
 
