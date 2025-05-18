@@ -1,11 +1,6 @@
 'use client'
 import '../globals.css'
 import Sidebar from '@/components/Sidebar'
-import Footer from '@/components/Footer' // ⬅️ تأكد إنك مستورد الفوتر هنا
-import type { Metadata } from 'next'
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { useAuth } from '@/context/AuthContext'
 import ProtectedRoute from '@/components/ProtectedRoute'
 
 

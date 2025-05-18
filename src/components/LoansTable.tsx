@@ -30,11 +30,10 @@ export default function LoansTable({ open, data }: Props) {
     "ملاحظات",
     "الإجراءات",
   ];
- const handleGetItemById = (id: number) => {};
  return (
    <div
      className={`relative overflow-x-auto shadow-md sm:rounded-lg ${
-       open ? "max-h-[250px]" : "max-h-[700px]"
+       open ? "max-h-[350px]" : "max-h-[700px]"
      }`}
    >
      <div className="flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
