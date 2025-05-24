@@ -9,6 +9,7 @@ import { useGetExistedItems } from "@/hooks/ExistedItems/useGetExistedItems";
 import { useUploadExcel } from "@/hooks/ExistedItems/useUploadExcel";
 import { ExistedFormData, ExistedSchema } from "@/schemas/ExistedFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 // import { useMutation, useQueryClient } from "@tanstack/react-query";
 // import axios from "axios";
 
@@ -79,12 +80,14 @@ export default function InventoryPage() {
 
   const generateExcelTemplate = () => {
     const headers = [
-      "السيريال",
-      "الماركة",
-      "الاسم",
-      "الكمية الإجمالية",
-      "الكمية المتبقية",
-      "ملاحظات",
+      "Name",
+      "ImagePath",
+      "Brand",
+      "Serial",
+      "Note",
+      "Quantity",
+      "QuantityEnum",
+      "SqId"
     ];
 
     const worksheet = XLSX.utils.json_to_sheet([], { header: headers });
@@ -119,14 +122,30 @@ export default function InventoryPage() {
     })
   };
 
-  const handleExcelSubmit = () => {
-      const formData = new FormData();
-      const jsonBlob = new Blob([JSON.stringify(excelData)], { type: "application/json" });
-      formData.append("file", jsonBlob)
-      console.log("formData is here ",formData)
-      console.log("بيانات الملف:", excelData)
-      upload(formData)
-  };
+
+  
+const handleExcelSubmit = () => {
+  // Convert your data to a worksheet
+  const worksheet = XLSX.utils.json_to_sheet(excelData);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+  // Create an ArrayBuffer
+  const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+  // Create a Blob from the ArrayBuffer
+  const excelBlob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+  // Prepare FormData
+  const formData = new FormData();
+  formData.append('file', excelBlob, 'data.xlsx');
+
+  // Upload it
+  upload(formData);
+};
+
+
+
   return (
     <div className="p-0 w-full">
       <h1 className="text-2xl font-bold mb-2 flex items-center justify-between  p-1 ">
