@@ -1,7 +1,5 @@
 
-
-import { CategoryFormData } from "@/schemas/CategoryFormSchema";
-import APIClient from "../apiClient";
+import APIMaltiPartClient from "../apiMaltiPartClient";
 
 
 export interface CategoryItemResponse {
@@ -17,5 +15,5 @@ export interface CategoryItemResponse {
     id: number;
   }
   
-export default new APIClient<CategoryFormData,CategoryItemResponse >("api/SQs");
+export default new APIMaltiPartClient<FormData,CategoryItemResponse >("api/SQs");
 

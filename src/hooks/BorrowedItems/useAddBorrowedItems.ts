@@ -8,7 +8,7 @@ const useAddBorrowedItems = () => {
   return useMutation<BorrowedItemResponse, Error, BorrowedFormData>({
     mutationFn: borrowAddService.postData,
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ["BorrowedItems"] });
       toast.success("تمت إضافة العنصر المستعار بنجاح");
     },
     onError: error => {

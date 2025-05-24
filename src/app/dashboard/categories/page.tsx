@@ -14,6 +14,7 @@ import { UpdateCategoryModal } from "@/modal/category/UpdateCategoryModal";
 import { CategoryFormData, CategorySchema } from "@/schemas/CategoryFormSchema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { useAddCategory } from "@/hooks/Category/useAddCategory";
 
 interface TableData {
   name: string;
@@ -28,25 +29,25 @@ interface TableData {
   id: number;
 }
 export default function CategoryPage() {
-  const queryClient = useQueryClient();
-  const { data: tableData = [] } = useGetCategory();
 
-  const mutation = useMutation({
-    mutationFn: async (formData: FormData) => {
-      const response = await axios.post("http://172.16.7.61:9991/api/SQs", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ` + localStorage.getItem("accessToken"),
-        },
-      });
-      return response.data;
-    },
-    onSuccess: () => {
-      console.log("text invalidationQuereis");
-      queryClient.invalidateQueries({ queryKey: ["Category"] });
-      reset();
-    },
-  });
+  const { data: tableData = [] } = useGetCategory();
+  const {mutate:addCategory} = useAddCategory()
+  // const mutation = useMutation({
+  //   mutationFn: async (formData: FormData) => {
+  //     const response = await axios.post("http://172.16.7.61:9991/api/SQs", formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //         Authorization: `Bearer ` + localStorage.getItem("accessToken"),
+  //       },
+  //     });
+  //     return response.data;
+  //   },
+  //   onSuccess: () => {
+  //     console.log("text invalidationQuereis");
+  //     queryClient.invalidateQueries({ queryKey: ["Category"] });
+  //     reset();
+  //   },
+  // });
 
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -66,7 +67,11 @@ export default function CategoryPage() {
     const formData = new FormData();
     formData.append("Name", data.Name);
     formData.append("Number", String(data.Number));
-    mutation.mutate(formData);
+    addCategory(formData ,{
+      onSuccess:()=>{
+        reset()
+      }
+    });
   };
 
   return (
