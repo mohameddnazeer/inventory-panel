@@ -52,7 +52,6 @@ class APIClient<TRequest, TResponse> {
     formData: DispensedFormData;
   }): Promise<TResponse> => {
     const url = `${this.endpoint}/${id}`;
-
     return axiosInstance.put<TResponse>(url, formData).then(res => res.data);
   };
 }

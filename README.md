@@ -1,25 +1,25 @@
-<!-- [{propertyName: "", errorMessage: "Dispensed quantity cannot exceed the available item quantity.",…}]
-0
-: 
-{propertyName: "", errorMessage: "Dispensed quantity cannot exceed the available item quantity.",…}
+     Built the UI logic to upload Excel files to the backend.
 
+  Created a reusable class to handle multipart/form-data and JSON requests cleanly.
 
- ====================>  this Error when we post a new expences  item   -->
+  Isolated logic from the component for better structure.
 
+  Flagged a backend issue needing a license package for Excel file processing.
 
-<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
--->
+      Fixed ValidationSelect Options
+  Replaced existedItems with categoryItems in the ValidationSelect dropdown.
 
+  Ensures correct and relevant options are displayed.
 
+       Made ValidationSelect Reusable
+  Refactored the component to support both string and number IDs.
 
-<!-- in the category we can't delete item if  this item related to other items in other pages or other related entites  -->
+  Added dynamic placeholder based on option type ("عهدة" or "صنف").
 
-<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-<!-- 
-update the modal in the inventory page 
-  - fetch the data for the item
-  - there is  validation errors relative to the image upload  
-   -->
-   <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  Improved maintainability and reusability across different forms.
 
-   
+       Label Naming Adjustments
+  Standardized form label names for clarity and consistency.
+
+  Improved user experience and domain alignment.
+

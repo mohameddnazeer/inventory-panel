@@ -1,8 +1,25 @@
 
 import APIClient from "../apiClient";
 import { ExistedFormData } from "@/schemas/ExistedFormSchema";
+import APIMaltiPartClient from "../apiMaltiPartClient";
 
-
+  export interface Sq {
+    name: string;
+    number: string;
+    createdByUserId: string;
+    createdUser: User | null;
+    createdDate: string;
+    lastModifiedUserId: string;
+    lastModifiedUser: User | null;
+    lastModifiedDate: string;
+    isDeleted: boolean;
+    id: number;
+  }
+  
+  export interface User {
+    // Add user properties here if known
+  }
+  
 export interface ExistedItemResponse {
     name: string;
     imagePath: string;
@@ -23,24 +40,6 @@ export interface ExistedItemResponse {
     id: number;
   }
   
-  export interface Sq {
-    name: string;
-    number: string;
-    createdByUserId: string;
-    createdUser: User | null;
-    createdDate: string;
-    lastModifiedUserId: string;
-    lastModifiedUser: User | null;
-    lastModifiedDate: string;
-    isDeleted: boolean;
-    id: number;
-  }
-  
-  export interface User {
-    // Add user properties here if known
-  }
-  
 
-export default new APIClient<ExistedFormData, ExistedItemResponse >("api/ExistingItems");
+export default new APIMaltiPartClient<FormData, ExistedItemResponse >("api/ExistingItems");
 
-// this null for the response from the postData method if the post has a response Data we should change it to the comming response Data type

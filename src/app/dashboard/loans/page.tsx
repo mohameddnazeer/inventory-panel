@@ -37,9 +37,7 @@ export default function Page() {
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     const reader = new FileReader();
-
     reader.onload = event => {
       const binaryStr = event.target?.result;
       const workbook = XLSX.read(binaryStr, { type: "binary" });
@@ -54,7 +52,6 @@ export default function Page() {
   };
   const generateExcelTemplate = () => {
     const headers = ["الاسم", "تاريخ الخروج", "المسلم", "المسلم له", "السبب", "ملاحظات", "الحالة"];
-
     const worksheet = XLSX.utils.json_to_sheet([], { header: headers });
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "نموذج البيانات");
@@ -96,7 +93,7 @@ export default function Page() {
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             <ValidationInput
-              label="اسم الصنف"
+              label="اسم العهدة"
               name="name"
               register={register}
               placeholder="ادخل الاسم "

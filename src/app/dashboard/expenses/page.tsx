@@ -117,7 +117,7 @@ export default function ExpensesPage() {
           />
        */}
             <ValidationSelect
-              label="اختر العنصر"
+              label="اختر العهدة"
               name="existingItemId"
               register={register}
               options={existedData || []}
@@ -169,7 +169,7 @@ export default function ExpensesPage() {
             error={errors.notes?.message}
           />
 
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <label className="block mb-1 text-sm font-medium text-gray-700">
               أو تحميل ملف Excel
             </label>
@@ -179,7 +179,7 @@ export default function ExpensesPage() {
               onChange={handleFileUpload}
               className="mb-4 p-2 border border-gray-300 rounded"
             />
-          </div>
+          </div> */}
 
           <div className="flex flex-col md:flex-row items-center justify-center mt-4 gap-4">
             <button
@@ -200,7 +200,7 @@ export default function ExpensesPage() {
               }`}
             >
               إرسال ملف Excel
-            </button>
+            </button> 
 
             <button
               type="button"
@@ -212,8 +212,8 @@ export default function ExpensesPage() {
           </div>
         </form>
       )}
-      {/* عرض بيانات Excel إن وجدت */}
-      {excelData.length > 0 && (
+     {/* there is no backend api for handling Excel file for the  expensed page  */}
+    {/* {excelData.length > 0 && (
         <div className="overflow-x-auto mt-6">
           <h2 className="text-lg font-semibold mb-2 text-blue-700">📋 بيانات الملف:</h2>
           <table className="min-w-full text-sm text-left text-gray-700 border">
@@ -239,7 +239,7 @@ export default function ExpensesPage() {
             </tbody>
           </table>
         </div>
-      )}
+      )}  */}
       {/* جدول عرض  */}
       <ExpensesTable data={data ?? []} open={isFormOpen} />
     </div>

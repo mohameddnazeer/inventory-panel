@@ -14,13 +14,12 @@ interface ValidationSelectProps {
           {...register(name)}
           className={`w-full rounded-lg border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 ${error ? 'border-red-500' : ''}`}
         >
-
-          {/* this option value 21 for starting posting first item then you can remove it or make disable */}
-          <option  value={21}> pc</option>
+            <option disabled value={21}>{options[0].hasOwnProperty("sqId") ?"عهدة":"صنف"}</option>
           {options.map((option) => (
+           <>
             <option key={option.id} value={option.id}>
               {option.name}
-            </option>
+            </option></>
           ))}
         </select>
         {error && <span className="text-red-500 text-sm">{error}</span>}
