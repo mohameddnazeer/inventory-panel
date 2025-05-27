@@ -25,7 +25,7 @@ export default function Sidebar() {
     localStorage.removeItem('user')
   }
   return (
-    <aside className="relative w-64 h-[89vh] bg-white border-l  border-gray-300 shadow-md p-4">
+    <aside className="relative w-64 h-screen bg-white border-l  border-gray-300 shadow-md p-4">
       <Image src="/images/foeLogo.png" width={250} height={250} alt='logo'/>
       <nav className="space-y-3">
         {navLinks.map(link => (
