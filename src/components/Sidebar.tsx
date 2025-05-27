@@ -27,8 +27,8 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="relative w-64 h-[89vh] bg-white border-l border-gray-300 shadow-md p-4">
-      <Image src="/images/foeLogo.png" width={250} height={250} alt='logo' />
+    <aside className="relative w-64  h-[94.8vh] bg-white border-l  border-gray-300 shadow-md p-4">
+      <Image src="/images/foeLogo.png" width={250} height={250} alt='logo'/>
       <nav className="space-y-3">
         {navLinks.map(link => (
           <Link
@@ -46,7 +46,7 @@ export default function Sidebar() {
       </nav>
       <button onClick={logOut}>
         <Link
-          href={'/login'}
+          href={'/'}
           className='absolute py-[3px] bottom-0 bg-yellow-500 hover:bg-yellow-600 transition duration-150 inset-x-0 flex justify-center items-center'
         >
           <p className='text-zinc-100 mx-2'>تسجيل خروح</p>

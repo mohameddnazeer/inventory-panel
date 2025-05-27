@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { LoginFormData } from "@/schemas/loginFormSchema";
 import loginUserService from "@/services/userServices/loginUserService";
 
+
 type Token = {
   accessToken: string;
   refreshToken: string;
@@ -25,7 +26,7 @@ const useLoginUser = () => {
       router.push("/dashboard");
     },
     onError: (error) => {
-      console.error("Login failed:", error);
+      console.error("Login failed:", error.message);
       toast.error(error.message || "حدث خطأ أثناء تسجيل الدخول");
     },
   });
