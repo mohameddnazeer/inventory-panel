@@ -147,7 +147,7 @@ const handleExcelSubmit = () => {
 
 
   return (
-    <div className="p-0 w-full">
+    <div className=" w-full">
       <h1 className="text-2xl font-bold mb-2 flex items-center justify-between  p-1 ">
         <span className="text-blue-700 flex items-center gap-2">📦 صفحة العهدة</span>
 
@@ -295,6 +295,33 @@ const handleExcelSubmit = () => {
                 className="mb-4 p-2 border border-gray-300 rounded"
               />
             </div>
+                {excelData.length > 0 && (
+            <div className="overflow-x-auto mt-1 ">
+              <h2 className="text-lg font-semibold mb-2 text-blue-700">📋 بيانات الملف:</h2>
+              <table className="min-w-full text-sm text-left text-gray-700 border">
+                <thead className="bg-gray-100 text-xs uppercase">
+                  <tr>
+                    {Object.keys(excelData[0]).map((header, i) => (
+                      <th key={i} className="px-4 py-2 border">
+                        {header}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {excelData.map((row, i) => (
+                    <tr key={i} className="bg-white border-b hover:bg-gray-50">
+                      {Object.values(row).map((cell, j) => (
+                        <td key={j} className="px-4 py-2 border">
+                          {cell as string}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )} 
             <div className="flex flex-col md:flex-row items-center justify-center mt-4 gap-4">
             <button
               type="submit"
@@ -324,33 +351,6 @@ const handleExcelSubmit = () => {
           </div>
         </form>
       )}
-          {excelData.length > 0 && (
-                <div className="overflow-x-auto mt-6 ">
-                  <h2 className="text-lg font-semibold mb-2 text-blue-700">📋 بيانات الملف:</h2>
-                  <table className="min-w-full text-sm text-left text-gray-700 border">
-                    <thead className="bg-gray-100 text-xs uppercase">
-                      <tr>
-                        {Object.keys(excelData[0]).map((header, i) => (
-                          <th key={i} className="px-4 py-2 border">
-                            {header}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {excelData.map((row, i) => (
-                        <tr key={i} className="bg-white border-b hover:bg-gray-50">
-                          {Object.values(row).map((cell, j) => (
-                            <td key={j} className="px-4 py-2 border">
-                              {cell as string}
-                            </td>
-                          ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )} 
       {/* جدول عرض العهدة */}
       <InventoryTableHeader data={existedData ?? []} open={isFormOpen} />
     </div>
