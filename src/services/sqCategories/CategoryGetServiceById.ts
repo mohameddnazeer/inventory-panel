@@ -13,4 +13,8 @@ export interface CategoryItemResponse {
   id: number;
 }
 
-export default new APIClient<null, CategoryItemResponse>("api/SQs");
+// First generic: request body (null, since none is sent)
+// Second generic: response type from API
+const categoryService = new APIClient<null, CategoryItemResponse>("api/SQs");
+
+export default categoryService;

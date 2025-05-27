@@ -1,26 +1,43 @@
-
 import APIClient from "../apiClient";
 
-
-
- export interface DispensedItem {
+export interface DispensedItem {
   dispensedQuantity: number;
   toWhom: string;
   receiverName: string;
   deliveredName: string;
   notes: string;
   existingItemId: number;
-  existingItem: any | null; // Replace `any` with a specific type if known
+  existingItem: ExistingItem ;
   createdByUserId: string;
-  createdUser: any | null; // Replace `any` if you have a user structure
-  createdDate: string; // Or use `Date` if you convert it
+  createdUser: string | null; 
+  createdDate: string; 
   lastModifiedUserId: string;
-  lastModifiedUser: any | null;
+  lastModifiedUser: string | null;
+  lastModifiedDate: string;
+  isDeleted: boolean;
+  id: number;
+}
+export interface ExistingItem {
+  name: string;
+  imagePath: string;
+  brand: string;
+  serial: string;
+  notes: string;
+  quantity: number;
+  quantityEnum: string;
+  sqId: number;
+  sq: string;
+  createdByUserId: string;
+  createdUser: string;
+  createdDate: string;
+  lastModifiedUserId: string;
+  lastModifiedUser: string;
   lastModifiedDate: string;
   isDeleted: boolean;
   id: number;
 }
 
+// Avoid anonymous default export
+const dispensedItemsClient = new APIClient<DispensedItem, null>("api/DispensedItems");
 
-
-export default new APIClient<DispensedItem, null >("api/DispensedItems");
+export default dispensedItemsClient;

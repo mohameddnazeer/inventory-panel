@@ -24,7 +24,7 @@ export default function LoansTable({ open, data }: Props) {
   const headers = [
     "الاسم",
     "تاريخ الخروج",
-    "المسلم",
+    // "المسلم",
     "المسلم له",
     "تم التسليم",
     "ملاحظات",
@@ -76,7 +76,7 @@ export default function LoansTable({ open, data }: Props) {
            <tr key={item.id} className="bg-white border-b hover:bg-gray-50">
              <td className="px-6 py-4 font-medium text-gray-900">{item.name}</td>
              <td className="px-6 py-4">{item.createdDate.slice(0, 10)}</td>
-             <td className="px-6 py-4">{item.createdUser?.name || "لم يتم التحديد"}</td>
+             {/* <td className="px-6 py-4">{item.createdUser?.name || "لم يتم التحديد"}</td> */}
              <td className="px-6 py-4">{item.toWhom}</td>
              <td className="px-6 py-4">{item.isReturned ? "تم" : "لم يتم"}</td>
              <td className="px-6 py-4">{item.notes == null ? "لا يوجد ملاحظات" : item.notes}</td>

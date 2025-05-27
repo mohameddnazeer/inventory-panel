@@ -8,12 +8,7 @@ export const DispencedSchema = z.object({
       message: "الكمية المصروفة يجب أن تكون رقمًا أكبر من 0",
     }),
 
-  existingItemId: z
-    .string()
-    .transform(val => Number(val))
-    .refine(val => !isNaN(val) && val > 0, {
-      message: "رقم العنصر مطلوب",
-    }),
+  existingItemId: z.string(),
 
   toWhom: z.string().min(1, "اسم المسلم له مطلوب"),
   receiverName: z.string().min(1, "اسم المستلم مطلوب"),

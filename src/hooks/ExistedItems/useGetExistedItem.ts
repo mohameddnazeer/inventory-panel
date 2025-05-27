@@ -6,8 +6,8 @@ const useGetExistedItem = (id: number) => {
   return useQuery<InventoryItemResponse, Error>({
     queryKey: ['ExistedItems', id],
     queryFn: ({ queryKey }) => {
-      const [_key, itemId] = queryKey;
-      return existedGetItemService.getItem(itemId as number);
+      const itemId = queryKey[1] as number;
+      return existedGetItemService.getItem(itemId);
     },
     enabled: !!id,
   });

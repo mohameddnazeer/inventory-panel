@@ -1,19 +1,21 @@
-
 import APIClient from "../apiClient";
 
 export interface BorrowedItem {
   name: string;
   toWhom: string;
   isReturned: boolean;
-  notes: string ;
+  notes: string;
   createdByUserId: string;
-  createdUser: any ; // Adjust `any` to a specific type if you know the structure
-  createdDate: string; // You can use Date instead if you parse it
+  createdUser: string;
+  createdDate: string;
   lastModifiedUserId: string;
-  lastModifiedUser: any ; // Adjust if needed
+  lastModifiedUser: string;
   lastModifiedDate: string;
   isDeleted: boolean;
   id: number;
 }
 
-export default new APIClient<BorrowedItem, null >("api/BorrowedItems");
+// ✅ Assign instance before default export
+const borrowedItemClient = new APIClient<BorrowedItem, null>("api/BorrowedItems");
+
+export default borrowedItemClient;

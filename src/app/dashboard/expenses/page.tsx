@@ -14,6 +14,18 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
+
+
+
+interface MyFormFields {
+  dispensedQuantity: string;
+  toWhom: string;
+  receiverName: string;
+  deliveredName: string;
+  existingItemId: string;
+  notes?: string;
+
+}
 export default function ExpensesPage() {
   const [excelData, setExcelData] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -29,7 +41,7 @@ export default function ExpensesPage() {
     resolver: zodResolver(DispencedSchema),
   });
 
-  console.log(data);
+  console.log("existedData" + JSON.stringify(existedData));
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -107,7 +119,7 @@ export default function ExpensesPage() {
           className="bg-gray-50 shadow p-3 rounded-lg mb-2 border border-gray-200"
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {/* <ValidationInput
+                        {/* <ValidationInput
             label="رقم العنصر"
             name="existingItemId"
             register={register}
@@ -116,14 +128,16 @@ export default function ExpensesPage() {
             error={errors.existingItemId?.message}
           />
        */}
-            <ValidationSelect
+
+            <ValidationSelect<MyFormFields>
               label="اختر العهدة"
               name="existingItemId"
               register={register}
               options={existedData || []}
               error={errors.existingItemId?.message}
+              type="id"
             />
-            <ValidationInput
+            <ValidationInput<MyFormFields>
               label="الكمية المصروفة"
               name="dispensedQuantity"
               register={register}
@@ -132,7 +146,7 @@ export default function ExpensesPage() {
               error={errors.dispensedQuantity?.message}
             />
 
-            <ValidationInput
+            <ValidationInput<MyFormFields>
               label="اسم المسلم له"
               name="toWhom"
               register={register}
@@ -141,7 +155,7 @@ export default function ExpensesPage() {
               error={errors.toWhom?.message}
             />
 
-            <ValidationInput
+            <ValidationInput<MyFormFields>
               label="اسم المستلم"
               name="receiverName"
               register={register}
@@ -150,7 +164,7 @@ export default function ExpensesPage() {
               error={errors.receiverName?.message}
             />
 
-            <ValidationInput
+            <ValidationInput<MyFormFields>
               label="اسم المسلم"
               name="deliveredName"
               register={register}
@@ -160,7 +174,7 @@ export default function ExpensesPage() {
             />
           </div>
 
-          <ValidationInput
+          <ValidationInput<MyFormFields>
             label="ملاحظات"
             name="notes"
             register={register}
@@ -169,7 +183,7 @@ export default function ExpensesPage() {
             error={errors.notes?.message}
           />
 
-          {/* <div className="mt-4">
+          <div className="mt-4">
             <label className="block mb-1 text-sm font-medium text-gray-700">
               أو تحميل ملف Excel
             </label>
@@ -179,7 +193,7 @@ export default function ExpensesPage() {
               onChange={handleFileUpload}
               className="mb-4 p-2 border border-gray-300 rounded"
             />
-          </div> */}
+          </div>
 
           <div className="flex flex-col md:flex-row items-center justify-center mt-4 gap-4">
             <button
@@ -193,14 +207,13 @@ export default function ExpensesPage() {
               type="button"
               onClick={handleExcelSubmit}
               disabled={excelData.length === 0}
-              className={`w-full md:w-auto px-6 py-2 rounded transition ${
-                excelData.length === 0
+              className={`w-full md:w-auto px-6 py-2 rounded transition ${excelData.length === 0
                   ? "bg-gray-400 cursor-not-allowed"
                   : "cursor-pointer bg-green-600 hover:bg-green-700 text-white"
-              }`}
+                }`}
             >
               إرسال ملف Excel
-            </button> 
+            </button>
 
             <button
               type="button"
@@ -212,8 +225,8 @@ export default function ExpensesPage() {
           </div>
         </form>
       )}
-     {/* there is no backend api for handling Excel file for the  expensed page  */}
-    {/* {excelData.length > 0 && (
+      {/* there is no backend api for handling Excel file for the  expensed page  */}
+      {/* {excelData.length > 0 && (
         <div className="overflow-x-auto mt-6">
           <h2 className="text-lg font-semibold mb-2 text-blue-700">📋 بيانات الملف:</h2>
           <table className="min-w-full text-sm text-left text-gray-700 border">

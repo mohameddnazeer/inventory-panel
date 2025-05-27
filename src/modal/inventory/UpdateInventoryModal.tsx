@@ -16,15 +16,20 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-// import { useGetItemById } from '@/hooks/ExistedItems/useGetItemById';
-// import { useUpdateItem } from '@/hooks/ExistedItems/useUpdateItem';
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-// import { ExistedSchema, ExistedFormData } from '@/schemas/existedSchema'; // adjust path
 import { useGetExistedItem } from "@/hooks/ExistedItems/useGetExistedItem";
-// import { useUpdateExistedItems } from '@/hooks/ExistedItems/useUpdateExistedItems';
 import { ExistedFormData, ExistedSchema } from "@/schemas/ExistedFormSchema";
 import axios from "axios";
 import toast from "react-hot-toast";
+
+// Utility to safely get the token from localStorage
+const getAccessToken = (): string => {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("accessToken") || "";
+  }
+  return "";
+};
 
 export function UpdateInventoryModal({ id, sqId }: { id: number; sqId: number }) {
   const [open, setOpen] = useState(false);
@@ -39,9 +44,9 @@ export function UpdateInventoryModal({ id, sqId }: { id: number; sqId: number })
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: "Bearer " + localStorage.getItem("accessToken"),
+            Authorization: `Bearer ${getAccessToken()}`,
           },
-        },
+        }
       );
       return response.data;
     },
@@ -56,7 +61,6 @@ export function UpdateInventoryModal({ id, sqId }: { id: number; sqId: number })
     resolver: zodResolver(ExistedSchema),
   });
 
-  // Prefill data when dialog opens
   useEffect(() => {
     if (data && open) {
       reset({
@@ -67,14 +71,11 @@ export function UpdateInventoryModal({ id, sqId }: { id: number; sqId: number })
         QuantityEnum: data.quantityEnum || "UNIT",
         Notes: data.notes || "",
         SqId: sqId.toString(),
-        // ImageFile: undefined,
       });
     }
-  }, [data, open, reset]);
+  }, [data, open, reset, sqId]);
 
   const onSubmit = (values: ExistedFormData) => {
-    console.log("test");
-
     const formData = new FormData();
 
     formData.append("Name", values.Name);
@@ -83,11 +84,11 @@ export function UpdateInventoryModal({ id, sqId }: { id: number; sqId: number })
     formData.append("Quantity", values.Quantity);
     formData.append("QuantityEnum", values.QuantityEnum);
     formData.append("SqId", values.SqId);
+
     if (values.Notes) {
       formData.append("Notes", values.Notes);
     }
 
-    // Append image if provided
     if (values.ImageFile) {
       formData.append("ImageFile", values.ImageFile);
     }
@@ -100,10 +101,10 @@ export function UpdateInventoryModal({ id, sqId }: { id: number; sqId: number })
           toast.success("تم التعديل بنجاح");
           setOpen(false);
         },
-        onError: error => {
+        onError: (error) => {
           toast.error(error.message);
         },
-      },
+      }
     );
   };
 
@@ -119,35 +120,35 @@ export function UpdateInventoryModal({ id, sqId }: { id: number; sqId: number })
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/** Name */}
+          {/* Name */}
           <div>
             <Label>الاسم</Label>
             <Input {...register("Name")} />
             {errors.Name && <p className="text-red-500">{errors.Name.message}</p>}
           </div>
 
-          {/** Brand */}
+          {/* Brand */}
           <div>
             <Label>الماركة</Label>
             <Input {...register("Brand")} />
             {errors.Brand && <p className="text-red-500">{errors.Brand.message}</p>}
           </div>
 
-          {/** Serial */}
+          {/* Serial */}
           <div>
             <Label>السيريال</Label>
             <Input {...register("Serial")} />
             {errors.Serial && <p className="text-red-500">{errors.Serial.message}</p>}
           </div>
 
-          {/** Quantity */}
+          {/* Quantity */}
           <div>
             <Label>الكمية</Label>
             <Input {...register("Quantity")} />
             {errors.Quantity && <p className="text-red-500">{errors.Quantity.message}</p>}
           </div>
 
-          {/** QuantityEnum */}
+          {/* QuantityEnum */}
           <div>
             <Label>نوع الكمية</Label>
             <select {...register("QuantityEnum")} className="w-full border rounded px-2 py-1">
@@ -157,31 +158,33 @@ export function UpdateInventoryModal({ id, sqId }: { id: number; sqId: number })
             {errors.QuantityEnum && <p className="text-red-500">{errors.QuantityEnum.message}</p>}
           </div>
 
-          {/** SqId */}
+          {/* SqId (read-only) */}
           <div>
             <Label>SqId</Label>
             <Input disabled {...register("SqId")} />
             {errors.SqId && <p className="text-red-500">{errors.SqId.message}</p>}
           </div>
 
-          {/** Notes */}
+          {/* Notes */}
           <div>
             <Label>ملاحظات</Label>
             <Input {...register("Notes")} />
             {errors.Notes && <p className="text-red-500">{errors.Notes.message}</p>}
           </div>
 
-          {/* //           {/** ImageFile */}
-          {/* <div>
-             <Label>الصورة</Label>
-             <Input type="file" {...register('ImageFile')} />
+          {/* ImageFile (optional) */}
+          {/* 
+          <div>
+            <Label>الصورة</Label>
+            <Input type="file" {...register("ImageFile")} />
             {errors.ImageFile && <p className="text-red-500">{errors.ImageFile.message}</p>}
-           </div>  */}
+          </div>
+          */}
 
           <DialogFooter>
             <Button type="submit" disabled={isPending}>
               {isPending ? "جارٍ التحديث..." : "حفظ التعديلات"}
-            </Button>{" "}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

@@ -2,8 +2,10 @@
 
 import LoansTable from "@/components/LoansTable";
 import ValidationInput from "@/components/ValidationInput";
+import ValidationSelect from "@/components/ValidationSelect";
 import { useAddBorrowedItems } from "@/hooks/BorrowedItems/useAddBorrowedItems";
 import { useGetBorrowedItems } from "@/hooks/BorrowedItems/useGetBorrowedItems";
+import { useGetExistedItems } from "@/hooks/ExistedItems/useGetExistedItems";
 import { BorrowedFormData, BorrowedSchema } from "@/schemas/BorrowedFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -11,11 +13,22 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
+
+
+
+interface MyFormFields {
+  name: string;
+  toWhom: string;
+  isReturned: string;
+  notes?: string;
+}
 export default function Page() {
   const [excelData, setExcelData] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const { data } = useGetBorrowedItems();
+    const { data: existedData } = useGetExistedItems();
   console.log("text data coming from useGetBorrowedItems", data);
+  console.log("text ", existedData);
   const Mutation = useAddBorrowedItems();
 
   const {
@@ -92,15 +105,23 @@ export default function Page() {
           className="bg-gray-50 shadow p-3 rounded-lg mb-2 border border-gray-200"
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-            <ValidationInput
+            {/* <ValidationInput
               label="اسم العهدة"
               name="name"
               register={register}
               placeholder="ادخل الاسم "
               type="text"
               error={errors.name?.message}
+            /> */}
+               <ValidationSelect<MyFormFields>
+              label="اختر العهدة"
+              name="name"
+              register={register}
+              options={existedData || []}
+              error={errors.name?.message}
+              type="name"
             />
-            <ValidationInput
+            <ValidationInput<MyFormFields>
               name="toWhom"
               register={register}
               label="المسلم له"
@@ -121,7 +142,7 @@ export default function Page() {
             </div>
           </div>
 
-          <ValidationInput
+          <ValidationInput<MyFormFields>
             label="ملاحظات"
             name="notes"
             register={register}

@@ -23,19 +23,31 @@ import { useGetCategoryById } from "@/hooks/Category/useGetCategoryById";
 import { CategoryFormData, CategorySchema } from "@/schemas/CategoryFormSchema";
 import toast from "react-hot-toast";
 
+// Optional utility for safer token access
+const getAccessToken = (): string => {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("accessToken") || "";
+  }
+  return "";
+};
+
 export function UpdateCategoryModal({ id }: { id: number }) {
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
   const { data } = useGetCategoryById(id);
-  // console.log("data comming from useGetCategory hook ", data);
+
   const { mutate, isPending } = useMutation({
     mutationFn: async ({ id, values }: { id: number; values: CategoryFormData }) => {
-      const response = await axios.put(`http://172.16.7.61:9991/api/SQs/${id}`, values, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: "Bearer " + localStorage.getItem("accessToken"),
-        },
-      });
+      const response = await axios.put(
+        `http://172.16.7.61:9991/api/SQs/${id}`,
+        values,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${getAccessToken()}`,
+          },
+        }
+      );
       return response.data;
     },
     onSuccess: () => {
@@ -43,10 +55,9 @@ export function UpdateCategoryModal({ id }: { id: number }) {
       toast.success("تم التعديل");
       setOpen(false);
     },
-    onError:(error)=>{
-      toast.error(error.message)
-    }
-
+    onError: (error) => {
+      toast.error(error.message);
+    },
   });
 
   const {

@@ -1,7 +1,5 @@
 // /api/ExistingItems/{existingItemId}
 
-
-
 import APIClient from "../apiClient";
 
 export interface ItemDetailsResponse {
@@ -19,4 +17,7 @@ export interface ItemDetailsResponse {
   isDeleted: boolean;
 }
 
-export default new APIClient<null, ItemDetailsResponse >("api/BorrowedItems");
+// ✅ Name the instance before export
+const borrowedItemDetailsClient = new APIClient<null, ItemDetailsResponse>("api/BorrowedItems");
+
+export default borrowedItemDetailsClient;

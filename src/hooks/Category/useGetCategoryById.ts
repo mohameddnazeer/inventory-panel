@@ -7,8 +7,8 @@ const useGetCategoryById = (id: number) => {
   return useQuery<CategoryItemResponse, Error>({
     queryKey: ["Category", id],
     queryFn: ({ queryKey }) => {
-      const [_key, itemId] = queryKey;
-      return CategoryGetServiceById.getItem(itemId as number);
+      const itemId = queryKey[1] as number;
+      return CategoryGetServiceById.getItem(itemId);
     },
     enabled: !!id,
   });

@@ -1,22 +1,29 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 
 type AuthContextType = {
   accessToken: string | null;
 };
 
-
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [accessToken, setAccessToken] = useState<string | null>(
-    typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null
-  );
+  const [accessToken, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('accessToken');
-    if (storedToken) setAccessToken(storedToken);
+    if (typeof window !== 'undefined') {
+      const storedToken = localStorage.getItem('accessToken');
+      if (storedToken) {
+        setAccessToken(storedToken);
+      }
+    }
   }, []);
 
   return (
