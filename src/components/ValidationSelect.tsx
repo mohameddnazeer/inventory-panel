@@ -6,6 +6,7 @@ interface ValidationSelectProps<TFormValues extends FieldValues> {
   register: UseFormRegister<TFormValues>;
   name: Path<TFormValues>;
   options: { id: number | string; name: string }[];
+  type ?: string
 }
 
 function ValidationSelect<TFormValues extends FieldValues>({
@@ -14,6 +15,7 @@ function ValidationSelect<TFormValues extends FieldValues>({
   register,
   name,
   options,
+  type
 }: ValidationSelectProps<TFormValues>) {
   return (
     <div>
@@ -28,7 +30,7 @@ function ValidationSelect<TFormValues extends FieldValues>({
           {options.length > 0 && (options[0].hasOwnProperty("sqId") ? "عهدة" : "صنف")}
         </option>
         {options.map((option) => (
-          <option key={option.id} value={option.id}>
+          <option key={option.id} value={type === 'name' ? option.name : option.id}>
             {option.name}
           </option>
         ))}

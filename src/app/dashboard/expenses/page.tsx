@@ -119,7 +119,7 @@ export default function ExpensesPage() {
           className="bg-gray-50 shadow p-3 rounded-lg mb-2 border border-gray-200"
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {/* <ValidationInput
+                        {/* <ValidationInput
             label="رقم العنصر"
             name="existingItemId"
             register={register}
@@ -128,12 +128,14 @@ export default function ExpensesPage() {
             error={errors.existingItemId?.message}
           />
        */}
+
             <ValidationSelect<MyFormFields>
               label="اختر العهدة"
               name="existingItemId"
               register={register}
               options={existedData || []}
               error={errors.existingItemId?.message}
+              type="id"
             />
             <ValidationInput<MyFormFields>
               label="الكمية المصروفة"

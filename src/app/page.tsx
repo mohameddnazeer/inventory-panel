@@ -7,10 +7,9 @@ import React, { useEffect } from "react";
 const Page = () => {
   const router = useRouter();
   const token = localStorage.getItem("accessToken");
-
+  
   useEffect(() => {
     if (token) {
-      console.log("token tessssssssssst"  , token )
       router.push("./dashboard");
     }
   }, [token , router]);

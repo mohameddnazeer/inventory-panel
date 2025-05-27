@@ -24,7 +24,7 @@ export default function LoansTable({ open, data }: Props) {
   const headers = [
     "الاسم",
     "تاريخ الخروج",
-    "المسلم",
+    // "المسلم",
     "المسلم له",
     "تم التسليم",
     "ملاحظات",
