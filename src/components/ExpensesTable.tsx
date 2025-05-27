@@ -70,7 +70,7 @@ export default function ExpensesTable({ open, data }: { open: boolean; data: Dis
                 key={item.existingItemId}
                 className="bg-white hover:bg-blue-50 border-b transition duration-150"
               >
-                <td className="px-4 py-3 font-medium">{item.existingItemId ?? "—"}</td>
+                <td className="px-4 py-3 font-medium">{item.existingItem.name ?? "—"}</td>
                 <td className="px-4 py-3 font-medium">{item.dispensedQuantity ?? "—"}</td>
                 <td className="px-4 py-3">{item.createdDate.slice(0, 10)}</td>
                 <td className="px-4 py-3">{item.receiverName ?? "—"}</td>

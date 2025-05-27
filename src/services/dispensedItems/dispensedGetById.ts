@@ -1,24 +1,24 @@
-import { DispencedSchema } from "@/schemas/DispensedFormSchema";
-// /api/ExistingItems/{existingItemId}
-
 import APIClient from "../apiClient";
 
-export interface DispencedResponse {
+export interface DispensedResponse {
   dispensedQuantity: number;
   toWhom: string;
   receiverName: string;
   deliveredName: string;
   notes: string;
   existingItemId: number;
-  existingItem: any;
+  existingItem: string;
   createdByUserId: string;
-  createdUser: any;
+  createdUser: string;
   createdDate: string;
   lastModifiedUserId: string;
-  lastModifiedUser: any;
+  lastModifiedUser: string;
   lastModifiedDate: string;
   isDeleted: boolean;
   id: number;
 }
 
-export default new APIClient<null, DispencedResponse>("api/DispensedItems");
+// Assign to a variable before export to avoid ESLint warning
+const dispensedItemsClient = new APIClient<null, DispensedResponse>("api/DispensedItems");
+
+export default dispensedItemsClient;

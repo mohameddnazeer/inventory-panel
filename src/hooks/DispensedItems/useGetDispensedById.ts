@@ -2,14 +2,14 @@
 import { useQuery } from "@tanstack/react-query";
 // import existedGetItemService, { InventoryItemResponse } from "@/services/existedItems/existedGetByIdService";
 // import { ItemDetailsResponse } from "@/services/borrowedItems/borrowedGetByIdService";
-import dispensedGetById, { DispencedResponse } from "@/services/dispensedItems/dispensedGetById";
+import dispensedGetById, { DispensedResponse } from "@/services/dispensedItems/dispensedGetById";
 
 const useGetDispensedById = (id: number) => {
-  return useQuery<DispencedResponse, Error>({
+  return useQuery<DispensedResponse, Error>({
     queryKey: ["dispensedItems", id],
     queryFn: ({ queryKey }) => {
-      const [_key, itemId] = queryKey;
-      return dispensedGetById.getItem(itemId as number);
+      const itemId = queryKey[1] as number;
+      return dispensedGetById.getItem(itemId);
     },
     enabled: !!id,
   });

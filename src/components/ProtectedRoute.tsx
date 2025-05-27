@@ -10,14 +10,14 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   
   const router = useRouter();
 
-  useEffect(() => {
-    if (!accessToken) {
-      router.push('/login');
-    }
-  }, [accessToken]);
+useEffect(() => {
+  if (!accessToken) {
+    router.push('/login');
+  }
+}, [accessToken, router]);
 
   if (!accessToken) {
-    return <div className="p-4">Redirecting...</div>;
+    return <div className="p-4">يرجي الانتظار...</div>;
   }
 
   return <>{children}</>;

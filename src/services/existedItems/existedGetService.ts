@@ -1,23 +1,19 @@
-
-
 import APIClient from "../apiClient";
-
-
 
 export interface Sq {
   name: string;
   number: string;
   createdByUserId: string;
-  createdUser: any; // You can replace 'any' with a proper type if available
+  createdUser: string;
   createdDate: string;
   lastModifiedUserId: string;
-  lastModifiedUser: any; // Replace 'any' if needed
+  lastModifiedUser: string;
   lastModifiedDate: string;
   isDeleted: boolean;
   id: number;
 }
 
- export interface ExistedItem {
+export interface ExistedItem {
   name: string;
   imagePath: string;
   brand: string;
@@ -28,15 +24,16 @@ export interface Sq {
   sqId: number;
   sq: Sq;
   createdByUserId: string;
-  createdUser: any; // Replace if needed
+  createdUser: string;
   createdDate: string;
   lastModifiedUserId: string | null;
-  lastModifiedUser: any; // Replace if needed
+  lastModifiedUser: string;
   lastModifiedDate: string;
   isDeleted: boolean;
   id: number;
 }
 
+// Fix for ESLint: assign to variable before default export
+const existedItemClient = new APIClient<ExistedItem, null>("api/ExistingItems");
 
-export default new APIClient<ExistedItem, null >("api/ExistingItems");
-
+export default existedItemClient;

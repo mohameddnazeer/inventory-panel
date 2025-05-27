@@ -1,30 +1,38 @@
+'use client';
 
-import axios from "axios";
- // we don't need a "Content-Type" axios generate it automatically while using a FormData 
-const axiosInstance = axios.create({
-  baseURL: "http://172.16.7.61:9991/",
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-  },
-});
+import axios, { AxiosInstance } from "axios";
 
-class APIMaltiPartClient<TRequest, TResponse> {
-    endpoint: string;
-    constructor(endpoint: string) {
-      this.endpoint = endpoint;
-    }
-    
-    uploadFile = (data: TRequest): Promise<TResponse> => {
-      return axiosInstance.post<TResponse>(this.endpoint, data).then(res => {
-        return res.data;
-      });
-    };
+// Create axios instance dynamically with latest token
+const createAxiosInstance = (): AxiosInstance => {
+  const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
 
-    postData = (data: TRequest): Promise<TResponse> => {
-    return axiosInstance.post<TResponse>(this.endpoint, data).then(res => {
-      return res.data;
-    });
-    };
+  return axios.create({
+    baseURL: "http://172.16.7.61:9991/",
+    headers: {
+      ...(token && { Authorization: `Bearer ${token}` }),
+      // no Content-Type here, axios sets it automatically for FormData
+    },
+  });
+};
+
+class APIMultiPartClient<TRequest, TResponse> {
+  endpoint: string;
+
+  constructor(endpoint: string) {
+    this.endpoint = endpoint;
+  }
+
+  uploadFile = async (data: TRequest): Promise<TResponse> => {
+    const axiosInstance = createAxiosInstance();
+    const res = await axiosInstance.post<TResponse>(this.endpoint, data);
+    return res.data;
+  };
+
+  postData = async (data: TRequest): Promise<TResponse> => {
+    const axiosInstance = createAxiosInstance();
+    const res = await axiosInstance.post<TResponse>(this.endpoint, data);
+    return res.data;
+  };
 }
 
-export default APIMaltiPartClient;
+export default APIMultiPartClient;

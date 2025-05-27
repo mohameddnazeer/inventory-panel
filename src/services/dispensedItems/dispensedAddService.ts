@@ -10,10 +10,10 @@ export interface DispensedItemResponse {
   existingItemId: number;
   existingItem: ExistingItem;
   createdByUserId: string;
-  createdUser: User | null;
+  createdUser: string | null;
   createdDate: string;
   lastModifiedUserId: string | null;
-  lastModifiedUser: User | null;
+  lastModifiedUser: string | null;
   lastModifiedDate: string;
   isDeleted: boolean;
   id: number;
@@ -28,21 +28,18 @@ export interface ExistingItem {
   quantity: number;
   quantityEnum: "UNIT" | "KG" | "LITER";
   sqId: number;
-  sq: any | null; // Replace `any` with a proper type if you know the structure of `sq`
+  sq: string | null; // Replace `string` with a proper type if known
   createdByUserId: string;
-  createdUser: User | null;
+  createdUser: string | null;
   createdDate: string;
   lastModifiedUserId: string | null;
-  lastModifiedUser: User | null;
+  lastModifiedUser: string | null;
   lastModifiedDate: string;
   isDeleted: boolean;
   id: number;
 }
 
-export interface User {
-  // Define this if user fields are known, otherwise leave it as `null`
-}
+// ✅ Named instance before export to avoid ESLint warning
+const dispensedItemsClient = new APIClient<DispensedFormData, DispensedItemResponse>("api/DispensedItems");
 
-export default new APIClient<DispensedFormData, DispensedItemResponse>("api/DispensedItems");
-
-// this null for the response from the postData method if the post has a response Data we should change it to the comming response Data type
+export default dispensedItemsClient;

@@ -1,9 +1,11 @@
+'use client';
+
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 import { LoginFormData } from "@/schemas/loginFormSchema";
 import loginUserService from "@/services/userServices/loginUserService";
-import { useRouter } from "next/navigation";
 
 type Token = {
   accessToken: string;
@@ -12,16 +14,19 @@ type Token = {
 
 const useLoginUser = () => {
   const router = useRouter();
+
   return useMutation<Token, Error, LoginFormData>({
     mutationFn: loginUserService.postData,
-    onSuccess: data => {
-      localStorage.setItem("accessToken", data.accessToken);
-      router.push("/dashboard");
+    onSuccess: (data) => {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem("accessToken", data.accessToken);
+      }
       toast.success("تم تسجيل الدخول بنجاح");
+      router.push("/dashboard");
     },
-    onError: error => {
+    onError: (error) => {
       console.error("Login failed:", error);
-      toast.error(error.message);
+      toast.error(error.message || "حدث خطأ أثناء تسجيل الدخول");
     },
   });
 };

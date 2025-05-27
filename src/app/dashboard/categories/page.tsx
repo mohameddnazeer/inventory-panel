@@ -12,8 +12,6 @@ import { useGetCategory } from "@/hooks/Category/useGetCategory";
 import { DeleteCategoryModal } from "@/modal/category/DeleteCategoryModal";
 import { UpdateCategoryModal } from "@/modal/category/UpdateCategoryModal";
 import { CategoryFormData, CategorySchema } from "@/schemas/CategoryFormSchema";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { useAddCategory } from "@/hooks/Category/useAddCategory";
 
 interface TableData {
@@ -28,10 +26,15 @@ interface TableData {
   isDeleted: boolean;
   id: number;
 }
+
+interface MyFormFields {
+  Name: string;
+  Number: string;
+}
 export default function CategoryPage() {
 
   const { data: tableData = [] } = useGetCategory();
-  const {mutate:addCategory} = useAddCategory()
+  const { mutate: addCategory } = useAddCategory()
   // const mutation = useMutation({
   //   mutationFn: async (formData: FormData) => {
   //     const response = await axios.post("http://172.16.7.61:9991/api/SQs", formData, {
@@ -67,8 +70,8 @@ export default function CategoryPage() {
     const formData = new FormData();
     formData.append("Name", data.Name);
     formData.append("Number", String(data.Number));
-    addCategory(formData ,{
-      onSuccess:()=>{
+    addCategory(formData, {
+      onSuccess: () => {
         reset()
       }
     });
@@ -103,7 +106,7 @@ export default function CategoryPage() {
           className="bg-gray-50 shadow p-3 rounded-lg mb-2 border border-gray-200"
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <ValidationInput
+            <ValidationInput<MyFormFields>
               label="الاسم"
               placeholder="ادخل الاسم"
               type="text"
@@ -111,7 +114,8 @@ export default function CategoryPage() {
               register={register}
               error={errors.Name?.message}
             />
-            <ValidationInput
+
+            <ValidationInput<MyFormFields>
               label="الرقم"
               placeholder="ادخل الرقم"
               type="number"
@@ -133,9 +137,8 @@ export default function CategoryPage() {
 
       {/* Table Display */}
       <div
-        className={`overflow-x-auto overflow-y-scroll ${
-          !isFormOpen ? "h-[75vh]" : "h-[60vh]"
-        }  border border-gray-200 rounded-lg shadow`}
+        className={`overflow-x-auto overflow-y-scroll ${!isFormOpen ? "h-[75vh]" : "h-[60vh]"
+          }  border border-gray-200 rounded-lg shadow`}
       >
         {/* <table className="min-w-full table-auto bg-white">
           <thead className="bg-gray-100 text-right text-sm font-bold text-gray-700">

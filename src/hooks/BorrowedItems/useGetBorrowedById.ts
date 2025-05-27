@@ -7,10 +7,10 @@ const useGetBorrowedById = (id: number) => {
   return useQuery<ItemDetailsResponse, Error>({
     queryKey: ['BorrowedItems', id],
     queryFn: ({ queryKey }) => {
-      const [_key, itemId] = queryKey;
-      return borrowedGetByIdService.getItem(itemId as number);
+      const itemId = queryKey[1] as number;
+      return borrowedGetByIdService.getItem(itemId);
     },
-    // enabled: !!id,
+    enabled: !!id,
   });
 };
 
