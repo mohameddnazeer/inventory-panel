@@ -6,13 +6,13 @@ import React, { useEffect } from "react";
 
 const Page = () => {
   const router = useRouter();
-  const token = localStorage.getItem("accessToken");
   
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
     if (token) {
       router.push("./dashboard");
     }
-  }, [token , router]);
+  }, [router]);
   return (
     <main className="text-black w-full  h-[88vh] flex px-[30px] md:px-[50px]  lg:px-[100px] justify-center items-center gap-x-2">
       <div className="  drop-shadow-amber-700 shadow-2xl rounded-4xl bg-white backdrop-blur-md w-[500px]">
