@@ -30,7 +30,7 @@ const Card = ({ title, totalNumber, to, isLoading = false }: CardProps) => {
     return 0;
   }
   return (
-    <div className="max-w-xs p-6 bg-white border border-gray-200 rounded-lg shadow-sm ">
+    <div className="max-w-xs p-6 bg-white dark:bg-slate-900 border border-gray-200 rounded-lg shadow-sm ">
       <div className="flex gap-2 justify-center items-center text-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +51,7 @@ const Card = ({ title, totalNumber, to, isLoading = false }: CardProps) => {
           {title}
         </h5>
       </div>
-      <p className="mb-3 font-normal text-center text-3xl text-gray-500 ">
+      <p className="mb-3 font-normal text-center text-3xl text-gray-500 dark:text-gray-">
         <motion.span>{rounded}</motion.span>
       </p>
       <Link

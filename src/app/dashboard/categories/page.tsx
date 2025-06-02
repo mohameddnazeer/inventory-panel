@@ -3,7 +3,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa";
 
@@ -13,6 +13,7 @@ import { DeleteCategoryModal } from "@/modal/category/DeleteCategoryModal";
 import { UpdateCategoryModal } from "@/modal/category/UpdateCategoryModal";
 import { CategoryFormData, CategorySchema } from "@/schemas/CategoryFormSchema";
 import { useAddCategory } from "@/hooks/Category/useAddCategory";
+import { jwtDecode } from "jwt-decode";
 
 interface TableData {
   name: string;
@@ -32,7 +33,7 @@ interface MyFormFields {
   Number: string;
 }
 export default function CategoryPage() {
-
+  const [role, setRole] =useState<string | null>(null);
   const { data: tableData = [] } = useGetCategory();
   const { mutate: addCategory } = useAddCategory()
   // const mutation = useMutation({
@@ -76,6 +77,15 @@ export default function CategoryPage() {
       }
     });
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if(token){
+      const decoded : any = jwtDecode(token);
+      const roleClaim = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      setRole(roleClaim);
+    }
+  },[]);
 
   return (
     <div className="p-0 w-full">
@@ -140,70 +150,6 @@ export default function CategoryPage() {
         className={`overflow-x-auto overflow-y-scroll ${!isFormOpen ? "h-[75vh]" : "h-[60vh]"
           }  border border-gray-200 rounded-lg shadow`}
       >
-        {/* <table className="min-w-full table-auto bg-white">
-          <thead className="bg-gray-100 text-right text-sm font-bold text-gray-700">
-            <tr>
-              <th scope="col" className="px-4 py-2">المعرف</th>
-              <th scope="col" className="px-4 py-2">الاسم</th>
-              <th scope="col" className="px-4 py-2">الرقم</th>
-              <th scope="col" className="px-4 py-2">تاريخ الإنشاء</th>
-            </tr>
-          </thead>
-          <tbody className="text-right text-sm">
-            {tableData.map((item: any, idx: number) => (
-              <tr key={item.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 border">{idx + 1}</td>
-                <td className="px-4 py-2 border">{item.name}</td>
-                <td className="px-4 py-2 border">{item.number}</td>
-                <td className="px-4 py-2 border">
-                  {new Date(item.createdDate).toLocaleDateString("ar-EG")}
-                </td>
-              </tr>
-            ))}
-            {tableData?.length === 0 && (
-              <tr>
-                <td colSpan={4} className="text-center py-4 text-gray-500">
-                  لا توجد بيانات حاليًا.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table> */}
-        {/* <table className="w-full text-sm text-right text-gray-600 border-collapse">
-  <thead className="bg-gray-100 text-gray-700">
-    <tr>
-      <th className="px-4 py-3 text-xs font-semibold">المعرف</th>
-      <th className="px-4 py-3 text-xs font-semibold">الاسم</th>
-      <th className="px-4 py-3 text-xs font-semibold">الرقم</th>
-      <th className="px-4 py-3 text-xs font-semibold">تاريخ الإنشاء</th>
-    </tr>
-  </thead>
-  <tbody>
-    {tableData.length === 0 ? (
-      <tr>
-        <td colSpan={4} className="text-center py-6 text-gray-400">
-          لا توجد بيانات حاليًا.
-        </td>
-      </tr>
-    ) : (
-      tableData.map((item: any, idx: number) => (
-        <tr
-          key={item.id}
-          className="bg-white hover:bg-blue-50 border-b transition duration-150"
-        >
-          <td className="px-4 py-3 font-medium">{idx + 1}</td>
-          <td className="px-4 py-3">{item.name || "—"}</td>
-          <td className="px-4 py-3">{item.number || "—"}</td>
-          <td className="px-4 py-3">
-            {item.createdDate
-              ? new Date(item.createdDate).toLocaleDateString("ar-EG")
-              : "—"}
-          </td>
-        </tr>
-      ))
-    )}
-  </tbody>
-</table> */}
         <table className="w-full text-sm text-right text-gray-600 border-collapse">
           <thead className="bg-gray-100 text-gray-700">
             <tr>
@@ -236,7 +182,8 @@ export default function CategoryPage() {
                       : "—"}
                   </td>
                   <td className="px-4 py-3 text-center">
-                    <div className="flex justify-center gap-2">
+                    {role === "Admin"? (
+                      <div className="flex justify-center gap-2">
                       <button
                         className=" text-white text-xs font-medium  shadow-sm transition cursor-pointer"
                         onClick={() => console.log("Update", item.id)}
@@ -250,6 +197,9 @@ export default function CategoryPage() {
                         <DeleteCategoryModal id={item.id} />
                       </button>
                     </div>
+                    ):(
+                      <p>لا يمكنك اتخاذ اي اجراء</p>
+                    )}
                   </td>
                 </tr>
               ))

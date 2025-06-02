@@ -146,14 +146,7 @@ export default function ExpensesPage() {
               error={errors.dispensedQuantity?.message}
             />
 
-            <ValidationInput<MyFormFields>
-              label="اسم المسلم له"
-              name="toWhom"
-              register={register}
-              placeholder="ادخل اسم المسلم له"
-              type="text"
-              error={errors.toWhom?.message}
-            />
+            
 
             <ValidationInput<MyFormFields>
               label="اسم المستلم"
@@ -173,7 +166,14 @@ export default function ExpensesPage() {
               error={errors.deliveredName?.message}
             />
           </div>
-
+        <ValidationInput<MyFormFields>
+              label="جهة الاستلام"
+              name="toWhom"
+              register={register}
+              placeholder="ادخل اسم  الجهة"
+              type="text"
+              error={errors.toWhom?.message}
+            />
           <ValidationInput<MyFormFields>
             label="ملاحظات"
             name="notes"

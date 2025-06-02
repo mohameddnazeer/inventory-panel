@@ -3,15 +3,25 @@
 import { DeleteDispensedModal } from "@/modal/dispensed/DeleteDispensedModal";
 import { UpdateDispensedModal } from "@/modal/dispensed/UpdateDispensedModal";
 import { DispensedItem } from "@/services/dispensedItems/dispensedGetService";
-import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from "react";
 
 export default function ExpensesTable({ open, data }: { open: boolean; data: DispensedItem[] }) {
   const [searchTerm, setSearchTerm] = useState("");
-
-  const filteredData = data.filter(item =>
+  const [ role, setRole] = useState<string | null>(null);
+   const filteredData = data.filter(item =>
     item.receiverName?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
+  useEffect(()=>{
+    const token =localStorage.getItem('accessToken');
+
+    if(token){
+      const decoded : any =jwtDecode(token);
+      const roleClaim = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+      setRole(roleClaim);
+    }
+  },[])
   return (
     <div
       className={`relative overflow-x-auto bg-white shadow-xl border border-gray-200 rounded-2xl p-4 transition-all duration-300 ${
@@ -79,7 +89,8 @@ export default function ExpensesTable({ open, data }: { open: boolean; data: Dis
                 <td className="px-4 py-3">{item.existingItemId}</td>
                 <td className="px-4 py-3">{item.notes ?? "—"}</td>
                 <td className="px-4 py-3 text-center">
-                  <div className="flex justify-center gap-2">
+                  {role === "Admin" ? (
+                    <div className="flex justify-center gap-2">
                     <button
                       className=" text-white text-xs font-medium px-3 py-1 rounded-full  transition"
                       onClick={() => console.log("Update", item.existingItemId)}
@@ -93,6 +104,9 @@ export default function ExpensesTable({ open, data }: { open: boolean; data: Dis
                       <DeleteDispensedModal id={item.id} />
                     </button>
                   </div>
+                  ): (
+                    <p>لا يمكنك اتخاذ اي اجراء</p>
+                  )}
                 </td>
               </tr>
             ))

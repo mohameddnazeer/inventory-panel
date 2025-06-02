@@ -1,9 +1,10 @@
 import { DeleteInventoryModal } from "@/modal/inventory/DeleteInventoryModal";
 import { UpdateInventoryModal } from "@/modal/inventory/UpdateInventoryModal";
-
-
 import { ExistedItem } from "@/services/existedItems/existedGetService";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {jwtDecode} from 'jwt-decode';
+
+
 
 export default function InventoryTableHeader({
   open,
@@ -13,7 +14,24 @@ export default function InventoryTableHeader({
   data: ExistedItem[];
 }) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [role, setRole] = useState<string | null>(null);
 
+useEffect(() => {
+  const token = localStorage.getItem('accessToken');
+  // console.log('Token:', token);
+
+  if (token) {
+    const decoded: any = jwtDecode(token);
+    // console.log('Decoded JWT:', decoded);
+
+    const roleClaim = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+    // console.log('Role claim:', roleClaim);
+
+    setRole(roleClaim);
+  }
+}, []);
+  // console.log("Role from localStorage:", role);
+  
   const filteredProducts = existedItems.filter(existeditem =>
     existeditem.name?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
@@ -81,7 +99,8 @@ export default function InventoryTableHeader({
                 <td className="px-4 py-3">{item.quantityEnum ?? "—"}</td>
                 <td className="px-4 py-3">{item.notes ?? "—"}</td>
                 <td className="px-4 py-3 text-center">
-                  <div className="flex justify-center gap-2">
+                  {role === "Admin" ? (
+                    <div className="flex justify-center gap-2">
                     <button
                       className="  text-white text-xs font-medium px-3 py-1   transition"
                       // onClick={() => console.log("Update", item.id)}
@@ -95,6 +114,9 @@ export default function InventoryTableHeader({
                       <DeleteInventoryModal id={item.id} />
                     </button>
                   </div>
+                  ): (
+                    <p>لا يمكنك اتخاذ اي اجراء</p>
+                  )}
                 </td>
               </tr>
             ))

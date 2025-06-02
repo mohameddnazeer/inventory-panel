@@ -9,15 +9,15 @@ import { useGetExistedItems } from "@/hooks/ExistedItems/useGetExistedItems";
 import { useUploadExcel } from "@/hooks/ExistedItems/useUploadExcel";
 import { ExistedFormData, ExistedSchema } from "@/schemas/ExistedFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 // import { useMutation, useQueryClient } from "@tanstack/react-query";
 // import axios from "axios";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
+
 
 // ✅ Add the type for Excel rows
 type ExcelRow = {
@@ -28,6 +28,7 @@ type ExcelRow = {
   "الكمية المتبقية": string | number;
   ملاحظات: string;
 };
+
 
 export default function InventoryPage() {
   // ✅ Explicitly type the excel data
