@@ -21,9 +21,9 @@ const useLoginUser = () => {
     onSuccess: (data) => {
       if (typeof window !== 'undefined') {
         localStorage.setItem("accessToken", data.accessToken);
+        toast.success("تم تسجيل الدخول بنجاح");
+        router.push("/dashboard");
       }
-      toast.success("تم تسجيل الدخول بنجاح");
-      router.push("/dashboard");
     },
     onError: (error) => {
       console.error("Login failed:", error.message);

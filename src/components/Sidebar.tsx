@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { FaCashRegister, FaClipboardList } from 'react-icons/fa';
 import { MdInventory2, MdCategory } from "react-icons/md";
@@ -19,11 +19,14 @@ const navLinks = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const route = useRouter();
 
   function logOut() {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('user');
+
+      route.push('/');
     }
   }
 
