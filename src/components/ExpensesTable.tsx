@@ -1,5 +1,6 @@
 
 // import { DialogDemo } from "@/modal/category/DeleteCategoryModal";
+import { DecodedJWT } from "@/app/dashboard/categories/page";
 import { DeleteDispensedModal } from "@/modal/dispensed/DeleteDispensedModal";
 import { UpdateDispensedModal } from "@/modal/dispensed/UpdateDispensedModal";
 import { DispensedItem } from "@/services/dispensedItems/dispensedGetService";
@@ -17,7 +18,7 @@ export default function ExpensesTable({ open, data }: { open: boolean; data: Dis
     const token =localStorage.getItem('accessToken');
 
     if(token){
-      const decoded : any =jwtDecode(token);
+      const decoded : DecodedJWT =jwtDecode(token);
       const roleClaim = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
       setRole(roleClaim);
     }

@@ -1,3 +1,4 @@
+import { DecodedJWT } from "@/app/dashboard/categories/page";
 import { DeleteLoansModal } from "@/modal/loans/DeleteLoansModal";
 import { UpdateLoansModal } from "@/modal/loans/UpdateLoansModal";
 import { BorrowedItem } from "@/services/borrowedItems/borrowedGetService";
@@ -35,7 +36,7 @@ export default function LoansTable({ open, data }: Props) {
     const token = localStorage.getItem("accessToken");
 
     if (token) {
-      const decoded: any = jwtDecode(token);
+      const decoded: DecodedJWT = jwtDecode(token);
       const roleClaim =
         decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
       setRole(roleClaim);

@@ -3,6 +3,7 @@ import { UpdateInventoryModal } from "@/modal/inventory/UpdateInventoryModal";
 import { ExistedItem } from "@/services/existedItems/existedGetService";
 import { useEffect, useState } from "react";
 import {jwtDecode} from 'jwt-decode';
+import { DecodedJWT } from "@/app/dashboard/categories/page";
 
 
 
@@ -21,7 +22,7 @@ useEffect(() => {
   // console.log('Token:', token);
 
   if (token) {
-    const decoded: any = jwtDecode(token);
+    const decoded: DecodedJWT = jwtDecode(token);
     // console.log('Decoded JWT:', decoded);
 
     const roleClaim = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];

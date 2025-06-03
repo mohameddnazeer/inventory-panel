@@ -13,7 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 // import axios from "axios";
 
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
