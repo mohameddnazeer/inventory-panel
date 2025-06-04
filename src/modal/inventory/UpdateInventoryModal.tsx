@@ -151,7 +151,7 @@ export function UpdateInventoryModal({ id, sqId }: { id: number; sqId: number })
           {/* QuantityEnum */}
           <div>
             <Label>نوع الكمية</Label>
-            <select {...register("QuantityEnum")} className="w-full border rounded px-2 py-1">
+            <select {...register("QuantityEnum")} className="w-full border rounded px-2 py-1 text-black">
               <option value="UNIT">وحدة</option>
               <option value="METER">متر</option>
             </select>

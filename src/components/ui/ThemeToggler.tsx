@@ -32,7 +32,8 @@ export default function ThemeToggler() {
   return (
     <button
       onClick={toggleTheme}
-      className="w-full px-4 py-2 text-white bg-gray-800 dark:bg-yellow-400 dark:text-black rounded"
+      disabled={true}
+      className="w-full px-4 py-2 text-white bg-gray-800 dark:bg-yellow-400 dark:text-black rounded cursor-pointer "
     >
       {isDark ? 'الوضع الفاتح ☀️' : 'الوضع الليلي 🌙'}
     </button>
