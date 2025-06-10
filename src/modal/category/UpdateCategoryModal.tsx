@@ -64,7 +64,7 @@ export function UpdateCategoryModal({ id }: { id: number }) {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<CategoryFormData>({
     resolver: zodResolver(CategorySchema),
   });
@@ -109,7 +109,7 @@ export function UpdateCategoryModal({ id }: { id: number }) {
           </div>
 
           <DialogFooter>
-            <Button type="submit" disabled={isPending}>
+            <Button type="submit" disabled={isPending || !isDirty} >
               {isPending ? "جارٍ التحديث..." : "حفظ التعديلات"}
             </Button>
           </DialogFooter>

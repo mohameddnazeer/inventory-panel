@@ -26,8 +26,8 @@ function ValidationSelect<TFormValues extends FieldValues>({
           error ? "border-red-500" : ""
         }`}
       >
-        <option disabled value="">
-          {options.length > 0 && (options[0].hasOwnProperty("sqId") ? "عهدة" : "صنف")}
+        <option  value="">
+          {options.length > 0 && (options[0].hasOwnProperty("sqId") ? "اختر العهدة" : "اختر الصنف")}
         </option>
         {options.map((option) => (
           <option key={option.id} value={type === 'name' ? option.name : option.id}>

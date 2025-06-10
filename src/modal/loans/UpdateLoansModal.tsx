@@ -33,7 +33,7 @@ export function UpdateLoansModal({ id }: { id: number }) {
     handleSubmit,
 
     reset,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm({
     resolver: zodResolver(BorrowedSchema),
   });
@@ -110,7 +110,7 @@ export function UpdateLoansModal({ id }: { id: number }) {
           </div>
 
           <DialogFooter>
-            <Button type="submit" disabled={isPending}>
+            <Button type="submit" disabled={isPending || !isDirty} >
               {isPending ? "جارٍ التحديث..." : "حفظ التعديلات"}
             </Button>
           </DialogFooter>

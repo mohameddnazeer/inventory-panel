@@ -39,7 +39,7 @@ export function UpdateDispensedModal({
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm({
     resolver: zodResolver(DispencedSchema),
   });
@@ -117,7 +117,7 @@ export function UpdateDispensedModal({
           </div>
 
           <DialogFooter>
-            <Button type="submit" disabled={isPending}>
+            <Button type="submit" disabled={isPending || !isDirty} >
               {isPending ? "جارٍ التحديث..." : "حفظ التعديلات"}
             </Button>
           </DialogFooter>

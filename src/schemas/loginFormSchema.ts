@@ -4,7 +4,7 @@ export const LoginSchema = z.object({
     UserName: z
       .string()
       .nonempty({ message: 'الاسم مطلوب' })
-      .min(4, { message: 'الاسم يجب ألا يقل عن 6 حرف' })
+      .min(4, { message: 'الاسم يجب ألا يقل عن 4 حرف' })
       .max(20, { message: 'الاسم يجب ألا يزيد عن 20 حرفًا' }),
   
     password: z

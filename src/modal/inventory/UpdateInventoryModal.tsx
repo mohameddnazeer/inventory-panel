@@ -56,7 +56,7 @@ export function UpdateInventoryModal({ id, sqId }: { id: number; sqId: number })
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<ExistedFormData>({
     resolver: zodResolver(ExistedSchema),
   });
@@ -182,7 +182,7 @@ export function UpdateInventoryModal({ id, sqId }: { id: number; sqId: number })
           */}
 
           <DialogFooter>
-            <Button type="submit" disabled={isPending}>
+            <Button type="submit" disabled={isPending || !isDirty} >
               {isPending ? "جارٍ التحديث..." : "حفظ التعديلات"}
             </Button>
           </DialogFooter>
