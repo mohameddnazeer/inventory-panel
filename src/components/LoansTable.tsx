@@ -44,15 +44,13 @@ export default function LoansTable({ open, data }: Props) {
   }, []);
   return (
     <div
-      className={`relative overflow-x-auto shadow-md sm:rounded-lg ${
+      className={`relative overflow-x-auto shadow-md sm:rounded-lg bg-white p-4 ${
         open ? "max-h-[350px]" : "max-h-[700px]"
       }`}
     >
-      <div className="flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
-        <label htmlFor="table-search" className="sr-only">
-          ابحث
-        </label>
-        <div className="relative w-full sm:w-auto">
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+          <h2 className="text-lg w-[7%] font-semibold text-gray-700">جدول السلف</h2>
+        <div className="relative w-full sm:w-64">
           <div className="absolute inset-y-0 left-2 flex items-center ps-3 pointer-events-none">
             <svg
               className="w-5 h-5 text-gray-500"
@@ -70,7 +68,7 @@ export default function LoansTable({ open, data }: Props) {
             type="text"
             id="table-search"
             className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
-            placeholder="ابحث عن اسم المنتج أو المسلم له"
+            placeholder="ابحث عن اسم السلفة   "
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -88,7 +86,14 @@ export default function LoansTable({ open, data }: Props) {
           </tr>
         </thead>
         <tbody>
-          {filteredData.map((item) => (
+          {filteredData.length === 0 ? (
+            <tr>
+              <td colSpan={5} className="text-center py-6 text-gray-400">
+                لا توجد بيانات مطابقة
+              </td>
+            </tr>
+          ) : (
+          filteredData.map((item) => (
             <tr key={item.id} className="bg-white border-b hover:bg-gray-50">
               <td className="px-6 py-4 font-medium text-gray-900">
                 {item.name}
@@ -115,7 +120,7 @@ export default function LoansTable({ open, data }: Props) {
                 )}
               </td>
             </tr>
-          ))}
+          )))}
         </tbody>
       </table>
     </div>

@@ -31,7 +31,7 @@ export default function ExpensesTable({ open, data }: { open: boolean; data: Dis
     >
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
-        <h2 className="text-lg font-semibold text-gray-700">جدول المصروفات</h2>
+        <h2 className="text-lg w-[10%] font-semibold text-gray-700">جدول المصروفات</h2>
         <div className="relative w-full sm:w-64">
           <input
             type="text"
