@@ -2,11 +2,13 @@
 
 import ExpensesTable from "@/components/ExpensesTable";
 import ValidationInput from "@/components/ValidationInput";
-import ValidationSelect from "@/components/ValidationSelect";
 import { useAddDispensedItem } from "@/hooks/DispensedItems/useAddDispensedItem";
 import { useGetDispensedItems } from "@/hooks/DispensedItems/useGetDispensedItems";
 import { useGetExistedItems } from "@/hooks/ExistedItems/useGetExistedItems";
-import { DispencedSchema, DispensedFormData } from "@/schemas/DispensedFormSchema";
+import {
+  DispencedSchema,
+  DispensedFormData,
+} from "@/schemas/DispensedFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import Link from "next/link";
@@ -14,8 +16,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
-
-
+import { ReusableSelect } from "@/components/ReusableSelect";
 
 interface MyFormFields {
   dispensedQuantity: string;
@@ -24,11 +25,11 @@ interface MyFormFields {
   deliveredName: string;
   existingItemId: string;
   notes?: string;
-
 }
 export default function ExpensesPage() {
   const [excelData, setExcelData] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isClearable, setIsClearable] = useState(true);
   const { data: existedData } = useGetExistedItems();
   const { data } = useGetDispensedItems();
   const mutation = useAddDispensedItem();
@@ -36,6 +37,7 @@ export default function ExpensesPage() {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(DispencedSchema),
@@ -48,7 +50,7 @@ export default function ExpensesPage() {
 
     const reader = new FileReader();
 
-    reader.onload = event => {
+    reader.onload = (event) => {
       const binaryStr = event.target?.result;
       const workbook = XLSX.read(binaryStr, { type: "binary" });
       const sheetName = workbook.SheetNames[0];
@@ -91,10 +93,17 @@ export default function ExpensesPage() {
     console.log("بيانات الملف:", excelData);
     // sendDataToBackend(excelData);
   };
+
+  const options = existedData?.map((item) => ({
+    value: String(item.id) ,
+    label: item.name,
+  }));
   return (
     <div className="p-0 w-full bg-transparent">
       <h1 className="text-2xl font-bold mb-2 flex items-center justify-between  p-1 ">
-        <span className="text-blue-700 flex items-center gap-2">📦 صفحة المصروفات</span>
+        <span className="text-blue-700 flex items-center gap-2">
+          📦 صفحة المصروفات
+        </span>
 
         <Link
           href="/dashboard"
@@ -119,7 +128,7 @@ export default function ExpensesPage() {
           className="bg-gray-50 shadow p-3 rounded-lg mb-2 border border-gray-200"
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {/* <ValidationInput
+            {/* <ValidationInput
             label="رقم العنصر"
             name="existingItemId"
             register={register}
@@ -129,14 +138,26 @@ export default function ExpensesPage() {
           />
        */}
 
-            <ValidationSelect<MyFormFields>
+            {/* <ValidationSelect<MyFormFields>
               label="اختر العهدة"
               name="existingItemId"
               register={register}
               options={existedData || []}
               error={errors.existingItemId?.message}
               type="id"
-            />
+            /> */}
+            <div className="flex flex-col ">
+              <h2 className="block text-sm font-medium text-gray-700 mb-2">
+                اختر العهدة
+              </h2>
+              <ReusableSelect
+                control={control}
+                name="existingItemId"
+                error={errors.existingItemId?.message}
+                options={options}
+                placeholder="اختر العهدة"
+              />
+            </div>
             <ValidationInput<MyFormFields>
               label="الكمية المصروفة"
               name="dispensedQuantity"
@@ -145,9 +166,6 @@ export default function ExpensesPage() {
               type="number"
               error={errors.dispensedQuantity?.message}
             />
-
-            
-
             <ValidationInput<MyFormFields>
               label="اسم المستلم"
               name="receiverName"
@@ -156,7 +174,6 @@ export default function ExpensesPage() {
               type="text"
               error={errors.receiverName?.message}
             />
-
             <ValidationInput<MyFormFields>
               label="اسم المسلم"
               name="deliveredName"
@@ -166,14 +183,14 @@ export default function ExpensesPage() {
               error={errors.deliveredName?.message}
             />
           </div>
-        <ValidationInput<MyFormFields>
-              label="جهة الاستلام"
-              name="toWhom"
-              register={register}
-              placeholder="ادخل اسم  الجهة"
-              type="text"
-              error={errors.toWhom?.message}
-            />
+          <ValidationInput<MyFormFields>
+            label="جهة الاستلام"
+            name="toWhom"
+            register={register}
+            placeholder="ادخل اسم  الجهة"
+            type="text"
+            error={errors.toWhom?.message}
+          />
           <ValidationInput<MyFormFields>
             label="ملاحظات"
             name="notes"
@@ -207,10 +224,11 @@ export default function ExpensesPage() {
               type="button"
               onClick={handleExcelSubmit}
               disabled={excelData.length === 0}
-              className={`w-full md:w-auto px-6 py-2 rounded transition ${excelData.length === 0
+              className={`w-full md:w-auto px-6 py-2 rounded transition ${
+                excelData.length === 0
                   ? "bg-gray-400 cursor-not-allowed"
                   : "cursor-pointer bg-green-600 hover:bg-green-700 text-white"
-                }`}
+              }`}
             >
               إرسال ملف Excel
             </button>
