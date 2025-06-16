@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { BorrowedFormData } from "@/schemas/BorrowedFormSchema";
 import { DispensedFormData } from "@/schemas/DispensedFormSchema";
@@ -6,7 +6,8 @@ import axios, { AxiosInstance } from "axios";
 
 // Function to create Axios instance with dynamic Authorization header
 const createAxiosInstance = (): AxiosInstance => {
-  const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
 
   // development  http://172.16.7.61:9991 =>1
   // production  http://172.16.7.61:9995 =>5
@@ -30,6 +31,24 @@ class APIClient<TRequest, TResponse> {
     const axiosInstance = createAxiosInstance();
     const res = await axiosInstance.get<TRequest[]>(this.endpoint);
     return res.data;
+  };
+
+  getAllPaginated = async (
+    page: number,
+    pageSize: number
+  ): Promise<{ data: TRequest[]; pagination: any }> => {
+    const axiosInstance = createAxiosInstance();
+    const res = await axiosInstance.get<TRequest[]>(
+      `${this.endpoint}?PageNumber=${page}&PageSize=${pageSize}`
+    );
+
+    const paginationHeader = res.headers["x-pagination"];
+    const pagination = paginationHeader ? JSON.parse(paginationHeader) : null;
+
+    return {
+      data: res.data,
+      pagination,
+    };
   };
 
   postData = async (data: TRequest): Promise<TResponse> => {
@@ -58,7 +77,10 @@ class APIClient<TRequest, TResponse> {
     formData: BorrowedFormData;
   }): Promise<TResponse> => {
     const axiosInstance = createAxiosInstance();
-    const res = await axiosInstance.put<TResponse>(`${this.endpoint}/${id}`, formData);
+    const res = await axiosInstance.put<TResponse>(
+      `${this.endpoint}/${id}`,
+      formData
+    );
     return res.data;
   };
 
@@ -70,7 +92,10 @@ class APIClient<TRequest, TResponse> {
     formData: DispensedFormData;
   }): Promise<TResponse> => {
     const axiosInstance = createAxiosInstance();
-    const res = await axiosInstance.put<TResponse>(`${this.endpoint}/${id}`, formData);
+    const res = await axiosInstance.put<TResponse>(
+      `${this.endpoint}/${id}`,
+      formData
+    );
     return res.data;
   };
 }

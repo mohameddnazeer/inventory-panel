@@ -1,6 +1,7 @@
 "use client";
 
 import InventoryTableHeader from "@/components/InventoryTableHeader";
+import { PaginationControls } from "@/components/PaginationControls";
 import { ReusableSelect } from "@/components/ReusableSelect";
 import ValidationInput from "@/components/ValidationInput";
 import { useGetCategory } from "@/hooks/Category/useGetCategory";
@@ -13,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 // import axios from "axios";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
@@ -32,10 +33,23 @@ export default function InventoryPage() {
   // ✅ Explicitly type the excel data
   const [excelData, setExcelData] = useState<ExcelRow[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const { data: existedData } = useGetExistedItems();
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(10);
+  const { data: existedData } = useGetExistedItems(page, pageSize);
+  const paginationInfo = existedData?.pagination || {
+    CurrentPage: page,
+    TotalPages: 1,
+    PageSize: pageSize,
+    TotalRecords: 0,
+    HasPrevious: false,
+    HasNext: false,
+  };
   const { data: categoryItems } = useGetCategory();
   const { mutate: addExistedItem } = useAddExistedItem();
   const { mutate: upload } = useUploadExcel();
+useEffect(() => {
+  console.log("Page changed:", page);
+}, [page]);
 
   const {
     register,
@@ -101,7 +115,7 @@ export default function InventoryPage() {
 
     addExistedItem(formData, {
       onSuccess: () => {
-       reset({
+        reset({
           Name: "",
           Brand: "",
           Serial: "",
@@ -140,7 +154,7 @@ export default function InventoryPage() {
     upload(formData);
   };
 
-  const options = categoryItems?.map((item) => ({
+  const options = categoryItems?.data?.map((item) => ({
     value: String(item.id),
     label: item.name,
   }));
@@ -356,7 +370,15 @@ export default function InventoryPage() {
         </form>
       )}
       {/* جدول عرض العهدة */}
-      <InventoryTableHeader data={existedData ?? []} open={isFormOpen} />
+      <InventoryTableHeader data={existedData?.data ?? []} open={isFormOpen} />
+      <PaginationControls
+        currentPage={paginationInfo.CurrentPage}
+        totalPages={paginationInfo.TotalPages}
+        hasPrevious={paginationInfo.HasPrevious}
+        hasNext={paginationInfo.HasNext}
+        onPageChange={(newPage) => setPage(newPage)}
+      />
+
     </div>
   );
 }

@@ -14,6 +14,7 @@ import { UpdateCategoryModal } from "@/modal/category/UpdateCategoryModal";
 import { CategoryFormData, CategorySchema } from "@/schemas/CategoryFormSchema";
 import { useAddCategory } from "@/hooks/Category/useAddCategory";
 import { jwtDecode } from "jwt-decode";
+import { PaginationControls } from "@/components/PaginationControls";
 
 interface TableData {
   name: string;
@@ -44,7 +45,19 @@ export interface DecodedJWT {
 }
 export default function CategoryPage() {
   const [role, setRole] =useState<string | null>(null);
-  const { data: tableData = [] } = useGetCategory();
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(12);
+  const { data: tableData  } = useGetCategory(page, pageSize);
+  console.log("Table Data:", tableData);
+  const paginationInfo = tableData?.pagination || {
+    CurrentPage: page,
+    TotalPages: 1,
+    PageSize: pageSize,
+    TotalRecords: 0,
+    HasPrevious: false,
+    HasNext: false,
+  };
+  
   const { mutate: addCategory } = useAddCategory()
   // const mutation = useMutation({
   //   mutationFn: async (formData: FormData) => {
@@ -159,7 +172,7 @@ export default function CategoryPage() {
 
       {/* Table Display */}
       <div
-        className={`overflow-x-auto overflow-y-scroll ${!isFormOpen ? "h-[75vh]" : "h-[60vh]"
+        className={`overflow-x-auto bg-white overflow-y-scroll ${!isFormOpen ? "h-[75vh]" : "h-[66vh]"
           }  border border-gray-200 rounded-lg shadow`}
       >
         <table className="w-full text-sm text-right text-gray-600 border-collapse">
@@ -173,14 +186,14 @@ export default function CategoryPage() {
             </tr>
           </thead>
           <tbody>
-            {tableData.length === 0 ? (
+            {tableData?.data?.length === 0 ? (
               <tr>
                 <td colSpan={5} className="text-center py-6 text-gray-400">
                   لا توجد بيانات حاليًا.
                 </td>
               </tr>
             ) : (
-              tableData.map((item: TableData, idx: number) => (
+              tableData?.data.map((item: TableData, idx: number) => (
                 <tr
                   key={item.id}
                   className="bg-white hover:bg-blue-50 border-b transition duration-150"
@@ -219,6 +232,14 @@ export default function CategoryPage() {
           </tbody>
         </table>
       </div>
+      {/* Pagination Controls */}
+      <PaginationControls 
+        currentPage={paginationInfo.CurrentPage}
+        totalPages={paginationInfo.TotalPages}
+        hasPrevious={paginationInfo.HasPrevious}
+        hasNext={paginationInfo.HasNext}
+        onPageChange={(newPage) => setPage(newPage)}
+      />
     </div>
   );
 }

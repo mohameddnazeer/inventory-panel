@@ -1,6 +1,7 @@
 "use client";
 
 import LoansTable from "@/components/LoansTable";
+import { PaginationControls } from "@/components/PaginationControls";
 import { ReusableSelect } from "@/components/ReusableSelect";
 import ValidationInput from "@/components/ValidationInput";
 import { useAddBorrowedItems } from "@/hooks/BorrowedItems/useAddBorrowedItems";
@@ -23,9 +24,18 @@ interface MyFormFields {
 export default function Page() {
   const [excelData, setExcelData] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const { data } = useGetBorrowedItems();
-  const { data: existedData } = useGetExistedItems();
-
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(2);
+  const { data } = useGetBorrowedItems(page, pageSize);
+  const { data: existedData } = useGetExistedItems(page, pageSize);
+  const paginationInfo = data?.pagination || {
+    CurrentPage: page,
+    TotalPages: 1,
+    PageSize: pageSize,
+    TotalRecords: 0,
+    HasPrevious: false,
+    HasNext: false,
+  }
 
   const Mutation = useAddBorrowedItems();
 
@@ -83,7 +93,7 @@ export default function Page() {
     // sendDataToBackend(excelData);
   };
 
-  const options = existedData?.map((item) => {
+  const options = existedData?.data?.map((item) => {
     return {
       value: String(item.name),
       label: item.name,
@@ -258,7 +268,14 @@ export default function Page() {
       )}
 
       {/* جدول عرض السلف السابقة */}
-      <LoansTable data={data ?? []} open={isFormOpen} />
+      <LoansTable data={data?.data ?? []} open={isFormOpen} />
+      <PaginationControls 
+        currentPage={paginationInfo.CurrentPage}
+        totalPages={paginationInfo.TotalPages}
+        hasPrevious={paginationInfo.HasPrevious}
+        hasNext={paginationInfo.HasNext}
+        onPageChange={(newPage) => setPage(newPage)}
+      />
     </div>
   );
 }

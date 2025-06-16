@@ -44,8 +44,8 @@ export default function LoansTable({ open, data }: Props) {
   }, []);
   return (
     <div
-      className={`relative overflow-x-auto shadow-md sm:rounded-lg bg-white p-4 ${
-        open ? "max-h-[350px]" : "max-h-[700px]"
+      className={`relative overflow-x-auto bg-white shadow-xl border border-gray-200 rounded-2xl p-4 transition-all duration-300 ${
+        !open ? "h-[75vh]" : "h-[45vh]"
       }`}
     >
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">

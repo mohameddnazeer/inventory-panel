@@ -28,7 +28,7 @@ export function DeleteDispensedModal({ id }: { id: number }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="destructive">حذف</Button>
+        <Button variant="destructive" className="cursor-pointer">حذف</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -37,7 +37,7 @@ export function DeleteDispensedModal({ id }: { id: number }) {
         </DialogHeader>
         <div className="grid gap-4 py-4">{/* Optional: Extra content or message */}</div>
         <DialogFooter>
-          <Button onClick={handleDelete} variant="destructive">
+          <Button onClick={handleDelete} variant="destructive" className="cursor-pointer">
             تأكيد الحذف
           </Button>
         </DialogFooter>

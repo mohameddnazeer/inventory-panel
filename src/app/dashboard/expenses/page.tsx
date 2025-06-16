@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
 import { ReusableSelect } from "@/components/ReusableSelect";
+import { PaginationControls } from "@/components/PaginationControls";
 
 interface MyFormFields {
   dispensedQuantity: string;
@@ -30,7 +31,17 @@ export default function ExpensesPage() {
   const [excelData, setExcelData] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const { data: existedData } = useGetExistedItems();
-  const { data } = useGetDispensedItems();
+  const [page, setPage] =useState(1);
+  const [pageSize] = useState(10);
+  const { data } = useGetDispensedItems(page, pageSize);
+  const paginationInfo = data?.pagination || {
+    CurrentPage: page,
+    TotalPages: 1,
+    PageSize: pageSize,
+    TotalRecords: 0,
+    HasPrevious: false,
+    HasNext: false,
+  };
   const mutation = useAddDispensedItem();
   const {
     register,
@@ -93,7 +104,7 @@ export default function ExpensesPage() {
     // sendDataToBackend(excelData);
   };
 
-  const options = existedData?.map((item) => ({
+  const options = existedData?.data?.map((item) => ({
     value: String(item.id) ,
     label: item.name,
   }));
@@ -271,7 +282,14 @@ export default function ExpensesPage() {
         </div>
       )}  */}
       {/* جدول عرض  */}
-      <ExpensesTable data={data ?? []} open={isFormOpen} />
+      <ExpensesTable data={data?.data ?? []} open={isFormOpen} />
+      <PaginationControls 
+        currentPage={paginationInfo.CurrentPage}
+        totalPages={paginationInfo.TotalPages}
+        hasPrevious={paginationInfo.HasPrevious}
+        hasNext={paginationInfo.HasNext}
+        onPageChange={(newPage) => setPage(newPage)}
+      />
     </div>
   );
 }

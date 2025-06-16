@@ -26,7 +26,7 @@ export default function ExpensesTable({ open, data }: { open: boolean; data: Dis
   return (
     <div
       className={`relative overflow-x-auto bg-white shadow-xl border border-gray-200 rounded-2xl p-4 transition-all duration-300 ${
-        open ? "max-h-[250px]" : "max-h-[700px]"
+        !open ? "h-[75vh]" : "h-[37vh]"
       }`}
     >
       {/* Header */}
@@ -57,13 +57,13 @@ export default function ExpensesTable({ open, data }: { open: boolean; data: Dis
       <table className="w-full text-sm text-right text-gray-600 border-collapse">
         <thead className="bg-gray-100 text-gray-700">
           <tr>
-            <th className="px-4 py-3 text-xs font-semibold">اسم الصنف</th>
+            <th className="px-4 py-3 text-xs font-semibold">اسم العهدة</th>
             <th className="px-4 py-3 text-xs font-semibold">الكميه المصروفة </th>
             <th className="px-4 py-3 text-xs font-semibold">تاريخ الصرف</th>
-            <th className="px-4 py-3 text-xs font-semibold">اسم المصروف له</th>
+            <th className="px-4 py-3 text-xs font-semibold">جهة الاستلام</th>
             <th className="px-4 py-3 text-xs font-semibold">المسلم</th>
-            <th className="px-4 py-3 text-xs font-semibold">المسلم له</th>
-            <th className="px-4 py-3 text-xs font-semibold">السيريال</th>
+            <th className="px-4 py-3 text-xs font-semibold">المستلم</th>
+            {/* <th className="px-4 py-3 text-xs font-semibold">السيريال</th> */}
             <th className="px-4 py-3 text-xs font-semibold">ملاحظات</th>
             <th className="px-4 py-3 text-xs font-semibold text-center">إجراءات</th>
           </tr>
@@ -84,10 +84,10 @@ export default function ExpensesTable({ open, data }: { open: boolean; data: Dis
                 <td className="px-4 py-3 font-medium">{item.existingItem.name ?? "—"}</td>
                 <td className="px-4 py-3 font-medium">{item.dispensedQuantity ?? "—"}</td>
                 <td className="px-4 py-3">{item.createdDate.slice(0, 10)}</td>
-                <td className="px-4 py-3">{item.receiverName ?? "—"}</td>
                 <td className="px-4 py-3">{item.toWhom ?? "—"}</td>
                 <td className="px-4 py-3">{item.deliveredName ?? "—"}</td>
-                <td className="px-4 py-3">{item.existingItemId}</td>
+                <td className="px-4 py-3">{item.receiverName ?? "—"}</td>
+                {/* <td className="px-4 py-3">{item.existingItemId}</td> */}
                 <td className="px-4 py-3">{item.notes ?? "—"}</td>
                 <td className="px-4 py-3 text-center">
                   {role === "Admin" ? (

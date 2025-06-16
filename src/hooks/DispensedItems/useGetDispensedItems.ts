@@ -4,10 +4,10 @@ import dispensedItemsService, {
   DispensedItem,
 } from "@/services/dispensedItems/dispensedGetService";
 
-const useGetDispensedItems = () => {
-  return useQuery<DispensedItem[], Error>({
-    queryKey: ["dispensedItems"],
-    queryFn: dispensedItemsService.getAll,
+const useGetDispensedItems = (page:number , pageSize: number =10) => {
+  return useQuery<{data:DispensedItem[], pagination: any}, Error>({
+    queryKey: ["dispensedItems", page, pageSize],
+    queryFn: () => dispensedItemsService.getAllPaginated(page, pageSize),
   });
 };
 

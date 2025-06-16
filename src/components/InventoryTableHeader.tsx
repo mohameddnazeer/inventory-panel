@@ -39,7 +39,7 @@ useEffect(() => {
   return (
   <div
   className={`relative overflow-x-auto bg-white shadow-xl border border-gray-200 rounded-2xl p-4 transition-all duration-300 ${
-        open ? "max-h-[250px]" : "max-h-[700px]"
+        !open ? "h-[75vh]" : "h-[35vh]"
       }`}
 >
   {/* Header */}
