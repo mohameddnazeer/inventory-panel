@@ -35,7 +35,8 @@ export default function InventoryPage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [pageSize] = useState(10);
-  const { data: existedData } = useGetExistedItems(page, pageSize);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { data: existedData } = useGetExistedItems(page, pageSize, searchTerm);
   const paginationInfo = existedData?.pagination || {
     CurrentPage: page,
     TotalPages: 1,
@@ -47,9 +48,9 @@ export default function InventoryPage() {
   const { data: categoryItems } = useGetCategory();
   const { mutate: addExistedItem } = useAddExistedItem();
   const { mutate: upload } = useUploadExcel();
-useEffect(() => {
-  console.log("Page changed:", page);
-}, [page]);
+  useEffect(() => {
+    console.log("Page changed:", page);
+  }, [page]);
 
   const {
     register,
@@ -370,7 +371,13 @@ useEffect(() => {
         </form>
       )}
       {/* جدول عرض العهدة */}
-      <InventoryTableHeader data={existedData?.data ?? []} open={isFormOpen} />
+      <InventoryTableHeader
+        data={existedData?.data ?? []}
+        open={isFormOpen}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        setPage={setPage}
+      />
       <PaginationControls
         CurrentPage={paginationInfo.CurrentPage}
         TotalPages={paginationInfo.TotalPages}
@@ -378,7 +385,6 @@ useEffect(() => {
         HasNext={paginationInfo.HasNext}
         onPageChange={(newPage) => setPage(newPage)}
       />
-
     </div>
   );
 }

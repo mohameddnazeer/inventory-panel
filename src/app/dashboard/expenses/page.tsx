@@ -31,9 +31,10 @@ export default function ExpensesPage() {
   const [excelData, setExcelData] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const { data: existedData } = useGetExistedItems();
-  const [page, setPage] =useState(1);
+  const [page, setPage] = useState(1);
   const [pageSize] = useState(10);
-  const { data } = useGetDispensedItems(page, pageSize);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { data } = useGetDispensedItems(page, pageSize, searchTerm);
   const paginationInfo = data?.pagination || {
     CurrentPage: page,
     TotalPages: 1,
@@ -52,7 +53,6 @@ export default function ExpensesPage() {
   } = useForm({
     resolver: zodResolver(DispencedSchema),
   });
-
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -92,7 +92,6 @@ export default function ExpensesPage() {
   };
 
   const onSubmit = (data: DispensedFormData) => {
-
     mutation.mutate(data);
     reset();
   };
@@ -100,12 +99,11 @@ export default function ExpensesPage() {
   const handleExcelSubmit = () => {
     if (excelData.length === 0) return;
 
-
     // sendDataToBackend(excelData);
   };
 
   const options = existedData?.data?.map((item) => ({
-    value: String(item.id) ,
+    value: String(item.id),
     label: item.name,
   }));
   return (
@@ -282,8 +280,14 @@ export default function ExpensesPage() {
         </div>
       )}  */}
       {/* جدول عرض  */}
-      <ExpensesTable data={data?.data ?? []} open={isFormOpen} />
-      <PaginationControls 
+      <ExpensesTable
+        data={data?.data ?? []}
+        open={isFormOpen}
+        setPage={setPage}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+      />
+      <PaginationControls
         CurrentPage={paginationInfo.CurrentPage}
         TotalPages={paginationInfo.TotalPages}
         HasPrivous={paginationInfo.HasPrivous}

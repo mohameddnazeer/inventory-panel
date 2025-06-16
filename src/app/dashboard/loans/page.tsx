@@ -26,8 +26,9 @@ export default function Page() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [pageSize] = useState(2);
-  const { data } = useGetBorrowedItems(page, pageSize);
-  const { data: existedData } = useGetExistedItems(page, pageSize);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { data } = useGetBorrowedItems(page, pageSize,searchTerm);
+  const { data: existedData } = useGetExistedItems(page, pageSize,searchTerm);
   const paginationInfo = data?.pagination || {
     CurrentPage: page,
     TotalPages: 1,
@@ -268,7 +269,7 @@ export default function Page() {
       )}
 
       {/* جدول عرض السلف السابقة */}
-      <LoansTable data={data?.data ?? []} open={isFormOpen} />
+      <LoansTable data={data?.data ?? []} open={isFormOpen} setPage={setPage} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
       <PaginationControls 
        CurrentPage={paginationInfo.CurrentPage}
         TotalPages={paginationInfo.TotalPages}

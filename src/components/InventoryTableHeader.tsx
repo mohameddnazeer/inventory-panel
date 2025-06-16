@@ -10,11 +10,16 @@ import { DecodedJWT } from "@/app/dashboard/categories/page";
 export default function InventoryTableHeader({
   open,
   data: existedItems,
+  searchTerm,
+  setSearchTerm,
+  setPage,
 }: {
   open: boolean;
   data: ExistedItem[];
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  const [searchTerm, setSearchTerm] = useState("");
   const [role, setRole] = useState<string | null>(null);
 
 useEffect(() => {
@@ -31,10 +36,7 @@ useEffect(() => {
   }
 }, []);
   
-  
-  const filteredProducts = existedItems.filter(existeditem =>
-    existeditem.name?.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+
 
   return (
   <div
@@ -49,7 +51,10 @@ useEffect(() => {
       <input
         type="text"
         value={searchTerm}
-        onChange={e => setSearchTerm(e.target.value)}
+         onChange={(e) => {
+          setSearchTerm(e.target.value);
+          setPage(1); 
+        }}
         placeholder="ابحث عن اسم المنتج"
         className="w-full pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50 text-gray-800"
       />
@@ -81,14 +86,14 @@ useEffect(() => {
         </tr>
       </thead>
       <tbody>
-        {filteredProducts.length === 0 ? (
+        {existedItems.length === 0 ? (
           <tr>
             <td colSpan={7} className="text-center py-6 text-gray-400">
               لا توجد بيانات مطابقة
             </td>
           </tr>
         ) : (
-          filteredProducts.map(item => (
+          existedItems.map(item => (
             <tr
               key={item.id}
               className="bg-white hover:bg-blue-50 border-b transition duration-150"

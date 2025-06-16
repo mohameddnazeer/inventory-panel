@@ -36,11 +36,12 @@ class APIClient<TRequest, TResponse> {
 
   getAllPaginated = async (
     page: number,
-    pageSize: number
+    pageSize: number,
+    searchTerm: string
   ): Promise<{ data: TRequest[]; pagination: PaginationControlsProps }> => {
     const axiosInstance = createAxiosInstance();
     const res = await axiosInstance.get<TRequest[]>(
-      `${this.endpoint}?PageNumber=${page}&PageSize=${pageSize}`
+      `${this.endpoint}?PageNumber=${page}&PageSize=${pageSize}&SearchTerm=${searchTerm}`
     );
 
     const paginationHeader = res.headers["x-pagination"];

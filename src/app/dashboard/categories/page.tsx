@@ -47,7 +47,8 @@ export default function CategoryPage() {
   const [role, setRole] =useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [pageSize] = useState(12);
-  const { data: tableData  } = useGetCategory(page, pageSize);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { data: tableData  } = useGetCategory(page, pageSize,searchTerm);
   console.log("Table Data:", tableData);
   const paginationInfo = tableData?.pagination || {
     CurrentPage: page,
@@ -172,9 +173,40 @@ export default function CategoryPage() {
 
       {/* Table Display */}
       <div
-        className={`overflow-x-auto bg-white overflow-y-scroll ${!isFormOpen ? "h-[75vh]" : "h-[66vh]"
+        className={`overflow-x-auto bg-white overflow-y-scroll p-4 ${!isFormOpen ? "h-[75vh]" : "h-[66vh]"
           }  border border-gray-200 rounded-lg shadow`}
       >
+              <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+        <h2 className="text-lg w-[10%] font-semibold text-gray-700">
+          جدول الاصناف
+        </h2>
+        <div className="relative w-full sm:w-64">
+          <div className="absolute inset-y-0 left-2 flex items-center ps-3 pointer-events-none">
+            <svg
+              className="w-5 h-5 text-gray-500"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
+          <input
+            type="text"
+            id="table-search"
+            className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
+            placeholder="ابحث عن اسم الصنف   "
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setPage(1);
+            }}
+          />
+        </div>
+      </div>
         <table className="w-full text-sm text-right text-gray-600 border-collapse">
           <thead className="bg-gray-100 text-gray-700">
             <tr>

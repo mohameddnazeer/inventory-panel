@@ -4,10 +4,10 @@ import existedItemsService, { ExistedItem } from "@/services/existedItems/existe
 import { PaginationControlsProps } from "@/components/PaginationControls";
 
 
-const useGetExistedItems = (page: number=1, pageSize: number = 10) => {
+const useGetExistedItems = (page: number=1, pageSize: number = 10,searchTerm: string = "") => {
   return useQuery<{ data: ExistedItem[]; pagination: PaginationControlsProps }, Error>({
-    queryKey: ["ExistedItems", page, pageSize],
-    queryFn: () => existedItemsService.getAllPaginated(page, pageSize),
+    queryKey: ["ExistedItems", page, pageSize,searchTerm],
+    queryFn: () => existedItemsService.getAllPaginated(page, pageSize,searchTerm),
     // keepPreviousData: true,
   });
 };
