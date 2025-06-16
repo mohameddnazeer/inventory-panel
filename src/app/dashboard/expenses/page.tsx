@@ -29,7 +29,6 @@ interface MyFormFields {
 export default function ExpensesPage() {
   const [excelData, setExcelData] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [isClearable, setIsClearable] = useState(true);
   const { data: existedData } = useGetExistedItems();
   const { data } = useGetDispensedItems();
   const mutation = useAddDispensedItem();

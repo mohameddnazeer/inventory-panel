@@ -39,9 +39,9 @@ useEffect(() => {
 
   return (
   <div
-  className={`relative h-full overflow-hidden bg-white shadow-xl border border-gray-200 rounded-2xl p-4 transition-all duration-300 ${
-    open ? "max-h-[250px]" : "max-h-full"
-  }`}
+  className={`relative overflow-x-auto bg-white shadow-xl border border-gray-200 rounded-2xl p-4 transition-all duration-300 ${
+        open ? "max-h-[250px]" : "max-h-[700px]"
+      }`}
 >
   {/* Header */}
   <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">

@@ -9,6 +9,7 @@ interface Option {
 
 interface Props {
   name: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>;
   options?: Option[];
   placeholder: string;

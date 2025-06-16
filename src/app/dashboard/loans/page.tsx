@@ -1,8 +1,8 @@
 "use client";
 
 import LoansTable from "@/components/LoansTable";
+import { ReusableSelect } from "@/components/ReusableSelect";
 import ValidationInput from "@/components/ValidationInput";
-import ValidationSelect from "@/components/ValidationSelect";
 import { useAddBorrowedItems } from "@/hooks/BorrowedItems/useAddBorrowedItems";
 import { useGetBorrowedItems } from "@/hooks/BorrowedItems/useGetBorrowedItems";
 import { useGetExistedItems } from "@/hooks/ExistedItems/useGetExistedItems";
@@ -14,8 +14,6 @@ import { useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
 
-
-
 interface MyFormFields {
   name: string;
   toWhom: string;
@@ -26,7 +24,7 @@ export default function Page() {
   const [excelData, setExcelData] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const { data } = useGetBorrowedItems();
-    const { data: existedData } = useGetExistedItems();
+  const { data: existedData } = useGetExistedItems();
   console.log("text data coming from useGetBorrowedItems", data);
   console.log("text ", existedData);
   const Mutation = useAddBorrowedItems();
@@ -35,6 +33,7 @@ export default function Page() {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(BorrowedSchema),
@@ -51,7 +50,7 @@ export default function Page() {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = event => {
+    reader.onload = (event) => {
       const binaryStr = event.target?.result;
       const workbook = XLSX.read(binaryStr, { type: "binary" });
       const sheetName = workbook.SheetNames[0];
@@ -64,7 +63,15 @@ export default function Page() {
     reader.readAsBinaryString(file);
   };
   const generateExcelTemplate = () => {
-    const headers = ["الاسم", "تاريخ الخروج", "المسلم", "المسلم له", "السبب", "ملاحظات", "الحالة"];
+    const headers = [
+      "الاسم",
+      "تاريخ الخروج",
+      "المسلم",
+      "المسلم له",
+      "السبب",
+      "ملاحظات",
+      "الحالة",
+    ];
     const worksheet = XLSX.utils.json_to_sheet([], { header: headers });
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "نموذج البيانات");
@@ -76,10 +83,18 @@ export default function Page() {
     // sendDataToBackend(excelData);
   };
 
+  const options = existedData?.map((item) => {
+    return {
+      value: String(item.name),
+      label: item.name,
+    };
+  });
   return (
     <div className="p-0 w-full">
       <h1 className="text-2xl font-bold mb-2 flex items-center justify-between  p-1 ">
-        <span className="text-blue-700 flex items-center gap-2">📦 صفحة السلف</span>
+        <span className="text-blue-700 flex items-center gap-2">
+          📦 صفحة السلف
+        </span>
         <Link
           href="/dashboard"
           className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-600 transition"
@@ -113,14 +128,26 @@ export default function Page() {
               type="text"
               error={errors.name?.message}
             /> */}
-               <ValidationSelect<MyFormFields>
+            {/* <ValidationSelect<MyFormFields>
               label="اختر العهدة"
               name="name"
               register={register}
               options={existedData || []}
               error={errors.name?.message}
               type="name"
-            />
+            /> */}
+            <div className="">
+              <h2 className="block text-sm font-medium text-gray-700 mb-2">
+                اختر العهدة
+              </h2>
+              <ReusableSelect
+                control={control}
+                name="name"
+                error={errors.name?.message}
+                options={options}
+                placeholder="اختر العهدة"
+              />
+            </div>
             <ValidationInput<MyFormFields>
               name="toWhom"
               register={register}
@@ -130,7 +157,9 @@ export default function Page() {
               error={errors.toWhom?.message}
             />
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-medium text-gray-700">هل تم التسليم؟</label>
+              <label className="mb-1 text-sm font-medium text-gray-700">
+                هل تم التسليم؟
+              </label>
               <select
                 {...register("isReturned")}
                 className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -200,7 +229,9 @@ export default function Page() {
       {/* عرض بيانات Excel إن وجدت */}
       {excelData.length > 0 && (
         <div className="overflow-x-auto mt-6">
-          <h2 className="text-lg font-semibold mb-2 text-blue-700">📋 بيانات الملف:</h2>
+          <h2 className="text-lg font-semibold mb-2 text-blue-700">
+            📋 بيانات الملف:
+          </h2>
           <table className="min-w-full text-sm text-left text-gray-700 border">
             <thead className="bg-gray-100 text-xs uppercase">
               <tr>

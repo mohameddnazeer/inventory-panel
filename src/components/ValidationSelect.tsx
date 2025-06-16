@@ -33,7 +33,7 @@ function ValidationSelect<TFormValues extends FieldValues>({
           <option key={option.id} value={type === 'name' ? option.name : option.id}>
             {option.name}
           </option>
-        ))}
+        )) || []}
       </select>
       {error && <span className="text-red-500 text-sm">{error}</span>}
     </div>
