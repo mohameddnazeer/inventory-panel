@@ -8,7 +8,7 @@ const useUpdateBorrowedItems = () => {
   const queryClient = useQueryClient();
   return useMutation<null, Error, { id: number; formData: BorrowedFormData }>({
     mutationFn: borrowUpdateService.updateBorrowedItems,
-    onSuccess: data => {
+    onSuccess: () => {
 
       queryClient.invalidateQueries({ queryKey: ["BorrowedItems"] });
       toast.success("تم تحديث العنصر المستعار بنجاح");

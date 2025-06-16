@@ -6,7 +6,7 @@ const useDeleteCategory = () => {
   const queryClient = useQueryClient();
   return useMutation<null, Error, number>({
     mutationFn: id => CategoryDeleteService.delete(id),
-    onSuccess: data => {
+    onSuccess: () => {
 
 
       queryClient.invalidateQueries({ queryKey: ["Category"] });

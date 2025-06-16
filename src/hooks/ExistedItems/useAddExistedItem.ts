@@ -7,7 +7,7 @@ const useAddExistedItem = () => {
     const queryClient = useQueryClient()
     return useMutation<ExistedItemResponse, Error, FormData>({
     mutationFn:existedAddService.postData,
-    onSuccess: data => {
+    onSuccess: () => {
      
       queryClient.invalidateQueries({queryKey :["ExistedItems"]})
       toast.success("تمت إضافة العنصر بنجاح")

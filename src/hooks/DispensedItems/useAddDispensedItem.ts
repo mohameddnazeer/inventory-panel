@@ -10,7 +10,7 @@ const useAddDispensedItem = () => {
   const queryClient = useQueryClient();
   return useMutation<DispensedItemResponse, Error, DispensedFormData>({
     mutationFn: dispensedAddService.postData,
-    onSuccess: data => {
+    onSuccess: () => {
 
       queryClient.invalidateQueries({ queryKey: ["dispensedItems"] });
       toast.success("تمت إضافة العنصر بنجاح");
