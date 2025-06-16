@@ -25,8 +25,8 @@ export default function Page() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const { data } = useGetBorrowedItems();
   const { data: existedData } = useGetExistedItems();
-  console.log("text data coming from useGetBorrowedItems", data);
-  console.log("text ", existedData);
+
+
   const Mutation = useAddBorrowedItems();
 
   const {
@@ -40,7 +40,7 @@ export default function Page() {
   });
 
   const onSubmit = (passingdata: BorrowedFormData) => {
-    console.log("بيانات الفورم اليدوية", data);
+
     Mutation.mutate(passingdata); // assuming your mutate function accepts the form data
 
     reset();
@@ -79,7 +79,7 @@ export default function Page() {
   };
   const handleExcelSubmit = () => {
     if (excelData.length === 0) return;
-    console.log("بيانات الملف:", excelData);
+
     // sendDataToBackend(excelData);
   };
 

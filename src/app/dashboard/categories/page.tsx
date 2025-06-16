@@ -57,7 +57,7 @@ export default function CategoryPage() {
   //     return response.data;
   //   },
   //   onSuccess: () => {
-  //     console.log("text invalidationQuereis");
+  //    
   //     queryClient.invalidateQueries({ queryKey: ["Category"] });
   //     reset();
   //   },
@@ -77,7 +77,7 @@ export default function CategoryPage() {
 
   // Handle form submission
   const handleManualSubmit = (data: CategoryFormData) => {
-    console.log("بيانات الفورم اليدوية", data);
+
     const formData = new FormData();
     formData.append("Name", data.Name);
     formData.append("Number", String(data.Number));
@@ -92,7 +92,7 @@ export default function CategoryPage() {
     const token = localStorage.getItem("accessToken");
     if(token){
       const decoded : DecodedJWT = jwtDecode(token);
-      console.log("Decoded JWT:", decoded);
+
       
       const roleClaim = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
       setRole(roleClaim);
@@ -198,13 +198,13 @@ export default function CategoryPage() {
                       <div className="flex justify-center gap-2">
                       <button
                         className=" text-white text-xs font-medium  shadow-sm transition cursor-pointer"
-                        onClick={() => console.log("Update", item.id)}
+                        
                       >
                         <UpdateCategoryModal id={item.id} />
                       </button>
                       <button
                         className=" text-white text-xs font-medium  shadow-sm transition"
-                        onClick={() => console.log("Delete", item.id)}
+                        
                       >
                         <DeleteCategoryModal id={item.id} />
                       </button>

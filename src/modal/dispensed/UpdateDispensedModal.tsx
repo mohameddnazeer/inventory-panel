@@ -59,7 +59,7 @@ export function UpdateDispensedModal({
   }, [data, open, reset,existingItemId]);
 
   const onSubmit = (values: DispensedFormData) => {
-    console.log("value from on submit ", values);
+
 
     mutate(
       { id, formData: values },

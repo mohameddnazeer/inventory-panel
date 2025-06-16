@@ -9,7 +9,7 @@ const useUpdateBorrowedItems = () => {
   return useMutation<null, Error, { id: number; formData: BorrowedFormData }>({
     mutationFn: borrowUpdateService.updateBorrowedItems,
     onSuccess: data => {
-      console.log(data);
+
       queryClient.invalidateQueries({ queryKey: ["BorrowedItems"] });
       toast.success("تم تحديث العنصر المستعار بنجاح");
     },

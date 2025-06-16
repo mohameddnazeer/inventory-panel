@@ -6,7 +6,7 @@ interface Props{
     error :Error
 }
 const Page = ({error}:Props) => {
-    console.log(error)
+    
   return (
     <motion.div initial={{y:100 , opacity :0}} animate={{y:0 , opacity:1}} 
     className="text-base lg:text-xl flex justify-center items-center w-screen h-screen">

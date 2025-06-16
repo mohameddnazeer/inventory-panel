@@ -8,8 +8,7 @@ const useAddExistedItem = () => {
     return useMutation<ExistedItemResponse, Error, FormData>({
     mutationFn:existedAddService.postData,
     onSuccess: data => {
-      console.log("successed adding category")
-      console.log(data)
+     
       queryClient.invalidateQueries({queryKey :["ExistedItems"]})
       toast.success("تمت إضافة العنصر بنجاح")
     },

@@ -7,7 +7,7 @@ const useDeleteDispensedItem = () => {
   return useMutation<null, Error, number>({
     mutationFn: id => dispensedDeleteService.delete(id),
     onSuccess: data => {
-      console.log(data);
+
       queryClient.invalidateQueries({ queryKey: ["dispensedItems"] });
       toast.success("تم حذف العنصر بنجاح");
     },

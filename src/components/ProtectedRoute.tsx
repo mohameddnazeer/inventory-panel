@@ -13,12 +13,12 @@ if (typeof window !== 'undefined') {
 
 }
   useEffect(() => {
-    console.log("test token" , token);
+
     
   if (!token) {
     router.push('/');
   }
-//  console.log("test accessToken" , accessToken)
+
 }, [token,router]);
 
   if (!token) {

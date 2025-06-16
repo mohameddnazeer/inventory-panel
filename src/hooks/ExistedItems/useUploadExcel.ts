@@ -8,7 +8,7 @@ const useUploadExcel = () => {
   return useMutation<null, Error, FormData>({
     mutationFn: existedUploadExcel.uploadFile,
     onSuccess: data => {
-      console.log(data);
+
      queryClient.invalidateQueries({queryKey :["ExistedItems"]})
       toast.success("تمت رفع ملف الإكسيل بنجاح");
     },

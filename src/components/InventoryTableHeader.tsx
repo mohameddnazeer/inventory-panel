@@ -19,19 +19,18 @@ export default function InventoryTableHeader({
 
 useEffect(() => {
   const token = localStorage.getItem('accessToken');
-  // console.log('Token:', token);
+
 
   if (token) {
     const decoded: DecodedJWT = jwtDecode(token);
-    // console.log('Decoded JWT:', decoded);
+  
 
     const roleClaim = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-    // console.log('Role claim:', roleClaim);
-
+    
     setRole(roleClaim);
   }
 }, []);
-  // console.log("Role from localStorage:", role);
+  
   
   const filteredProducts = existedItems.filter(existeditem =>
     existeditem.name?.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -108,7 +107,7 @@ useEffect(() => {
                     </button>
                     <button
                       className="text-white text-xs font-medium px-3 py-1 transition"
-                      onClick={() => console.log("Delete", item.id)}
+                      
                     >
                       <DeleteInventoryModal id={item.id} />
                     </button>

@@ -8,7 +8,7 @@ const useUpdateDispensed = () => {
   return useMutation<null, Error, { id: number; formData: DispensedFormData }>({
     mutationFn: dispensedUpdataService.updateDispensedItems,
     onSuccess: data => {
-      console.log(data);
+
       queryClient.invalidateQueries({ queryKey: ["dispensedItems"] });
       toast.success("تم تحديث العنصر بنجاح");
     },

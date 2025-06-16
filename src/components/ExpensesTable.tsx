@@ -94,13 +94,13 @@ export default function ExpensesTable({ open, data }: { open: boolean; data: Dis
                     <div className="flex justify-center gap-2">
                     <button
                       className=" text-white text-xs font-medium px-3 py-1 rounded-full  transition"
-                      onClick={() => console.log("Update", item.existingItemId)}
+                      
                     >
                       <UpdateDispensedModal id={item.id} existingItemId={item.existingItemId} />
                     </button>
                     <button
                       className=" text-white text-xs font-medium px-3 py-1 rounded-full  transition"
-                      onClick={() => console.log("Delete", item.existingItemId)}
+                      
                     >
                       <DeleteDispensedModal id={item.id} />
                     </button>

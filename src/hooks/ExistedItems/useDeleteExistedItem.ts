@@ -6,7 +6,7 @@ const useDeleteExisteditem = () => {
   return useMutation<null, Error, number>({
     mutationFn: id => existedDeleteService.delete(id),
     onSuccess: () => {
-      console.log("successed Deleting ExistedItem");
+
       toast.success("تم حذف العنصر بنجاح");
     },
     onError: error => {

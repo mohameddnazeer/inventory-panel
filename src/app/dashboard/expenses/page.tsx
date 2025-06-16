@@ -42,7 +42,7 @@ export default function ExpensesPage() {
     resolver: zodResolver(DispencedSchema),
   });
 
-  console.log("existedData" + JSON.stringify(existedData));
+
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -81,7 +81,7 @@ export default function ExpensesPage() {
   };
 
   const onSubmit = (data: DispensedFormData) => {
-    console.log("بيانات الفورم اليدوية", data);
+
     mutation.mutate(data);
     reset();
   };
@@ -89,7 +89,7 @@ export default function ExpensesPage() {
   const handleExcelSubmit = () => {
     if (excelData.length === 0) return;
 
-    console.log("بيانات الملف:", excelData);
+
     // sendDataToBackend(excelData);
   };
 

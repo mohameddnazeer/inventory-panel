@@ -51,7 +51,7 @@ export function UpdateLoansModal({ id }: { id: number }) {
   }, [data, open, reset]);
 
   const onSubmit = (values: BorrowedFormData) => {
-    console.log("value from on submit ", values);
+
 
     mutate(
       { id, formData: values },
