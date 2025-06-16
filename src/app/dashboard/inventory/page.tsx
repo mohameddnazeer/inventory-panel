@@ -41,7 +41,7 @@ export default function InventoryPage() {
     TotalPages: 1,
     PageSize: pageSize,
     TotalRecords: 0,
-    HasPrevious: false,
+    HasPrivous: false,
     HasNext: false,
   };
   const { data: categoryItems } = useGetCategory();
@@ -372,10 +372,10 @@ useEffect(() => {
       {/* جدول عرض العهدة */}
       <InventoryTableHeader data={existedData?.data ?? []} open={isFormOpen} />
       <PaginationControls
-        currentPage={paginationInfo.CurrentPage}
-        totalPages={paginationInfo.TotalPages}
-        hasPrevious={paginationInfo.HasPrevious}
-        hasNext={paginationInfo.HasNext}
+        CurrentPage={paginationInfo.CurrentPage}
+        TotalPages={paginationInfo.TotalPages}
+        HasPrivous={paginationInfo.HasPrivous}
+        HasNext={paginationInfo.HasNext}
         onPageChange={(newPage) => setPage(newPage)}
       />
 

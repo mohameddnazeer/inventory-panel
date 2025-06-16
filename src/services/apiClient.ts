@@ -1,5 +1,6 @@
 "use client";
 
+import { PaginationControlsProps } from "@/components/PaginationControls";
 import { BorrowedFormData } from "@/schemas/BorrowedFormSchema";
 import { DispensedFormData } from "@/schemas/DispensedFormSchema";
 import axios, { AxiosInstance } from "axios";
@@ -36,7 +37,7 @@ class APIClient<TRequest, TResponse> {
   getAllPaginated = async (
     page: number,
     pageSize: number
-  ): Promise<{ data: TRequest[]; pagination: any }> => {
+  ): Promise<{ data: TRequest[]; pagination: PaginationControlsProps }> => {
     const axiosInstance = createAxiosInstance();
     const res = await axiosInstance.get<TRequest[]>(
       `${this.endpoint}?PageNumber=${page}&PageSize=${pageSize}`

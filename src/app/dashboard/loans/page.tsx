@@ -33,7 +33,7 @@ export default function Page() {
     TotalPages: 1,
     PageSize: pageSize,
     TotalRecords: 0,
-    HasPrevious: false,
+    HasPrivous: false,
     HasNext: false,
   }
 
@@ -270,10 +270,10 @@ export default function Page() {
       {/* جدول عرض السلف السابقة */}
       <LoansTable data={data?.data ?? []} open={isFormOpen} />
       <PaginationControls 
-        currentPage={paginationInfo.CurrentPage}
-        totalPages={paginationInfo.TotalPages}
-        hasPrevious={paginationInfo.HasPrevious}
-        hasNext={paginationInfo.HasNext}
+       CurrentPage={paginationInfo.CurrentPage}
+        TotalPages={paginationInfo.TotalPages}
+        HasPrivous={paginationInfo.HasPrivous}
+        HasNext={paginationInfo.HasNext}
         onPageChange={(newPage) => setPage(newPage)}
       />
     </div>

@@ -54,7 +54,7 @@ export default function CategoryPage() {
     TotalPages: 1,
     PageSize: pageSize,
     TotalRecords: 0,
-    HasPrevious: false,
+    HasPrivous: false,
     HasNext: false,
   };
   
@@ -234,10 +234,10 @@ export default function CategoryPage() {
       </div>
       {/* Pagination Controls */}
       <PaginationControls 
-        currentPage={paginationInfo.CurrentPage}
-        totalPages={paginationInfo.TotalPages}
-        hasPrevious={paginationInfo.HasPrevious}
-        hasNext={paginationInfo.HasNext}
+        CurrentPage={paginationInfo.CurrentPage}
+        TotalPages={paginationInfo.TotalPages}
+        HasPrivous={paginationInfo.HasPrivous}
+        HasNext={paginationInfo.HasNext}
         onPageChange={(newPage) => setPage(newPage)}
       />
     </div>
