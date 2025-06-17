@@ -4,7 +4,6 @@ import ExpensesTable from "@/components/ExpensesTable";
 import ValidationInput from "@/components/ValidationInput";
 import { useAddDispensedItem } from "@/hooks/DispensedItems/useAddDispensedItem";
 import { useGetDispensedItems } from "@/hooks/DispensedItems/useGetDispensedItems";
-import { useGetExistedItems } from "@/hooks/ExistedItems/useGetExistedItems";
 import {
   DispencedSchema,
   DispensedFormData,
@@ -18,19 +17,23 @@ import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
 import { ReusableSelect } from "@/components/ReusableSelect";
 import { PaginationControls } from "@/components/PaginationControls";
+import { useLoadExistedOptions } from "@/hooks/ExistedItems/useLoadExistedOptions";
+
 
 interface MyFormFields {
   dispensedQuantity: string;
   toWhom: string;
   receiverName: string;
   deliveredName: string;
-  existingItemId: string;
+  existingItemId: string ;
   notes?: string;
 }
 export default function ExpensesPage() {
   const [excelData, setExcelData] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const { data: existedData } = useGetExistedItems();
+  const loadOptions = useLoadExistedOptions();
+  
+  
   const [page, setPage] = useState(1);
   const [pageSize] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
@@ -92,8 +95,18 @@ export default function ExpensesPage() {
   };
 
   const onSubmit = (data: DispensedFormData) => {
-    mutation.mutate(data);
-    reset();
+
+      mutation.mutate(data);
+    reset(
+      {
+        dispensedQuantity: "",
+        toWhom: "",
+        receiverName: "",
+        deliveredName: "",
+        existingItemId: "",
+        notes: "",
+      } 
+    );
   };
 
   const handleExcelSubmit = () => {
@@ -102,10 +115,7 @@ export default function ExpensesPage() {
     // sendDataToBackend(excelData);
   };
 
-  const options = existedData?.data?.map((item) => ({
-    value: String(item.id),
-    label: item.name,
-  }));
+
   return (
     <div className="p-0 w-full bg-transparent">
       <h1 className="text-2xl font-bold mb-2 flex items-center justify-between  p-1 ">
@@ -162,7 +172,7 @@ export default function ExpensesPage() {
                 control={control}
                 name="existingItemId"
                 error={errors.existingItemId?.message}
-                options={options}
+                loadOptions={loadOptions}
                 placeholder="اختر العهدة"
               />
             </div>

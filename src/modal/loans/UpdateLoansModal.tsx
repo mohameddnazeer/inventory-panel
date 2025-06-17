@@ -42,7 +42,7 @@ export function UpdateLoansModal({ id }: { id: number }) {
   useEffect(() => {
     if (data && open) {
       reset({
-        name: data.name || "",
+        existingItemId: data.name || "",
         toWhom: data.toWhom || "",
         isReturned: data.isReturned ? "true" : "false",
         notes: data.notes || "",
@@ -80,8 +80,8 @@ export function UpdateLoansModal({ id }: { id: number }) {
           {/* Name */}
           <div>
             <Label>اسم العنصر</Label>
-            <Input {...register("name")} />
-            {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+            <Input {...register("existingItemId")} />
+            {errors.existingItemId && <p className="text-red-500">{errors.existingItemId.message}</p>}
           </div>
 
           {/* To Whom */}
@@ -94,7 +94,7 @@ export function UpdateLoansModal({ id }: { id: number }) {
           {/* Is Returned */}
           <div>
             <Label>تم الإرجاع؟</Label>
-            <select {...register("isReturned")} className="w-full border rounded px-2 py-1">
+            <select {...register("isReturned")} className="w-full border rounded px-2 py-1 text-black">
               <option value="">اختر الحالة</option>
               <option value="true">تم الإرجاع</option>
               <option value="false">لم يتم الإرجاع</option>
@@ -105,7 +105,7 @@ export function UpdateLoansModal({ id }: { id: number }) {
           {/* Notes */}
           <div>
             <Label>ملاحظات</Label>
-            <Input {...register("notes")} />
+            <Input {...register("notes")} className="text-black"/>
             {errors.notes && <p className="text-red-500">{errors.notes.message}</p>}
           </div>
 

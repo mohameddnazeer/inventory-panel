@@ -49,7 +49,7 @@ export default function CategoryPage() {
   const [pageSize] = useState(12);
   const [searchTerm, setSearchTerm] = useState("");
   const { data: tableData  } = useGetCategory(page, pageSize,searchTerm);
-  console.log("Table Data:", tableData);
+
   const paginationInfo = tableData?.pagination || {
     CurrentPage: page,
     TotalPages: 1,
@@ -62,7 +62,7 @@ export default function CategoryPage() {
   const { mutate: addCategory } = useAddCategory()
   // const mutation = useMutation({
   //   mutationFn: async (formData: FormData) => {
-  //     const response = await axios.post("http://172.16.7.61:9991/api/SQs", formData, {
+  //     const response = await axios.post("http://172.16.7.61:9995/api/SQs", formData, {
   //       headers: {
   //         "Content-Type": "multipart/form-data",
   //         Authorization: `Bearer ` + localStorage.getItem("accessToken"),

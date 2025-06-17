@@ -2,7 +2,7 @@ import { BorrowedFormData } from "@/schemas/BorrowedFormSchema";
 import APIClient from "../apiClient";
 
 export interface BorrowedItemResponse {
-  name: string;
+  name: {value: string; label: string};
   toWhom: string;
   isReturned: boolean;
   notes: string;

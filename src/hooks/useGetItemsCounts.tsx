@@ -24,7 +24,7 @@ const fetchCounts = async (): Promise<CountsResponse> => {
     };
   }
 
-  const baseUrl = "http://172.16.7.61:9991/api";
+  const baseUrl = "http://172.16.7.61:9995/api";
 
   const headers = {
     Authorization: `Bearer ${token}`,

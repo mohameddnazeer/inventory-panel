@@ -1,11 +1,8 @@
 import { z } from "zod";
 
 export const BorrowedSchema = z.object({
-  name: z
-    .string()
-    .nonempty({ message: "الاسم مطلوب" })
-    .min(2, { message: "الاسم يجب أن يكون أكثر من حرفين" }),
-
+  existingItemId:  z.string(),
+    
   toWhom: z
     .string()
     .nonempty({ message: "اسم المسلم له مطلوب" })

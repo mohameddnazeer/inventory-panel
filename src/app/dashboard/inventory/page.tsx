@@ -4,7 +4,8 @@ import InventoryTableHeader from "@/components/InventoryTableHeader";
 import { PaginationControls } from "@/components/PaginationControls";
 import { ReusableSelect } from "@/components/ReusableSelect";
 import ValidationInput from "@/components/ValidationInput";
-import { useGetCategory } from "@/hooks/Category/useGetCategory";
+
+import { useLoadCategoryOptions } from "@/hooks/Category/useLoadCategoryOptions";
 import { useAddExistedItem } from "@/hooks/ExistedItems/useAddExistedItem";
 import { useGetExistedItems } from "@/hooks/ExistedItems/useGetExistedItems";
 import { useUploadExcel } from "@/hooks/ExistedItems/useUploadExcel";
@@ -14,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 // import axios from "axios";
 
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
@@ -45,12 +46,11 @@ export default function InventoryPage() {
     HasPrivous: false,
     HasNext: false,
   };
-  const { data: categoryItems } = useGetCategory();
+
+  const loadCategoryOptions = useLoadCategoryOptions();
   const { mutate: addExistedItem } = useAddExistedItem();
   const { mutate: upload } = useUploadExcel();
-  useEffect(() => {
-    console.log("Page changed:", page);
-  }, [page]);
+
 
   const {
     register,
@@ -155,10 +155,7 @@ export default function InventoryPage() {
     upload(formData);
   };
 
-  const options = categoryItems?.data?.map((item) => ({
-    value: String(item.id),
-    label: item.name,
-  }));
+
   return (
     <div className="p-0 w-full">
       <h1 className="text-2xl font-bold mb-2 flex items-center justify-between  p-1 ">
@@ -262,7 +259,7 @@ export default function InventoryPage() {
                 control={control}
                 name="SqId"
                 error={errors.SqId?.message}
-                options={options}
+                loadOptions={loadCategoryOptions}
                 placeholder="اختر الصنف"
               />
             </div>

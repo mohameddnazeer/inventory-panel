@@ -1,47 +1,46 @@
 import React from "react";
-import Select from "react-select";
-import { Control, Controller } from "react-hook-form";
+import { Controller } from "react-hook-form";
+import { AsyncPaginate } from "react-select-async-paginate";
 
-interface Option {
-  value:  string;
-  label: string;
-}
-
-interface Props {
+interface ReusableSelectProps {
   name: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control: Control<any>;
-  options?: Option[];
-  placeholder: string;
+  control: any;
   error?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  loadOptions: any;
+  placeholder?: string;
 }
 
-export const ReusableSelect: React.FC<Props> = ({
+export const ReusableSelect: React.FC<ReusableSelectProps> = ({
   name,
   control,
-  options,
-  placeholder,
   error,
+  loadOptions,
+  placeholder = "اختر",
 }) => {
+
+  
   return (
-    <>
+    <div>
       <Controller
         name={name}
         control={control}
         render={({ field }) => (
-          <Select
-            {...field}
-            options={options}
-            placeholder={placeholder}
-            isClearable
-            onChange={(selectedOption) => {
-              field.onChange(selectedOption?.value ?? null);
-            }}
-            value={options?.find(option => option.value === field.value)  || null}
-          />
+          <>
+            <AsyncPaginate
+              {...field}
+              value={field.value}
+               onChange={(selected) => field.onChange(selected?.value || "")}
+              loadOptions={loadOptions}
+              additional={{ page: 1 }}
+              placeholder={placeholder}
+              isClearable
+            />
+            {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+          </>
         )}
       />
-      {error && <span className="text-red-500 text-sm">{error}</span>}
-    </>
+    </div>
   );
 };

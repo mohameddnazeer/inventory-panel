@@ -39,7 +39,7 @@ export function UpdateCategoryModal({ id }: { id: number }) {
   const { mutate, isPending } = useMutation({
     mutationFn: async ({ id, values }: { id: number; values: CategoryFormData }) => {
       const response = await axios.put(
-        `http://172.16.7.61:9991/api/SQs/${id}`,
+        `http://172.16.7.61:9995/api/SQs/${id}`,
         values,
         {
           headers: {

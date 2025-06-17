@@ -53,7 +53,7 @@ export function UpdateDispensedModal({
         receiverName: data.receiverName || "",
         deliveredName: data.deliveredName || "",
         notes: data.notes || "",
-        existingItemId: existingItemId?.toString() || "",
+        existingItemId: existingItemId.toString() || "",
       });
     }
   }, [data, open, reset,existingItemId]);

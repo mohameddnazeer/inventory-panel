@@ -39,7 +39,7 @@ export function UpdateInventoryModal({ id, sqId }: { id: number; sqId: number })
   const { mutate, isPending } = useMutation({
     mutationFn: async ({ id, formData }: { id: number; formData: FormData }) => {
       const response = await axios.put(
-        `http://172.16.7.61:9991/api/ExistingItems/${id}`,
+        `http://172.16.7.61:9995/api/ExistingItems/${id}`,
         formData,
         {
           headers: {
@@ -70,7 +70,7 @@ export function UpdateInventoryModal({ id, sqId }: { id: number; sqId: number })
         Quantity: data.quantity?.toString() || "",
         QuantityEnum: data.quantityEnum || "UNIT",
         Notes: data.notes || "",
-        SqId: sqId.toString(),
+        SqId: sqId.toString() || "",
       });
     }
   }, [data, open, reset, sqId]);

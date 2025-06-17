@@ -6,7 +6,7 @@ import { ReusableSelect } from "@/components/ReusableSelect";
 import ValidationInput from "@/components/ValidationInput";
 import { useAddBorrowedItems } from "@/hooks/BorrowedItems/useAddBorrowedItems";
 import { useGetBorrowedItems } from "@/hooks/BorrowedItems/useGetBorrowedItems";
-import { useGetExistedItems } from "@/hooks/ExistedItems/useGetExistedItems";
+import { useLoadExistedOptions } from "@/hooks/ExistedItems/useLoadExistedOptions";
 import { BorrowedFormData, BorrowedSchema } from "@/schemas/BorrowedFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -15,8 +15,10 @@ import { useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa";
 import * as XLSX from "xlsx";
 
+
+
 interface MyFormFields {
-  name: string;
+  existingItemId: string;
   toWhom: string;
   isReturned: string;
   notes?: string;
@@ -25,10 +27,10 @@ export default function Page() {
   const [excelData, setExcelData] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [page, setPage] = useState(1);
-  const [pageSize] = useState(2);
+  const [pageSize] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
   const { data } = useGetBorrowedItems(page, pageSize,searchTerm);
-  const { data: existedData } = useGetExistedItems(page, pageSize,searchTerm);
+  const loadOptions = useLoadExistedOptions();
   const paginationInfo = data?.pagination || {
     CurrentPage: page,
     TotalPages: 1,
@@ -50,11 +52,19 @@ export default function Page() {
     resolver: zodResolver(BorrowedSchema),
   });
 
-  const onSubmit = (passingdata: BorrowedFormData) => {
+  const onSubmit = (passingdata:BorrowedFormData) => {
+   
 
-    Mutation.mutate(passingdata); // assuming your mutate function accepts the form data
+    Mutation.mutate(passingdata);
 
-    reset();
+    reset(
+      {
+        existingItemId: "",
+        toWhom: "",
+        isReturned: "",
+        notes: "",
+      } 
+    );
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,12 +104,8 @@ export default function Page() {
     // sendDataToBackend(excelData);
   };
 
-  const options = existedData?.data?.map((item) => {
-    return {
-      value: String(item.name),
-      label: item.name,
-    };
-  });
+ 
+
   return (
     <div className="p-0 w-full">
       <h1 className="text-2xl font-bold mb-2 flex items-center justify-between  p-1 ">
@@ -153,9 +159,9 @@ export default function Page() {
               </h2>
               <ReusableSelect
                 control={control}
-                name="name"
-                error={errors.name?.message}
-                options={options}
+                name="existingItemId"
+                error={errors.existingItemId?.message}
+                loadOptions={loadOptions}
                 placeholder="اختر العهدة"
               />
             </div>
